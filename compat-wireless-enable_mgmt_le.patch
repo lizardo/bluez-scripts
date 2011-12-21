@@ -1,0 +1,26 @@
+Index: compat-wireless-2011-12-18/net/bluetooth/hci_event.c
+===================================================================
+--- compat-wireless-2011-12-18.orig/net/bluetooth/hci_event.c	2011-12-21 17:01:18.637717981 -0400
++++ compat-wireless-2011-12-18/net/bluetooth/hci_event.c	2011-12-21 17:01:25.765628371 -0400
+@@ -45,7 +45,7 @@
+ #include <net/bluetooth/bluetooth.h>
+ #include <net/bluetooth/hci_core.h>
+ 
+-static int enable_le;
++static int enable_le = 1;
+ 
+ /* Handle HCI Event packets */
+ 
+Index: compat-wireless-2011-12-18/net/bluetooth/hci_sock.c
+===================================================================
+--- compat-wireless-2011-12-18.orig/net/bluetooth/hci_sock.c	2011-12-21 17:01:03.325910478 -0400
++++ compat-wireless-2011-12-18/net/bluetooth/hci_sock.c	2011-12-21 17:01:15.313759768 -0400
+@@ -49,7 +49,7 @@
+ #include <net/bluetooth/bluetooth.h>
+ #include <net/bluetooth/hci_core.h>
+ 
+-static int enable_mgmt;
++static int enable_mgmt = 1;
+ 
+ /* ----- HCI socket interface ----- */
+ 
