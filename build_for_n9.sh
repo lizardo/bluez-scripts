@@ -9,8 +9,7 @@ function apply_patch()
     fi
 }
 
-# path to /scratchbox (mine is inside a chroot)
-SBOX=$(readlink -f ~/rootfs/lucid-i386-chroot/scratchbox)
+SBOX=$(readlink -f /scratchbox)
 export PATH=/usr/lib/ccache:$SBOX/compilers/cs2009q3-eglibc2.10-armv7-hard/bin:$PATH
 export CROSS_COMPILE=arm-none-linux-gnueabi-
 export ARCH=arm
