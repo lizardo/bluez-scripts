@@ -73,7 +73,7 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
  ifndef CONFIG_COMPAT_KERNEL_2_6_27
  CONFIG_ATH6KL=m
  # CONFIG_ATH6KL_DEBUG=y
-@@ -691,3 +676,8 @@
+@@ -691,3 +676,9 @@
  CONFIG_RFKILL_BACKPORT_INPUT=y
  endif #CONFIG_COMPAT_KERNEL_2_6_31
  
@@ -81,6 +81,7 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
 +CONFIG_COMPAT_KFIFO=n
 +
 +# N9 BT controller driver
++CONFIG_COMPAT_FIRMWARE_CLASS=n
 +CONFIG_BT_HCIH4P=m
 diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/core.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/core.c
 --- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/core.c	1969-12-31 20:00:00.000000000 -0400
