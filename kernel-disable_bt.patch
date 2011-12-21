@@ -1,0 +1,28 @@
+--- arch/arm/configs/rm581_defconfig	2011-10-25 07:22:43.000000000 -0400
++++ arch/arm/configs/rm581_defconfig	2011-12-19 19:27:11.892994708 -0400
+@@ -646,24 +646,7 @@
+ # CONFIG_HAMRADIO is not set
+ # CONFIG_CAN is not set
+ # CONFIG_IRDA is not set
+-CONFIG_BT=y
+-CONFIG_BT_L2CAP=y
+-CONFIG_BT_SCO=y
+-CONFIG_BT_RFCOMM=y
+-CONFIG_BT_RFCOMM_TTY=y
+-CONFIG_BT_BNEP=m
+-CONFIG_BT_BNEP_MC_FILTER=y
+-CONFIG_BT_BNEP_PROTO_FILTER=y
+-CONFIG_BT_HIDP=m
+-
+-#
+-# Bluetooth device drivers
+-#
+-# CONFIG_BT_HCIBTSDIO is not set
+-# CONFIG_BT_HCIUART is not set
+-# CONFIG_BT_HCIVHCI is not set
+-# CONFIG_BT_MRVL is not set
+-CONFIG_BT_HCIH4P=m
++# CONFIG_BT is not set
+ # CONFIG_AF_RXRPC is not set
+ CONFIG_WIRELESS=y
+ CONFIG_WEXT_CORE=y
