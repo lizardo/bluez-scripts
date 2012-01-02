@@ -54,6 +54,7 @@ fakeroot tar -C $tmp_dir/lib/modules -cvf kernel-modules.tar $(basename $mod_dir
 
 cp bluez-disable_unittests.patch $tmp_dir
 (cd bluez/ && git archive --format=tar --prefix=bluez/ HEAD) | tar -C $tmp_dir -xvf -
+sb-conf se HARMATTAN_ARMEL
 cat << EOF | scratchbox -s
 set -e -u
 cd $tmp_dir/bluez
