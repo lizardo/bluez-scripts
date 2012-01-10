@@ -32,7 +32,7 @@ make -C $ksrc O=$ksrc/build INSTALL_MOD_PATH=$tmp_dir modules_install
 mod_dir=$(cd $tmp_dir && ls -d lib/modules/*)
 
 # compile compat-wireless (for bluetooth backport)
-compat=compat-wireless-2011-12-18
+compat=compat-wireless-2012-01-09
 test -d $compat || tar -xvjf $compat.tar.bz2
 apply_patch compat-wireless-n9-adaptation.patch -d $compat -p1
 apply_patch compat-bluetooth_updates.patch -d $compat -p1
