@@ -5,12 +5,12 @@ tmp_dir=$(mktemp -d)
 trap "rm -rf $tmp_dir" EXIT
 
 echo "Extracting upstream kernel..." >&2
-(cd ~/trees/linux.git && git archive --format=tar --prefix=linux-git/ vcgomes/integration-v3) \
+(cd ~/trees/linux.git && git archive --format=tar --prefix=linux-git/ vcgomes/integration-v5) \
     | tar -C $tmp_dir -xf -
 
 compat=compat-wireless-2012-01-09
 echo "Extracting $compat.tar.bz2..." >&2
-tar -C $tmp_dir -xf ~/Downloads/$compat.tar.bz2 
+tar -C $tmp_dir -xf $compat.tar.bz2
 
 for p in 01-netdev.patch 14-device-type.patch 16-bluetooth.patch 21-capi-proc_fops.patch \
 	25-multicast-list_head.patch 46-use_other_workqueue.patch; do
