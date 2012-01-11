@@ -469,7 +469,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-09/net/blu
 +
 +	BT_DBG("%s", hdev->name);
 +
-+	if (work_busy(&hdev->le_scan_enable) ||
++	if (work_pending(&hdev->le_scan_enable) ||
 +				test_bit(HCI_LE_SCAN, &hdev->dev_flags))
 +		return -EINPROGRESS;
 +

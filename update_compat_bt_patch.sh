@@ -19,4 +19,4 @@ done
 
 for d in net/bluetooth include/net/bluetooth; do
     (cd $tmp_dir && diff -x Kconfig -x "*.orig" -x Makefile -Naur $compat/$d linux-git/$d || true)
-done > compat-bluetooth_updates.patch
+done | sed s,work_busy,work_pending,g > compat-bluetooth_updates.patch
