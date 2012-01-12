@@ -52,13 +52,11 @@ rm $tmp_dir/$mod_dir/{build,source}
 
 fakeroot tar -C $tmp_dir/lib/modules -cvf kernel-modules.tar $(basename $mod_dir)
 
-cp bluez-disable_unittests.patch $tmp_dir
 (cd bluez/ && git archive --format=tar --prefix=bluez/ HEAD) | tar -C $tmp_dir -xvf -
 sb-conf se HARMATTAN_ARMEL
 cat << EOF | scratchbox -s
 set -e -u
 cd $tmp_dir/bluez
-patch -p1 -i $tmp_dir/bluez-disable_unittests.patch
 ./bootstrap-configure --prefix=/opt/bluez --sysconfdir=/opt/bluez/etc \
     --localstatedir=/opt/bluez/var --enable-maemo6 --disable-capng \
     --disable-maintainer-mode --with-time=timed
