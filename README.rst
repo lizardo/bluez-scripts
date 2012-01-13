@@ -2,12 +2,14 @@ Building BlueZ, kernel and modules for N9
 =========================================
 
 #. Install lzop (required for building the kernel).
-#. Setup `Harmattan Platform SDK <http://harmattan-dev.nokia.com/docs/library/html/guide/html/Developer_Library_Alternative_development_environments_Platform_SDK_user_guide_Installing_Harmattan_Platform_SDK.html>`_
-#. Get `N9 kernel source <http://harmattan-dev.noki.a.com/pool/harmattan-beta3/free/k/kernel/kernel_2.6.32-20113701.10+0m6.tar.gz>`_. Save the tarball onto this directory (no need to unpack it).
-#. Get `wireless-compat source <http://linuxwireless.org/download/compat-wireless-2.6/compat-wireless-2012-01-09.tar.bz2>`_. Save the tarball onto this directory (no need to unpack it).
+#. Setup `Harmattan Platform SDK <http://harmattan-dev.nokia.com/docs/library/html/guide/html/Developer_Library_Alternative_development_environments_Platform_SDK_user_guide_Installing_Harmattan_Platform_SDK.html>`_.
+#. Get `N9 kernel source <http://harmattan-dev.noki.a.com/pool/harmattan-beta3/free/k/kernel/kernel_2.6.32-20113701.10+0m6.tar.gz>`_. Save the tarball onto the same directory as the "build_for_n9.sh" script.
+#. Get `wireless-compat source <http://linuxwireless.org/download/compat-wireless-2.6/compat-wireless-2012-01-09.tar.bz2>`_. Save the tarball onto the same directory as "build_for_n9.sh".
 #. Get BlueZ tree with latest LE development::
 
         git clone -b integration-v5 git://git.infradead.org/users/vcgomes/bluez.git
+
+This tree should also be on the same directory as "build_for_n9.sh".
 
 #. build bluez, kernel and modules::
 
