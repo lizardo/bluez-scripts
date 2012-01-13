@@ -7,7 +7,7 @@ Building BlueZ, kernel and modules for N9
 #. Get `wireless-compat source <http://linuxwireless.org/download/compat-wireless-2.6/compat-wireless-2012-01-09.tar.bz2>`_. Save the tarball onto the same directory as "build_for_n9.sh".
 #. Get BlueZ tree with latest LE development::
 
-        git clone -b integration-v5 git://git.infradead.org/users/vcgomes/bluez.git
+        git clone -b new-messages-v2 git://git.infradead.org/users/vcgomes/bluez.git
 
 This tree should also be on the same directory as "build_for_n9.sh".
 
