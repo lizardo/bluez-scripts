@@ -7,7 +7,7 @@ Building BlueZ, kernel and modules for N9
 #. Get `wireless-compat source <http://linuxwireless.org/download/compat-wireless-2.6/compat-wireless-2012-01-09.tar.bz2>`_
 #. Get BlueZ tree with latest LE development::
 
-        git clone -b integration-v3 git://git.infradead.org/users/vcgomes/bluez.git
+        git clone -b integration-v5 git://git.infradead.org/users/vcgomes/bluez.git
 
 #. build bluez, kernel and modules::
 
