@@ -63,8 +63,8 @@ cd $tmp_dir/bluez
 make -j2
 make DESTDIR=$tmp_dir/bluez-bin install
 mkdir -p $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth
-sed 's/^AttributeServer = false/AttributeServer = true/' > \
-	$tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/main.conf
+sed 's/^AttributeServer = false/AttributeServer = true/' src/main.conf > \
+    $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/main.conf
 cp proximity/proximity.conf $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/
 EOF
 
