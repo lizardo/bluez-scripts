@@ -62,6 +62,10 @@ cd $tmp_dir/bluez
     --disable-maintainer-mode --with-time=timed
 make -j2
 make DESTDIR=$tmp_dir/bluez-bin install
+mkdir -p $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth
+sed 's/^AttributeServer = false/AttributeServer = true/' > \
+	$tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/main.conf
+cp proximity/proximity.conf $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/
 EOF
 
 fakeroot tar -C $tmp_dir/bluez-bin/opt -cvf bluez-bin.tar bluez
