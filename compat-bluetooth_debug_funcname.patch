@@ -1,0 +1,14 @@
+Append function name to BT_DBG()
+
+diff -Naur compat-wireless-2012-01-09.orig/include/net/bluetooth/bluetooth.h compat-wireless-2012-01-09/include/net/bluetooth/bluetooth.h
+--- compat-wireless-2012-01-09.orig/include/net/bluetooth/bluetooth.h	2012-01-09 17:13:16.000000000 -0400
++++ compat-wireless-2012-01-09/include/net/bluetooth/bluetooth.h	2012-01-20 10:04:23.410969319 -0400
+@@ -114,7 +114,7 @@
+ 
+ #define BT_INFO(fmt, arg...)   bt_printk(KERN_INFO, pr_fmt(fmt), ##arg)
+ #define BT_ERR(fmt, arg...)    bt_printk(KERN_ERR, pr_fmt(fmt), ##arg)
+-#define BT_DBG(fmt, arg...)    pr_debug(fmt "\n", ##arg)
++#define BT_DBG(fmt, arg...)    pr_debug("%s: " fmt "\n" , __func__ , ##arg)
+ 
+ /* Connection and socket states */
+ enum {

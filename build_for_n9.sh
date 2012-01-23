@@ -21,6 +21,8 @@ ksrc=$PWD/kernel-2.6.32
 test -d $ksrc || tar -xvzf kernel_2.6.32-20113701.10+0m6.tar.gz
 apply_patch kernel-disable_aegis.patch -d $ksrc -p0
 apply_patch kernel-disable_bt.patch -d $ksrc -p0
+apply_patch kernel-enable_dynamic_debug.patch -d $ksrc -p0
+apply_patch kernel-enable_debug.patch -d $ksrc -p0
 mkdir -p $ksrc/build
 sed -i '/^CONFIG_LOCALVERSION=/s/=.*/="-dfl61-20113701-le"/' \
     $ksrc/arch/arm/configs/rm581_defconfig
@@ -36,6 +38,7 @@ compat=compat-wireless-2012-01-09
 test -d $compat || tar -xvjf $compat.tar.bz2
 apply_patch compat-wireless-n9-adaptation.patch -d $compat -p1
 apply_patch compat-bluetooth_updates.patch -d $compat -p1
+apply_patch compat-bluetooth_debug_funcname.patch -d $compat -p1
 apply_patch compat-wireless-enable_mgmt_le.patch -d $compat -p1
 (cd $compat && ./scripts/driver-select bt)
 export KLIB=$tmp_dir/$mod_dir

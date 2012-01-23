@@ -1,0 +1,11 @@
+--- arch/arm/configs/rm581_defconfig	2012-01-19 16:40:33.785180620 -0400
++++ arch/arm/configs/rm581_defconfig	2012-01-19 16:41:23.613182043 -0400
+@@ -1992,7 +1992,7 @@
+ CONFIG_RING_BUFFER_ALLOW_SWAP=y
+ CONFIG_TRACING_SUPPORT=y
+ # CONFIG_FTRACE is not set
+-# CONFIG_DYNAMIC_DEBUG is not set
++CONFIG_DYNAMIC_DEBUG=y
+ # CONFIG_SAMPLES is not set
+ CONFIG_HAVE_ARCH_KGDB=y
+ # CONFIG_KGDB is not set
