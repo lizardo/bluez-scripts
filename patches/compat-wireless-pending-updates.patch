@@ -1,0 +1,36 @@
+diff '-x*.orig' -Naur compat-wireless-2012-01-25.orig/patches/16-bluetooth.patch compat-wireless-2012-01-25/patches/16-bluetooth.patch
+--- compat-wireless-2012-01-25.orig/patches/16-bluetooth.patch	2012-01-25 17:12:27.000000000 -0400
++++ compat-wireless-2012-01-25/patches/16-bluetooth.patch	2012-01-26 09:43:48.012899087 -0400
+@@ -17,16 +17,16 @@
+  	tty_driver_flush_buffer(tty);
+  
+  	return 0;
+-@@ -398,7 +403,9 @@ static int hci_uart_register_dev(struct
++@@ -397,7 +402,9 @@ static int hci_uart_register_dev(struct
++ 	hdev->close = hci_uart_close;
+  	hdev->flush = hci_uart_flush;
+  	hdev->send  = hci_uart_send_frame;
+- 	hdev->destruct = hci_uart_destruct;
+ +#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37)
+  	hdev->parent = hu->tty->dev;
+ +#endif
+  
+- 	hdev->owner = THIS_MODULE;
+- 
++ 	if (!reset)
++ 		set_bit(HCI_QUIRK_NO_RESET, &hdev->quirks);
+ @@ -498,7 +505,11 @@ static int hci_uart_tty_ioctl(struct tty
+  		return hu->hdev_flags;
+  
+@@ -63,9 +63,9 @@
+ +#else
+ +		err = bt_proto[proto]->create(net, sock, proto);
+ +#endif
+- 		bt_sock_reclassify_lock(sock, proto);
++ 		if (!err)
++ 			bt_sock_reclassify_lock(sock->sk, proto);
+  		module_put(bt_proto[proto]->owner);
+- 	}
+ @@ -475,7 +483,11 @@ int bt_sock_ioctl(struct socket *sock, u
+  		if (sk->sk_state == BT_LISTEN)
+  			return -EINVAL;

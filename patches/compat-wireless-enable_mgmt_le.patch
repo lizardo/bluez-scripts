@@ -6,8 +6,8 @@ Index: compat-wireless-2011-12-18/net/bluetooth/hci_event.c
  #include <net/bluetooth/bluetooth.h>
  #include <net/bluetooth/hci_core.h>
  
--static int enable_le;
-+static int enable_le = 1;
+-static bool enable_le;
++static bool enable_le = 1;
  
  /* Handle HCI Event packets */
  
@@ -19,8 +19,8 @@ Index: compat-wireless-2011-12-18/net/bluetooth/hci_sock.c
  #include <net/bluetooth/bluetooth.h>
  #include <net/bluetooth/hci_core.h>
  
--static int enable_mgmt;
-+static int enable_mgmt = 1;
+-static bool enable_mgmt;
++static bool enable_mgmt = 1;
  
  /* ----- HCI socket interface ----- */
  

@@ -1,0 +1,28 @@
+Index: compat-wireless-2012-01-25/drivers/bluetooth/hci_h4p/core.c
+===================================================================
+--- compat-wireless-2012-01-25.orig/drivers/bluetooth/hci_h4p/core.c	2012-01-26 10:36:38.721029203 -0400
++++ compat-wireless-2012-01-25/drivers/bluetooth/hci_h4p/core.c	2012-01-26 10:37:25.569031118 -0400
+@@ -1027,10 +1027,6 @@
+ 	return 0;
+ }
+ 
+-static void hci_h4p_hci_destruct(struct hci_dev *hdev)
+-{
+-}
+-
+ static int hci_h4p_hci_send_frame(struct sk_buff *skb)
+ {
+ 	struct hci_h4p_info *info;
+@@ -1106,12 +1102,9 @@
+ 	hdev->close = hci_h4p_hci_close;
+ 	hdev->flush = hci_h4p_hci_flush;
+ 	hdev->send = hci_h4p_hci_send_frame;
+-	hdev->destruct = hci_h4p_hci_destruct;
+ 	hdev->ioctl = hci_h4p_hci_ioctl;
+ 	set_bit(HCI_QUIRK_NO_RESET, &hdev->quirks);
+ 
+-	hdev->owner = THIS_MODULE;
+-
+ 	if (hci_register_dev(hdev) < 0) {
+ 		dev_err(info->dev, "hci_register failed %s.\n", hdev->name);
+ 		return -ENODEV;
