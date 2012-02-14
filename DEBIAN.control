@@ -1,6 +1,5 @@
 Package: bluez-le
 Architecture: armel
-Version: 1
 Priority: optional
 Section: misc
 Maintainer: INdT

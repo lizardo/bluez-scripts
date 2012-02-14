@@ -15,6 +15,10 @@ tar -C $tmp_dir/bluez-le/lib/modules -xf kernel-modules.tar
 cp DEBIAN.control $tmp_dir/bluez-le/DEBIAN/control
 echo "Installed-Size: $(du -k -s $tmp_dir/bluez-le | awk '{print $1}')" >> $tmp_dir/bluez-le/DEBIAN/control
 
+bluez_ver=$(perl -ne 'm/AC_INIT\(bluez, ([^)]+)\)/ && print $1' bluez/configure.ac)
+bluez_git_commit=$(cd bluez && git log -n1 --pretty=oneline | cut -c 1-8)
+echo "Version: $bluez_ver~$bluez_git_commit" >> $tmp_dir/bluez-le/DEBIAN/control
+
 cat > $tmp_dir/bluez-le/DEBIAN/preinst << "EOF"
 #!/bin/sh -e
 

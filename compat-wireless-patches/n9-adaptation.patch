@@ -10,9 +10,10 @@ Date:   Mon Feb 8 15:27:07 2010 +0100
 
     Bluetooth: Convert controller hdev->type to hdev->bus
 
-diff -Naur compat-wireless-2011-12-18.orig/compat/crc8.c compat-wireless-2011-12-18/compat/crc8.c
---- compat-wireless-2011-12-18.orig/compat/crc8.c	2011-12-18 17:10:35.000000000 -0400
-+++ compat-wireless-2011-12-18/compat/crc8.c	2011-12-19 17:32:08.087787294 -0400
+Index: compat-wireless-2012-02-13/compat/crc8.c
+===================================================================
+--- compat-wireless-2012-02-13.orig/compat/crc8.c	2012-02-13 17:12:57.000000000 -0400
++++ compat-wireless-2012-02-13/compat/crc8.c	2012-02-14 15:00:50.356935113 -0400
 @@ -14,7 +14,6 @@
   * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   */
@@ -21,9 +22,10 @@ diff -Naur compat-wireless-2011-12-18.orig/compat/crc8.c compat-wireless-2011-12
  
  #include <linux/module.h>
  #include <linux/crc8.h>
-diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/config.mk
---- compat-wireless-2011-12-18.orig/config.mk	2011-12-18 17:10:34.000000000 -0400
-+++ compat-wireless-2011-12-18/config.mk	2011-12-19 17:32:43.619340602 -0400
+Index: compat-wireless-2012-02-13/config.mk
+===================================================================
+--- compat-wireless-2012-02-13.orig/config.mk	2012-02-13 17:12:57.000000000 -0400
++++ compat-wireless-2012-02-13/config.mk	2012-02-14 15:00:50.356935113 -0400
 @@ -12,6 +12,9 @@
   CONFIG_SSB=m
  else
@@ -34,7 +36,7 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
  endif
  
  ifneq ($(wildcard $(KLIB_BUILD)/Makefile),)
-@@ -226,15 +229,6 @@
+@@ -224,15 +227,6 @@
  CONFIG_COMPAT_BT_HIDP=m
  endif #CONFIG_COMPAT_KERNEL_2_6_28
  
@@ -50,7 +52,7 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
  ifdef CONFIG_PCMCIA
  CONFIG_BT_HCIDTL1=m
  CONFIG_BT_HCIBT3C=m
-@@ -547,12 +541,6 @@
+@@ -546,12 +540,6 @@
  
  CONFIG_ORINOCO_USB=m
  
@@ -63,7 +65,7 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
  CONFIG_RTL8192CU=m
  
  endif #CONFIG_USB end of USB driver list
-@@ -606,9 +594,6 @@
+@@ -605,9 +593,6 @@
  # CONFIG_IWM_DEBUG=y
  # CONFIG_IWM_TRACING=y
  
@@ -83,9 +85,10 @@ diff -Naur compat-wireless-2011-12-18.orig/config.mk compat-wireless-2011-12-18/
 +# N9 BT controller driver
 +CONFIG_COMPAT_FIRMWARE_CLASS=n
 +CONFIG_BT_HCIH4P=m
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/core.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/core.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/core.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/core.c	2011-12-19 17:30:18.877160256 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,1358 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -1445,9 +1448,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/core.c comp
 +MODULE_DESCRIPTION("h4 driver with nokia extensions");
 +MODULE_LICENSE("GPL");
 +MODULE_AUTHOR("Ville Tervo");
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-bcm.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-bcm.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-bcm.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-bcm.c	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-bcm.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-bcm.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,161 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -1610,9 +1614,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-bcm.c co
 +
 +	return 0;
 +}
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw.c	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,195 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -1809,9 +1814,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw.c compat
 +
 +	return;
 +}
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-csr.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-csr.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-csr.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-csr.c	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-csr.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-csr.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,152 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -1965,9 +1971,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-csr.c co
 +
 +	return 0;
 +}
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-ti1273.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-ti1273.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-ti1273.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/fw-ti1273.c	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-ti1273.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/fw-ti1273.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,112 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -2081,9 +2088,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/fw-ti1273.c
 +
 +	return 0;
 +}
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/hci_h4p.h compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/hci_h4p.h
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/hci_h4p.h	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/hci_h4p.h	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/hci_h4p.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/hci_h4p.h	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,250 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -2335,9 +2343,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/hci_h4p.h c
 +void hci_h4p_smart_idle(struct hci_h4p_info *info, bool enable);
 +
 +#endif /* __DRIVERS_BLUETOOTH_HCI_H4P_H */
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/Makefile compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/Makefile
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/Makefile	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/Makefile	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/Makefile
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/Makefile	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,7 @@
 +#
 +# Makefile for the Linux Bluetooth HCI device drivers.
@@ -2346,9 +2355,10 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/Makefile co
 +obj-$(CONFIG_BT_HCIH4P)		+= hci_h4p.o
 +
 +hci_h4p-objs := core.o fw.o uart.o fw-csr.o fw-bcm.o fw-ti1273.o
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/uart.c compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/uart.c
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/uart.c	1969-12-31 20:00:00.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/hci_h4p/uart.c	2011-10-25 07:21:02.000000000 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/uart.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/uart.c	2012-02-14 15:00:50.360935131 -0400
 @@ -0,0 +1,202 @@
 +/*
 + * This file is part of hci_h4p bluetooth driver
@@ -2552,18 +2562,20 @@ diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/hci_h4p/uart.c comp
 +	hci_h4p_outb(info, UART_IER, UART_IER_RDI);
 +	hci_h4p_outb(info, UART_OMAP_SYSC, (1 << 0) | (1 << 2) | (2 << 3));
 +}
-diff -Naur compat-wireless-2011-12-18.orig/drivers/bluetooth/Makefile compat-wireless-2011-12-18/drivers/bluetooth/Makefile
---- compat-wireless-2011-12-18.orig/drivers/bluetooth/Makefile	2011-12-18 17:10:35.000000000 -0400
-+++ compat-wireless-2011-12-18/drivers/bluetooth/Makefile	2011-12-19 17:34:03.154340711 -0400
+Index: compat-wireless-2012-02-13/drivers/bluetooth/Makefile
+===================================================================
+--- compat-wireless-2012-02-13.orig/drivers/bluetooth/Makefile	2012-02-13 17:12:57.000000000 -0400
++++ compat-wireless-2012-02-13/drivers/bluetooth/Makefile	2012-02-14 15:00:50.360935131 -0400
 @@ -29,3 +29,5 @@
  hci_uart-$(CONFIG_BT_HCIUART_LL)	+= hci_ll.o
  hci_uart-$(CONFIG_BT_HCIUART_ATH3K)	+= hci_ath.o
  hci_uart-objs				:= $(hci_uart-y)
 +
 +obj-$(CONFIG_BT_HCIH4P)		+= hci_h4p/
-diff -Naur compat-wireless-2011-12-18.orig/include/linux/compat-2.6.33.h compat-wireless-2011-12-18/include/linux/compat-2.6.33.h
---- compat-wireless-2011-12-18.orig/include/linux/compat-2.6.33.h	2011-11-18 17:10:03.000000000 -0400
-+++ compat-wireless-2011-12-18/include/linux/compat-2.6.33.h	2011-12-19 17:32:08.091787243 -0400
+Index: compat-wireless-2012-02-13/include/linux/compat-2.6.33.h
+===================================================================
+--- compat-wireless-2012-02-13.orig/include/linux/compat-2.6.33.h	2011-11-18 17:10:03.000000000 -0400
++++ compat-wireless-2012-02-13/include/linux/compat-2.6.33.h	2012-02-14 15:00:50.360935131 -0400
 @@ -58,8 +58,6 @@
  #define IFF_DONT_BRIDGE 0x800		/* disallow bridging this ether dev */
  /* source: include/linux/if.h */
@@ -2573,9 +2585,10 @@ diff -Naur compat-wireless-2011-12-18.orig/include/linux/compat-2.6.33.h compat-
  
  /* mask netdev_alloc_skb_ip_align as debian squeeze also backports this */
  #define netdev_alloc_skb_ip_align(a, b) compat_netdev_alloc_skb_ip_align(a, b)
-diff -Naur compat-wireless-2011-12-18.orig/include/linux/compat-2.6.36.h compat-wireless-2011-12-18/include/linux/compat-2.6.36.h
---- compat-wireless-2011-12-18.orig/include/linux/compat-2.6.36.h	2011-11-18 17:10:03.000000000 -0400
-+++ compat-wireless-2011-12-18/include/linux/compat-2.6.36.h	2011-12-19 17:32:08.091787243 -0400
+Index: compat-wireless-2012-02-13/include/linux/compat-2.6.36.h
+===================================================================
+--- compat-wireless-2012-02-13.orig/include/linux/compat-2.6.36.h	2012-02-01 17:10:03.000000000 -0400
++++ compat-wireless-2012-02-13/include/linux/compat-2.6.36.h	2012-02-14 15:00:50.360935131 -0400
 @@ -11,8 +11,6 @@
  #include <linux/pm_qos_params.h>
  #include <linux/smp_lock.h>

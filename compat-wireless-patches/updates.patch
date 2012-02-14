@@ -1,7 +1,7 @@
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/af_bluetooth.c linux-git/net/bluetooth/af_bluetooth.c
---- compat-wireless-2012-01-25/net/bluetooth/af_bluetooth.c	2012-01-25 17:12:28.000000000 -0400
-+++ linux-git/net/bluetooth/af_bluetooth.c	2012-01-30 14:52:51.669434609 -0400
-@@ -71,19 +71,16 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/af_bluetooth.c linux-git/net/bluetooth/af_bluetooth.c
+--- compat-wireless-2012-02-13/net/bluetooth/af_bluetooth.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/af_bluetooth.c	2012-02-14 15:26:28.800563848 -0400
+@@ -71,19 +71,16 @@ static const char *const bt_slock_key_st
  	"slock-AF_BLUETOOTH-BTPROTO_AVDTP",
  };
  
@@ -24,7 +24,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  int bt_sock_register(int proto, const struct net_proto_family *ops)
  {
-@@ -153,7 +150,8 @@
+@@ -153,7 +150,8 @@ static int bt_sock_create(struct net *ne
  #else
  		err = bt_proto[proto]->create(net, sock, proto);
  #endif
@@ -34,10 +34,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		module_put(bt_proto[proto]->owner);
  	}
  
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/hci_conn.c linux-git/net/bluetooth/hci_conn.c
---- compat-wireless-2012-01-25/net/bluetooth/hci_conn.c	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/net/bluetooth/hci_conn.c	2012-01-30 14:33:51.000000000 -0400
-@@ -51,7 +51,7 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/hci_conn.c linux-git/net/bluetooth/hci_conn.c
+--- compat-wireless-2012-02-13/net/bluetooth/hci_conn.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/hci_conn.c	2012-02-14 14:31:42.000000000 -0400
+@@ -51,7 +51,7 @@ static void hci_le_connect(struct hci_co
  	struct hci_cp_le_create_conn cp;
  
  	conn->state = BT_CONNECT;
@@ -46,7 +46,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	conn->link_mode |= HCI_LM_MASTER;
  	conn->sec_level = BT_SECURITY_LOW;
  
-@@ -83,7 +83,7 @@
+@@ -83,7 +83,7 @@ void hci_acl_connect(struct hci_conn *co
  	BT_DBG("%p", conn);
  
  	conn->state = BT_CONNECT;
@@ -55,7 +55,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	conn->link_mode = HCI_LM_MASTER;
  
-@@ -105,7 +105,8 @@
+@@ -105,7 +105,8 @@ void hci_acl_connect(struct hci_conn *co
  		}
  
  		memcpy(conn->dev_class, ie->data.dev_class, 3);
@@ -65,7 +65,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	cp.pkt_type = cpu_to_le16(conn->pkt_type);
-@@ -151,7 +152,7 @@
+@@ -151,7 +152,7 @@ void hci_add_sco(struct hci_conn *conn,
  	BT_DBG("%p", conn);
  
  	conn->state = BT_CONNECT;
@@ -74,7 +74,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	conn->attempt++;
  
-@@ -169,7 +170,7 @@
+@@ -169,7 +170,7 @@ void hci_setup_sync(struct hci_conn *con
  	BT_DBG("%p", conn);
  
  	conn->state = BT_CONNECT;
@@ -83,7 +83,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	conn->attempt++;
  
-@@ -279,7 +280,6 @@
+@@ -279,7 +280,6 @@ static void hci_conn_timeout(struct work
  {
  	struct hci_conn *conn = container_of(work, struct hci_conn,
  							disc_work.work);
@@ -91,7 +91,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	__u8 reason;
  
  	BT_DBG("conn %p state %d", conn, conn->state);
-@@ -287,8 +287,6 @@
+@@ -287,8 +287,6 @@ static void hci_conn_timeout(struct work
  	if (atomic_read(&conn->refcnt))
  		return;
  
@@ -100,7 +100,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	switch (conn->state) {
  	case BT_CONNECT:
  	case BT_CONNECT2:
-@@ -308,8 +306,6 @@
+@@ -308,8 +306,6 @@ static void hci_conn_timeout(struct work
  		conn->state = BT_CLOSED;
  		break;
  	}
@@ -109,7 +109,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  /* Enter sniff mode */
-@@ -337,7 +333,7 @@
+@@ -337,7 +333,7 @@ static void hci_conn_enter_sniff_mode(st
  		hci_send_cmd(hdev, HCI_OP_SNIFF_SUBRATE, sizeof(cp), &cp);
  	}
  
@@ -118,7 +118,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_sniff_mode cp;
  		cp.handle       = cpu_to_le16(conn->handle);
  		cp.max_interval = cpu_to_le16(hdev->sniff_max_interval);
-@@ -372,7 +368,7 @@
+@@ -372,7 +368,7 @@ struct hci_conn *hci_conn_add(struct hci
  
  	BT_DBG("%s dst %s", hdev->name, batostr(dst));
  
@@ -127,7 +127,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (!conn)
  		return NULL;
  
-@@ -386,7 +382,7 @@
+@@ -386,7 +382,7 @@ struct hci_conn *hci_conn_add(struct hci
  	conn->remote_auth = 0xff;
  	conn->key_type = 0xff;
  
@@ -136,7 +136,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	conn->disc_timeout = HCI_DISCONN_TIMEOUT;
  
  	switch (type) {
-@@ -528,23 +524,38 @@
+@@ -528,23 +524,38 @@ struct hci_conn *hci_connect(struct hci_
  	BT_DBG("%s dst %s", hdev->name, batostr(dst));
  
  	if (type == LE_LINK) {
@@ -187,7 +187,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		hci_conn_hold(le);
  
-@@ -586,12 +597,12 @@
+@@ -586,12 +597,12 @@ struct hci_conn *hci_connect(struct hci_
  
  	if (acl->state == BT_CONNECTED &&
  			(sco->state == BT_OPEN || sco->state == BT_CLOSED)) {
@@ -203,7 +203,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			return sco;
  		}
  
-@@ -607,8 +618,7 @@
+@@ -607,8 +618,7 @@ int hci_conn_check_link_mode(struct hci_
  {
  	BT_DBG("conn %p", conn);
  
@@ -213,13 +213,17 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	return 1;
-@@ -633,13 +643,13 @@
+@@ -633,13 +643,17 @@ static int hci_conn_auth(struct hci_conn
  
  	conn->auth_type = auth_type;
  
 -	if (!test_and_set_bit(HCI_CONN_AUTH_PEND, &conn->pend)) {
 +	if (!test_and_set_bit(HCI_CONN_AUTH_PEND, &conn->flags)) {
  		struct hci_cp_auth_requested cp;
++
++		/* encrypt must be pending if auth is also pending */
++		set_bit(HCI_CONN_ENCRYPT_PEND, &conn->flags);
++
  		cp.handle = cpu_to_le16(conn->handle);
  		hci_send_cmd(conn->hdev, HCI_OP_AUTH_REQUESTED,
  							sizeof(cp), &cp);
@@ -229,7 +233,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	return 0;
-@@ -650,7 +660,7 @@
+@@ -650,7 +664,7 @@ static void hci_conn_encrypt(struct hci_
  {
  	BT_DBG("conn %p", conn);
  
@@ -238,7 +242,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_set_conn_encrypt cp;
  		cp.handle  = cpu_to_le16(conn->handle);
  		cp.encrypt = 0x01;
-@@ -670,8 +680,7 @@
+@@ -670,8 +684,7 @@ int hci_conn_security(struct hci_conn *c
  
  	/* For non 2.1 devices and low security level we don't need the link
  	   key. */
@@ -248,7 +252,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 1;
  
  	/* For other security levels we need the link key. */
-@@ -700,7 +709,7 @@
+@@ -700,7 +713,7 @@ int hci_conn_security(struct hci_conn *c
  		goto encrypt;
  
  auth:
@@ -257,7 +261,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	if (!hci_conn_auth(conn, sec_level, auth_type))
-@@ -735,7 +744,7 @@
+@@ -735,7 +748,7 @@ int hci_conn_change_link_key(struct hci_
  {
  	BT_DBG("conn %p", conn);
  
@@ -266,7 +270,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_change_conn_link_key cp;
  		cp.handle = cpu_to_le16(conn->handle);
  		hci_send_cmd(conn->hdev, HCI_OP_CHANGE_CONN_LINK_KEY,
-@@ -754,7 +763,7 @@
+@@ -754,7 +767,7 @@ int hci_conn_switch_role(struct hci_conn
  	if (!role && conn->link_mode & HCI_LM_MASTER)
  		return 1;
  
@@ -275,7 +279,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_switch_role cp;
  		bacpy(&cp.bdaddr, &conn->dst);
  		cp.role = role;
-@@ -778,10 +787,10 @@
+@@ -778,10 +791,10 @@ void hci_conn_enter_active_mode(struct h
  	if (conn->mode != HCI_CM_SNIFF)
  		goto timer;
  
@@ -288,7 +292,21 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_exit_sniff_mode cp;
  		cp.handle = cpu_to_le16(conn->handle);
  		hci_send_cmd(hdev, HCI_OP_EXIT_SNIFF_MODE, sizeof(cp), &cp);
-@@ -946,7 +955,7 @@
+@@ -797,11 +810,11 @@ timer:
+ void hci_conn_hash_flush(struct hci_dev *hdev)
+ {
+ 	struct hci_conn_hash *h = &hdev->conn_hash;
+-	struct hci_conn *c;
++	struct hci_conn *c, *n;
+ 
+ 	BT_DBG("hdev %s", hdev->name);
+ 
+-	list_for_each_entry_rcu(c, &h->list, list) {
++	list_for_each_entry_safe(c, n, &h->list, list) {
+ 		c->state = BT_CLOSED;
+ 
+ 		hci_proto_disconn_cfm(c, HCI_ERROR_LOCAL_HOST_TERM);
+@@ -946,7 +959,7 @@ struct hci_chan *hci_chan_create(struct
  
  	BT_DBG("%s conn %p", hdev->name, conn);
  
@@ -297,8 +315,17 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (!chan)
  		return NULL;
  
-@@ -984,3 +993,35 @@
- 	list_for_each_entry_rcu(chan, &conn->chan_list, list)
+@@ -977,10 +990,42 @@ int hci_chan_del(struct hci_chan *chan)
+ 
+ void hci_chan_list_flush(struct hci_conn *conn)
+ {
+-	struct hci_chan *chan;
++	struct hci_chan *chan, *n;
+ 
+ 	BT_DBG("conn %p", conn);
+ 
+-	list_for_each_entry_rcu(chan, &conn->chan_list, list)
++	list_for_each_entry_safe(chan, n, &conn->chan_list, list)
  		hci_chan_del(chan);
  }
 +
@@ -333,41 +360,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +unlock:
 +	hci_dev_unlock(hdev);
 +}
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/hci_core.c linux-git/net/bluetooth/hci_core.c
---- compat-wireless-2012-01-25/net/bluetooth/hci_core.c	2012-01-25 17:12:29.000000000 -0400
-+++ linux-git/net/bluetooth/hci_core.c	2012-01-30 14:52:51.685434689 -0400
-@@ -89,6 +89,30 @@
- 	atomic_notifier_call_chain(&hci_notifier, event, hdev);
- }
- 
-+static int send_le_scan_param_cmd(struct hci_dev *hdev, u8 type, u16 interval,
-+								u16 window)
-+{
-+	struct hci_cp_le_set_scan_param cp;
-+
-+	memset(&cp, 0, sizeof(cp));
-+	cp.type = type;
-+	cp.interval = cpu_to_le16(interval);
-+	cp.window = cpu_to_le16(window);
-+
-+	return hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_PARAM, sizeof(cp), &cp);
-+}
-+
-+static int send_le_scan_enable_cmd(struct hci_dev *hdev, u8 enable)
-+{
-+	struct hci_cp_le_set_scan_enable cp;
-+
-+	memset(&cp, 0, sizeof(cp));
-+	cp.enable = enable;
-+	cp.filter_dup = 1;
-+
-+	return hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_ENABLE, sizeof(cp), &cp);
-+}
-+
- /* ---- HCI requests ---- */
- 
- void hci_req_complete(struct hci_dev *hdev, __u16 cmd, int result)
-@@ -355,72 +379,204 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/hci_core.c linux-git/net/bluetooth/hci_core.c
+--- compat-wireless-2012-02-13/net/bluetooth/hci_core.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/hci_core.c	2012-02-14 15:26:29.036565021 -0400
+@@ -355,72 +355,204 @@ struct hci_dev *hci_dev_get(int index)
  }
  
  /* ---- Inquiry support ---- */
@@ -378,15 +374,22 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 -	struct inquiry_cache *cache = &hdev->inq_cache;
 -	struct inquiry_entry *next  = cache->list, *e;
 +	struct discovery_state *discov = &hdev->discovery;
-+
-+	if (discov->state == DISCOVERY_INQUIRY ||
-+					discov->state == DISCOVERY_LE_SCAN ||
-+					discov->state == DISCOVERY_RESOLVING)
+ 
+-	BT_DBG("cache %p", cache);
++	switch (discov->state) {
++	case DISCOVERY_FINDING:
++	case DISCOVERY_RESOLVING:
 +		return true;
-+
-+	return false;
-+}
-+
+ 
+-	cache->list = NULL;
+-	while ((e = next)) {
+-		next = e->next;
+-		kfree(e);
++	default:
++		return false;
+ 	}
+ }
+ 
 +void hci_discovery_set_state(struct hci_dev *hdev, int state)
 +{
 +	BT_DBG("%s state %u -> %u", hdev->name, hdev->discovery.state, state);
@@ -396,31 +399,25 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
 +	switch (state) {
 +	case DISCOVERY_STOPPED:
-+		clear_bit(HCI_INTERLEAVED, &hdev->dev_flags);
-+		mgmt_discovering(hdev, 0);
++		hdev->discovery.type = 0;
++
++		if (hdev->discovery.state != DISCOVERY_STARTING)
++			mgmt_discovering(hdev, 0);
 +		break;
 +	case DISCOVERY_STARTING:
 +		break;
-+	case DISCOVERY_INQUIRY:
++	case DISCOVERY_FINDING:
 +		mgmt_discovering(hdev, 1);
-+	case DISCOVERY_LE_SCAN:
-+		if (hdev->discovery.state != DISCOVERY_INQUIRY)
-+			mgmt_discovering(hdev, 1);
 +		break;
 +	case DISCOVERY_RESOLVING:
 +		break;
 +	case DISCOVERY_STOPPING:
 +		break;
 +	}
- 
--	BT_DBG("cache %p", cache);
++
 +	hdev->discovery.state = state;
 +}
- 
--	cache->list = NULL;
--	while ((e = next)) {
--		next = e->next;
--		kfree(e);
++
 +static void inquiry_cache_flush(struct hci_dev *hdev)
 +{
 +	struct discovery_state *cache = &hdev->discovery;
@@ -429,23 +426,23 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	list_for_each_entry_safe(p, n, &cache->all, all) {
 +		list_del(&p->all);
 +		kfree(p);
- 	}
++	}
 +
 +	INIT_LIST_HEAD(&cache->unknown);
 +	INIT_LIST_HEAD(&cache->resolve);
-+	cache->state = DISCOVERY_STOPPED;
- }
- 
++}
++
  struct inquiry_entry *hci_inquiry_cache_lookup(struct hci_dev *hdev, bdaddr_t *bdaddr)
  {
 -	struct inquiry_cache *cache = &hdev->inq_cache;
 +	struct discovery_state *cache = &hdev->discovery;
-+	struct inquiry_entry *e;
-+
-+	BT_DBG("cache %p, %s", cache, batostr(bdaddr));
-+
+ 	struct inquiry_entry *e;
+ 
+ 	BT_DBG("cache %p, %s", cache, batostr(bdaddr));
+ 
+-	for (e = cache->list; e; e = e->next)
 +	list_for_each_entry(e, &cache->all, all) {
-+		if (!bacmp(&e->data.bdaddr, bdaddr))
+ 		if (!bacmp(&e->data.bdaddr, bdaddr))
 +			return e;
 +	}
 +
@@ -456,11 +453,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +							bdaddr_t *bdaddr)
 +{
 +	struct discovery_state *cache = &hdev->discovery;
- 	struct inquiry_entry *e;
- 
- 	BT_DBG("cache %p, %s", cache, batostr(bdaddr));
- 
--	for (e = cache->list; e; e = e->next)
++	struct inquiry_entry *e;
++
++	BT_DBG("cache %p, %s", cache, batostr(bdaddr));
++
 +	list_for_each_entry(e, &cache->unknown, list) {
 +		if (!bacmp(&e->data.bdaddr, bdaddr))
 +			return e;
@@ -481,7 +477,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	list_for_each_entry(e, &cache->resolve, list) {
 +		if (!bacmp(bdaddr, BDADDR_ANY) && e->name_state == state)
 +			return e;
- 		if (!bacmp(&e->data.bdaddr, bdaddr))
++		if (!bacmp(&e->data.bdaddr, bdaddr))
 +			return e;
 +	}
 +
@@ -594,7 +590,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	BT_DBG("cache %p, copied %d", cache, copied);
-@@ -567,7 +723,7 @@
+@@ -567,7 +699,7 @@ int hci_dev_open(__u16 dev)
  		hci_dev_hold(hdev);
  		set_bit(HCI_UP, &hdev->flags);
  		hci_notify(hdev, HCI_DEV_UP);
@@ -603,7 +599,16 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			hci_dev_lock(hdev);
  			mgmt_powered(hdev, 1);
  			hci_dev_unlock(hdev);
-@@ -621,12 +777,15 @@
+@@ -603,6 +735,8 @@ static int hci_dev_do_close(struct hci_d
+ {
+ 	BT_DBG("%s %p", hdev->name, hdev);
+ 
++	cancel_work_sync(&hdev->le_scan);
++
+ 	hci_req_cancel(hdev, ENODEV);
+ 	hci_req_lock(hdev);
+ 
+@@ -621,12 +755,14 @@ static int hci_dev_do_close(struct hci_d
  		hdev->discov_timeout = 0;
  	}
  
@@ -615,13 +620,22 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	if (test_and_clear_bit(HCI_SERVICE_CACHE, &hdev->dev_flags))
  		cancel_delayed_work(&hdev->service_cache);
  
-+	cancel_work_sync(&hdev->le_scan);
 +	cancel_delayed_work_sync(&hdev->le_scan_disable);
 +
  	hci_dev_lock(hdev);
  	inquiry_cache_flush(hdev);
  	hci_conn_hash_flush(hdev);
-@@ -846,11 +1005,11 @@
+@@ -640,7 +776,8 @@ static int hci_dev_do_close(struct hci_d
+ 	/* Reset device */
+ 	skb_queue_purge(&hdev->cmd_q);
+ 	atomic_set(&hdev->cmd_cnt, 1);
+-	if (!test_bit(HCI_RAW, &hdev->flags)) {
++	if (!test_bit(HCI_RAW, &hdev->flags) &&
++				test_bit(HCI_QUIRK_NO_RESET, &hdev->quirks)) {
+ 		set_bit(HCI_INIT, &hdev->flags);
+ 		__hci_request(hdev, hci_reset_req, 0,
+ 					msecs_to_jiffies(250));
+@@ -846,11 +983,11 @@ int hci_get_dev_list(void __user *arg)
  
  	read_lock(&hci_dev_list_lock);
  	list_for_each_entry(hdev, &hci_dev_list, list) {
@@ -636,7 +650,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		(dr + n)->dev_id  = hdev->id;
  		(dr + n)->dev_opt = hdev->flags;
-@@ -882,11 +1041,11 @@
+@@ -882,11 +1019,11 @@ int hci_get_dev_info(void __user *arg)
  	if (!hdev)
  		return -ENODEV;
  
@@ -651,7 +665,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	strcpy(di.name, hdev->name);
  	di.bdaddr   = hdev->bdaddr;
-@@ -966,11 +1125,11 @@
+@@ -966,11 +1103,11 @@ static void hci_power_on(struct work_str
  	if (hci_dev_open(hdev->id) < 0)
  		return;
  
@@ -665,7 +679,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		mgmt_index_added(hdev);
  }
  
-@@ -981,7 +1140,7 @@
+@@ -981,7 +1118,7 @@ static void hci_power_off(struct work_st
  
  	BT_DBG("%s", hdev->name);
  
@@ -674,7 +688,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	hci_dev_close(hdev->id);
  }
-@@ -1036,6 +1195,18 @@
+@@ -1036,6 +1173,18 @@ int hci_link_keys_clear(struct hci_dev *
  	return 0;
  }
  
@@ -682,7 +696,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +{
 +	struct smp_ltk *k, *tmp;
 +
-+	list_for_each_entry_safe(k, tmp, &hdev->ltks, list) {
++	list_for_each_entry_safe(k, tmp, &hdev->long_term_keys, list) {
 +		list_del(&k->list);
 +		kfree(k);
 +	}
@@ -693,31 +707,27 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  struct link_key *hci_find_link_key(struct hci_dev *hdev, bdaddr_t *bdaddr)
  {
  	struct link_key *k;
-@@ -1083,41 +1254,40 @@
+@@ -1083,41 +1232,35 @@ static int hci_persistent_key(struct hci
  	return 0;
  }
  
 -struct link_key *hci_find_ltk(struct hci_dev *hdev, __le16 ediv, u8 rand[8])
-+/* If the returned key is a STK it should be free'd by the caller */
 +struct smp_ltk *hci_find_ltk(struct hci_dev *hdev, __le16 ediv, u8 rand[8])
  {
 -	struct link_key *k;
--
++	struct smp_ltk *k;
+ 
 -	list_for_each_entry(k, &hdev->link_keys, list) {
 -		struct key_master_id *id;
-+	struct smp_ltk *k, *tmp;
- 
+-
 -		if (k->type != HCI_LK_SMP_LTK)
-+	list_for_each_entry_safe(k, tmp, &hdev->ltks, list) {
+-			continue;
+-
+-		if (k->dlen != sizeof(*id))
++	list_for_each_entry(k, &hdev->long_term_keys, list) {
 +		if (k->ediv != ediv ||
 +				memcmp(rand, k->rand, sizeof(k->rand)))
  			continue;
- 
--		if (k->dlen != sizeof(*id))
--			continue;
-+		/* The STK should only be used once, no need to keep it */
-+		if (k->type & HCI_SMP_STK)
-+			list_del(&k->list);
  
 -		id = (void *) &k->data;
 -		if (id->ediv == ediv &&
@@ -732,7 +742,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
 -struct link_key *hci_find_link_key_type(struct hci_dev *hdev,
 -					bdaddr_t *bdaddr, u8 type)
-+struct smp_ltk *hci_find_ltk_addr(struct hci_dev *hdev, bdaddr_t *bdaddr,
++struct smp_ltk *hci_find_ltk_by_addr(struct hci_dev *hdev, bdaddr_t *bdaddr,
 +								u8 addr_type)
  {
 -	struct link_key *k;
@@ -740,7 +750,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
 -	list_for_each_entry(k, &hdev->link_keys, list)
 -		if (k->type == type && bacmp(bdaddr, &k->bdaddr) == 0)
-+	list_for_each_entry(k, &hdev->ltks, list)
++	list_for_each_entry(k, &hdev->long_term_keys, list)
 +		if (addr_type == k->bdaddr_type &&
 +					bacmp(bdaddr, &k->bdaddr) == 0)
  			return k;
@@ -748,11 +758,11 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	return NULL;
  }
 -EXPORT_SYMBOL(hci_find_link_key_type);
-+EXPORT_SYMBOL(hci_find_ltk_addr);
++EXPORT_SYMBOL(hci_find_ltk_by_addr);
  
  int hci_add_link_key(struct hci_dev *hdev, struct hci_conn *conn, int new_key,
  				bdaddr_t *bdaddr, u8 *val, u8 type, u8 pin_len)
-@@ -1174,40 +1344,39 @@
+@@ -1174,40 +1317,39 @@ int hci_add_link_key(struct hci_dev *hde
  	return 0;
  }
  
@@ -773,7 +783,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
 -	old_key = hci_find_link_key_type(hdev, bdaddr, HCI_LK_SMP_LTK);
 -	if (old_key) {
-+	old_key = hci_find_ltk_addr(hdev, bdaddr, addr_type);
++	old_key = hci_find_ltk_by_addr(hdev, bdaddr, addr_type);
 +	if (old_key)
  		key = old_key;
 -		old_key_type = old_key->type;
@@ -785,7 +795,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			return -ENOMEM;
 -		list_add(&key->list, &hdev->link_keys);
 -		old_key_type = 0xff;
-+		list_add(&key->list, &hdev->ltks);
++		list_add(&key->list, &hdev->long_term_keys);
  	}
  
 -	key->dlen = sizeof(*id);
@@ -816,7 +826,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	return 0;
  }
-@@ -1228,6 +1397,23 @@
+@@ -1228,6 +1370,23 @@ int hci_remove_link_key(struct hci_dev *
  	return 0;
  }
  
@@ -824,7 +834,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +{
 +	struct smp_ltk *k, *tmp;
 +
-+	list_for_each_entry_safe(k, tmp, &hdev->ltks, list) {
++	list_for_each_entry_safe(k, tmp, &hdev->long_term_keys, list) {
 +		if (bacmp(bdaddr, &k->bdaddr))
 +			continue;
 +
@@ -840,86 +850,146 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  /* HCI command timer function */
  static void hci_cmd_timer(unsigned long arg)
  {
-@@ -1441,16 +1627,115 @@
+@@ -1330,7 +1489,7 @@ int hci_blacklist_clear(struct hci_dev *
  	return 0;
  }
  
+-int hci_blacklist_add(struct hci_dev *hdev, bdaddr_t *bdaddr)
++int hci_blacklist_add(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type)
+ {
+ 	struct bdaddr_list *entry;
+ 
+@@ -1348,10 +1507,10 @@ int hci_blacklist_add(struct hci_dev *hd
+ 
+ 	list_add(&entry->list, &hdev->blacklist);
+ 
+-	return mgmt_device_blocked(hdev, bdaddr);
++	return mgmt_device_blocked(hdev, bdaddr, type);
+ }
+ 
+-int hci_blacklist_del(struct hci_dev *hdev, bdaddr_t *bdaddr)
++int hci_blacklist_del(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type)
+ {
+ 	struct bdaddr_list *entry;
+ 
+@@ -1365,7 +1524,7 @@ int hci_blacklist_del(struct hci_dev *hd
+ 	list_del(&entry->list);
+ 	kfree(entry);
+ 
+-	return mgmt_device_unblocked(hdev, bdaddr);
++	return mgmt_device_unblocked(hdev, bdaddr, type);
+ }
+ 
+ static void hci_clear_adv_cache(struct work_struct *work)
+@@ -1426,7 +1585,7 @@ int hci_add_adv_entry(struct hci_dev *hd
+ 	if (hci_find_adv_entry(hdev, &ev->bdaddr))
+ 		return 0;
+ 
+-	entry = kzalloc(sizeof(*entry), GFP_ATOMIC);
++	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
+ 	if (!entry)
+ 		return -ENOMEM;
+ 
+@@ -1441,16 +1600,137 @@ int hci_add_adv_entry(struct hci_dev *hd
+ 	return 0;
+ }
+ 
++static void le_scan_param_req(struct hci_dev *hdev, unsigned long opt)
++{
++	struct le_scan_params *param =  (struct le_scan_params *) opt;
++	struct hci_cp_le_set_scan_param cp;
++
++	memset(&cp, 0, sizeof(cp));
++	cp.type = param->type;
++	cp.interval = cpu_to_le16(param->interval);
++	cp.window = cpu_to_le16(param->window);
++
++	hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_PARAM, sizeof(cp), &cp);
++}
++
++static void le_scan_enable_req(struct hci_dev *hdev, unsigned long opt)
++{
++	struct hci_cp_le_set_scan_enable cp;
++
++	memset(&cp, 0, sizeof(cp));
++	cp.enable = 1;
++	cp.filter_dup = 1;
++
++	hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_ENABLE, sizeof(cp), &cp);
++}
++
 +static int hci_do_le_scan(struct hci_dev *hdev, u8 type, u16 interval,
 +						u16 window, int timeout)
 +{
 +	long timeo = msecs_to_jiffies(3000);
-+	DECLARE_WAITQUEUE(wait, current);
++	struct le_scan_params param;
++	int err;
 +
 +	BT_DBG("%s", hdev->name);
 +
 +	if (test_bit(HCI_LE_SCAN, &hdev->dev_flags))
 +		return -EINPROGRESS;
 +
-+	add_wait_queue(&hdev->le_scan_wait_q, &wait);
++	param.type = type;
++	param.interval = interval;
++	param.window = window;
 +
-+	/* Send LE Set Scan Parameter command and wait for the result */
-+	hdev->le_scan_result = -ETIMEDOUT;
-+	send_le_scan_param_cmd(hdev, type, interval, window);
++	hci_req_lock(hdev);
 +
-+	schedule_timeout_uninterruptible(timeo);
-+	if (hdev->le_scan_result)
-+		goto failed;
++	err = __hci_request(hdev, le_scan_param_req, (unsigned long) &param,
++									timeo);
++	if (!err)
++		err = __hci_request(hdev, le_scan_enable_req, 0, timeo);
 +
-+	/* Send LE Set Scan Enable command and wait for the result */
-+	hdev->le_scan_result = -ETIMEDOUT;
-+	send_le_scan_enable_cmd(hdev, 1);
++	hci_req_unlock(hdev);
 +
-+	schedule_timeout_uninterruptible(timeo);
-+	if (hdev->le_scan_result)
-+		goto failed;
-+
-+	remove_wait_queue(&hdev->le_scan_wait_q, &wait);
++	if (err < 0)
++		return err;
 +
 +	schedule_delayed_work(&hdev->le_scan_disable,
 +						msecs_to_jiffies(timeout));
 +
 +	return 0;
-+
-+failed:
-+	remove_wait_queue(&hdev->le_scan_wait_q, &wait);
-+	return hdev->le_scan_result;
 +}
 +
 +static void le_scan_disable_work(struct work_struct *work)
 +{
 +	struct hci_dev *hdev = container_of(work, struct hci_dev,
 +						le_scan_disable.work);
++	struct hci_cp_le_set_scan_enable cp;
 +
 +	BT_DBG("%s", hdev->name);
 +
-+	send_le_scan_enable_cmd(hdev, 0);
++	memset(&cp, 0, sizeof(cp));
++
++	hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_ENABLE, sizeof(cp), &cp);
 +}
 +
 +static void le_scan_work(struct work_struct *work)
 +{
 +	struct hci_dev *hdev = container_of(work, struct hci_dev, le_scan);
-+	struct le_scan_params *params = &hdev->le_scan_params;
++	struct le_scan_params *param = &hdev->le_scan_params;
 +
 +	BT_DBG("%s", hdev->name);
 +
-+	hci_do_le_scan(hdev, params->type, params->interval,
-+					params->window, params->timeout);
++	hci_do_le_scan(hdev, param->type, param->interval,
++					param->window, param->timeout);
 +}
 +
 +int hci_le_scan(struct hci_dev *hdev, u8 type, u16 interval, u16 window,
 +								int timeout)
 +{
-+	struct le_scan_params *params = &hdev->le_scan_params;
++	struct le_scan_params *param = &hdev->le_scan_params;
 +
 +	BT_DBG("%s", hdev->name);
 +
 +	if (work_busy(&hdev->le_scan))
 +		return -EINPROGRESS;
 +
-+	params->type = type;
-+	params->interval = interval;
-+	params->window = window;
-+	params->timeout = timeout;
++	param->type = type;
++	param->interval = interval;
++	param->window = window;
++	param->timeout = timeout;
 +
 +	queue_work(system_long_wq, &hdev->le_scan);
 +
@@ -928,18 +998,20 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
 +int hci_cancel_le_scan(struct hci_dev *hdev)
 +{
-+	int pending;
++	int canceled;
 +
 +	BT_DBG("%s", hdev->name);
-+
-+	pending = cancel_work_sync(&hdev->le_scan);
-+	if (pending)
-+		return 0;
 +
 +	if (!test_bit(HCI_LE_SCAN, &hdev->dev_flags))
 +		return -EPERM;
 +
-+	flush_delayed_work(&hdev->le_scan_disable);
++	canceled = cancel_delayed_work(&hdev->le_scan_disable);
++	if (canceled) {
++		struct hci_cp_le_set_scan_enable cp;
++
++		memset(&cp, 0, sizeof(cp));
++		hci_send_cmd(hdev, HCI_OP_LE_SET_SCAN_ENABLE, sizeof(cp), &cp);
++	}
 +
 +	return 0;
 +}
@@ -959,7 +1031,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return -EINVAL;
  
  	/* Do not allow HCI_AMP devices to register at index 0,
-@@ -1471,7 +1756,6 @@
+@@ -1471,7 +1751,6 @@ int hci_register_dev(struct hci_dev *hde
  	hdev->id = id;
  	list_add_tail(&hdev->list, head);
  
@@ -967,7 +1039,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	mutex_init(&hdev->lock);
  
  	hdev->flags = 0;
-@@ -1502,7 +1786,7 @@
+@@ -1502,7 +1781,7 @@ int hci_register_dev(struct hci_dev *hde
  	init_waitqueue_head(&hdev->req_wait_q);
  	mutex_init(&hdev->req_lock);
  
@@ -976,15 +1048,15 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	hci_conn_hash_init(hdev);
  
-@@ -1513,6 +1797,7 @@
+@@ -1513,6 +1792,7 @@ int hci_register_dev(struct hci_dev *hde
  	INIT_LIST_HEAD(&hdev->uuids);
  
  	INIT_LIST_HEAD(&hdev->link_keys);
-+	INIT_LIST_HEAD(&hdev->ltks);
++	INIT_LIST_HEAD(&hdev->long_term_keys);
  
  	INIT_LIST_HEAD(&hdev->remote_oob_data);
  
-@@ -1528,6 +1813,12 @@
+@@ -1528,6 +1808,10 @@ int hci_register_dev(struct hci_dev *hde
  
  	atomic_set(&hdev->promisc, 0);
  
@@ -992,12 +1064,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
 +	INIT_DELAYED_WORK(&hdev->le_scan_disable, le_scan_disable_work);
 +
-+	init_waitqueue_head(&hdev->le_scan_wait_q);
-+
  	write_unlock(&hci_dev_list_lock);
  
  #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
-@@ -1554,11 +1845,12 @@
+@@ -1554,11 +1838,12 @@ int hci_register_dev(struct hci_dev *hde
  		}
  	}
  
@@ -1012,7 +1082,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	return id;
  
-@@ -1590,7 +1882,7 @@
+@@ -1590,7 +1875,7 @@ void hci_unregister_dev(struct hci_dev *
  		kfree_skb(hdev->reassembly[i]);
  
  	if (!test_bit(HCI_INIT, &hdev->flags) &&
@@ -1021,7 +1091,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		hci_dev_lock(hdev);
  		mgmt_index_removed(hdev);
  		hci_dev_unlock(hdev);
-@@ -1617,11 +1909,12 @@
+@@ -1617,11 +1902,12 @@ void hci_unregister_dev(struct hci_dev *
  	hci_blacklist_clear(hdev);
  	hci_uuids_clear(hdev);
  	hci_link_keys_clear(hdev);
@@ -1035,17 +1105,122 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  EXPORT_SYMBOL(hci_unregister_dev);
  
-@@ -2253,7 +2546,8 @@
+@@ -2238,26 +2524,31 @@ static void hci_prio_recalculate(struct
+ 
+ }
+ 
+-static inline void hci_sched_acl(struct hci_dev *hdev)
++static inline int __get_blocks(struct hci_dev *hdev, struct sk_buff *skb)
+ {
+-	struct hci_chan *chan;
+-	struct sk_buff *skb;
+-	int quote;
+-	unsigned int cnt;
+-
+-	BT_DBG("%s", hdev->name);
+-
+-	if (!hci_conn_num(hdev, ACL_LINK))
+-		return;
++	/* Calculate count of blocks used by this packet */
++	return DIV_ROUND_UP(skb->len - HCI_ACL_HDR_SIZE, hdev->block_len);
++}
+ 
++static inline void __check_timeout(struct hci_dev *hdev, unsigned int cnt)
++{
  	if (!test_bit(HCI_RAW, &hdev->flags)) {
  		/* ACL tx timeout must be longer than maximum
  		 * link supervision timeout (40.9 seconds) */
 -		if (!hdev->acl_cnt && time_after(jiffies, hdev->acl_last_tx + HZ * 45))
-+		if (!hdev->acl_cnt && time_after(jiffies, hdev->acl_last_tx +
++		if (!cnt && time_after(jiffies, hdev->acl_last_tx +
 +					msecs_to_jiffies(HCI_ACL_TX_TIMEOUT)))
  			hci_link_tx_to(hdev, ACL_LINK);
  	}
++}
  
-@@ -2571,6 +2865,8 @@
+-	cnt = hdev->acl_cnt;
++static inline void hci_sched_acl_pkt(struct hci_dev *hdev)
++{
++	unsigned int cnt = hdev->acl_cnt;
++	struct hci_chan *chan;
++	struct sk_buff *skb;
++	int quote;
++
++	__check_timeout(hdev, cnt);
+ 
+ 	while (hdev->acl_cnt &&
+ 			(chan = hci_chan_sent(hdev, ACL_LINK, &quote))) {
+@@ -2288,6 +2579,70 @@ static inline void hci_sched_acl(struct
+ 		hci_prio_recalculate(hdev, ACL_LINK);
+ }
+ 
++static inline void hci_sched_acl_blk(struct hci_dev *hdev)
++{
++	unsigned int cnt = hdev->block_cnt;
++	struct hci_chan *chan;
++	struct sk_buff *skb;
++	int quote;
++
++	__check_timeout(hdev, cnt);
++
++	while (hdev->block_cnt > 0 &&
++			(chan = hci_chan_sent(hdev, ACL_LINK, &quote))) {
++		u32 priority = (skb_peek(&chan->data_q))->priority;
++		while (quote > 0 && (skb = skb_peek(&chan->data_q))) {
++			int blocks;
++
++			BT_DBG("chan %p skb %p len %d priority %u", chan, skb,
++						skb->len, skb->priority);
++
++			/* Stop if priority has changed */
++			if (skb->priority < priority)
++				break;
++
++			skb = skb_dequeue(&chan->data_q);
++
++			blocks = __get_blocks(hdev, skb);
++			if (blocks > hdev->block_cnt)
++				return;
++
++			hci_conn_enter_active_mode(chan->conn,
++						bt_cb(skb)->force_active);
++
++			hci_send_frame(skb);
++			hdev->acl_last_tx = jiffies;
++
++			hdev->block_cnt -= blocks;
++			quote -= blocks;
++
++			chan->sent += blocks;
++			chan->conn->sent += blocks;
++		}
++	}
++
++	if (cnt != hdev->block_cnt)
++		hci_prio_recalculate(hdev, ACL_LINK);
++}
++
++static inline void hci_sched_acl(struct hci_dev *hdev)
++{
++	BT_DBG("%s", hdev->name);
++
++	if (!hci_conn_num(hdev, ACL_LINK))
++		return;
++
++	switch (hdev->flow_ctl_mode) {
++	case HCI_FLOW_CTL_MODE_PACKET_BASED:
++		hci_sched_acl_pkt(hdev);
++		break;
++
++	case HCI_FLOW_CTL_MODE_BLOCK_BASED:
++		hci_sched_acl_blk(hdev);
++		break;
++	}
++}
++
+ /* Schedule SCO */
+ static inline void hci_sched_sco(struct hci_dev *hdev)
+ {
+@@ -2571,6 +2926,8 @@ int hci_do_inquiry(struct hci_dev *hdev,
  	if (test_bit(HCI_INQUIRY, &hdev->flags))
  		return -EINPROGRESS;
  
@@ -1054,10 +1229,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	memset(&cp, 0, sizeof(cp));
  	memcpy(&cp.lap, lap, sizeof(cp.lap));
  	cp.length  = length;
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/hci_event.c linux-git/net/bluetooth/hci_event.c
---- compat-wireless-2012-01-25/net/bluetooth/hci_event.c	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/net/bluetooth/hci_event.c	2012-01-30 14:33:51.000000000 -0400
-@@ -65,7 +65,7 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/hci_event.c linux-git/net/bluetooth/hci_event.c
+--- compat-wireless-2012-02-13/net/bluetooth/hci_event.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/hci_event.c	2012-02-14 14:31:42.000000000 -0400
+@@ -65,7 +65,7 @@ static void hci_cc_inquiry_cancel(struct
  	clear_bit(HCI_INQUIRY, &hdev->flags);
  
  	hci_dev_lock(hdev);
@@ -1066,17 +1241,18 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	hci_dev_unlock(hdev);
  
  	hci_req_complete(hdev, HCI_OP_INQUIRY_CANCEL, status);
-@@ -195,7 +195,8 @@
+@@ -195,7 +195,9 @@ static void hci_cc_reset(struct hci_dev
  
  	hci_req_complete(hdev, HCI_OP_RESET, status);
  
 -	hdev->dev_flags = 0;
 +	/* Reset all flags, except persistent ones */
-+	hdev->dev_flags &= BIT(HCI_MGMT) | BIT(HCI_SETUP) | BIT(HCI_AUTO_OFF);
++	hdev->dev_flags &= BIT(HCI_MGMT) | BIT(HCI_SETUP) | BIT(HCI_AUTO_OFF) |
++				BIT(HCI_LINK_KEYS) | BIT(HCI_DEBUG_KEYS);
  }
  
  static void hci_cc_write_local_name(struct hci_dev *hdev, struct sk_buff *skb)
-@@ -211,7 +212,7 @@
+@@ -211,7 +213,7 @@ static void hci_cc_write_local_name(stru
  
  	hci_dev_lock(hdev);
  
@@ -1085,7 +1261,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		mgmt_set_local_name_complete(hdev, sent, status);
  
  	if (status == 0)
-@@ -428,7 +429,10 @@
+@@ -428,7 +430,10 @@ static void hci_cc_read_ssp_mode(struct
  	if (rp->status)
  		return;
  
@@ -1097,7 +1273,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  static void hci_cc_write_ssp_mode(struct hci_dev *hdev, struct sk_buff *skb)
-@@ -445,7 +449,10 @@
+@@ -445,7 +450,10 @@ static void hci_cc_write_ssp_mode(struct
  	if (!sent)
  		return;
  
@@ -1109,7 +1285,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  static u8 hci_get_inquiry_mode(struct hci_dev *hdev)
-@@ -890,7 +897,7 @@
+@@ -890,7 +898,7 @@ static void hci_cc_pin_code_reply(struct
  
  	hci_dev_lock(hdev);
  
@@ -1118,7 +1294,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		mgmt_pin_code_reply_complete(hdev, &rp->bdaddr, rp->status);
  
  	if (rp->status != 0)
-@@ -916,7 +923,7 @@
+@@ -916,7 +924,7 @@ static void hci_cc_pin_code_neg_reply(st
  
  	hci_dev_lock(hdev);
  
@@ -1127,63 +1303,71 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		mgmt_pin_code_neg_reply_complete(hdev, &rp->bdaddr,
  								rp->status);
  
-@@ -951,7 +958,7 @@
+@@ -951,9 +959,9 @@ static void hci_cc_user_confirm_reply(st
  
  	hci_dev_lock(hdev);
  
 -	if (test_bit(HCI_MGMT, &hdev->flags))
+-		mgmt_user_confirm_reply_complete(hdev, &rp->bdaddr,
+-								rp->status);
 +	if (test_bit(HCI_MGMT, &hdev->dev_flags))
- 		mgmt_user_confirm_reply_complete(hdev, &rp->bdaddr,
- 								rp->status);
++		mgmt_user_confirm_reply_complete(hdev, &rp->bdaddr, ACL_LINK,
++								0, rp->status);
  
-@@ -967,7 +974,7 @@
+ 	hci_dev_unlock(hdev);
+ }
+@@ -967,8 +975,9 @@ static void hci_cc_user_confirm_neg_repl
  
  	hci_dev_lock(hdev);
  
 -	if (test_bit(HCI_MGMT, &hdev->flags))
 +	if (test_bit(HCI_MGMT, &hdev->dev_flags))
  		mgmt_user_confirm_neg_reply_complete(hdev, &rp->bdaddr,
++								ACL_LINK, 0,
  								rp->status);
  
-@@ -982,7 +989,7 @@
+ 	hci_dev_unlock(hdev);
+@@ -982,9 +991,9 @@ static void hci_cc_user_passkey_reply(st
  
  	hci_dev_lock(hdev);
  
 -	if (test_bit(HCI_MGMT, &hdev->flags))
+-		mgmt_user_passkey_reply_complete(hdev, &rp->bdaddr,
+-								rp->status);
 +	if (test_bit(HCI_MGMT, &hdev->dev_flags))
- 		mgmt_user_passkey_reply_complete(hdev, &rp->bdaddr,
- 								rp->status);
++		mgmt_user_passkey_reply_complete(hdev, &rp->bdaddr, ACL_LINK,
++								0, rp->status);
  
-@@ -998,7 +1005,7 @@
+ 	hci_dev_unlock(hdev);
+ }
+@@ -998,8 +1007,9 @@ static void hci_cc_user_passkey_neg_repl
  
  	hci_dev_lock(hdev);
  
 -	if (test_bit(HCI_MGMT, &hdev->flags))
 +	if (test_bit(HCI_MGMT, &hdev->dev_flags))
  		mgmt_user_passkey_neg_reply_complete(hdev, &rp->bdaddr,
++								ACL_LINK, 0,
  								rp->status);
  
-@@ -1023,6 +1030,19 @@
+ 	hci_dev_unlock(hdev);
+@@ -1023,6 +1033,15 @@ static void hci_cc_le_set_scan_param(str
  	__u8 status = *((__u8 *) skb->data);
  
  	BT_DBG("%s status 0x%x", hdev->name, status);
 +
-+	hdev->le_scan_result = -bt_to_errno(status);
-+	wake_up(&hdev->le_scan_wait_q);
++	hci_req_complete(hdev, HCI_OP_LE_SET_SCAN_PARAM, status);
 +
 +	if (status) {
 +		hci_dev_lock(hdev);
-+		if (test_bit(HCI_INTERLEAVED, &hdev->dev_flags))
-+			hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
-+		else
-+			mgmt_start_discovery_failed(hdev, status);
++		mgmt_start_discovery_failed(hdev, status);
 +		hci_dev_unlock(hdev);
 +		return;
 +	}
  }
  
  static void hci_cc_le_set_scan_enable(struct hci_dev *hdev,
-@@ -1033,28 +1053,49 @@
+@@ -1033,28 +1052,50 @@ static void hci_cc_le_set_scan_enable(st
  
  	BT_DBG("%s status 0x%x", hdev->name, status);
  
@@ -1196,16 +1380,11 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	switch (cp->enable) {
  	case LE_SCANNING_ENABLED:
-+		hdev->le_scan_result = -bt_to_errno(status);
-+		wake_up(&hdev->le_scan_wait_q);
++		hci_req_complete(hdev, HCI_OP_LE_SET_SCAN_ENABLE, status);
 +
 +		if (status) {
 +			hci_dev_lock(hdev);
-+			if (test_bit(HCI_INTERLEAVED, &hdev->dev_flags))
-+				hci_discovery_set_state(hdev,
-+							DISCOVERY_STOPPED);
-+			else
-+				mgmt_start_discovery_failed(hdev, status);
++			mgmt_start_discovery_failed(hdev, status);
 +			hci_dev_unlock(hdev);
 +			return;
 +		}
@@ -1216,7 +1395,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		hci_dev_lock(hdev);
  		hci_adv_entries_clear(hdev);
-+		hci_discovery_set_state(hdev, DISCOVERY_LE_SCAN);
++		hci_discovery_set_state(hdev, DISCOVERY_FINDING);
  		hci_dev_unlock(hdev);
  		break;
  
@@ -1226,35 +1405,42 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
  		clear_bit(HCI_LE_SCAN, &hdev->dev_flags);
  
-+		hci_dev_lock(hdev);
-+		hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
-+		hci_dev_unlock(hdev);
-+
  		schedule_delayed_work(&hdev->adv_work, ADV_CLEAR_TIMEOUT);
 +
-+		hci_conn_check_open(hdev);
++		if (hdev->discovery.type == DISCOV_TYPE_INTERLEAVED &&
++			hdev->discovery.state != DISCOVERY_STOPPING) {
++			mgmt_interleaved_discovery(hdev);
++		} else {
++			hci_dev_lock(hdev);
++			hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
++			hci_dev_unlock(hdev);
++
++			hci_conn_check_open(hdev);
++		}
++
  		break;
  
  	default:
-@@ -1110,7 +1151,7 @@
+@@ -1110,8 +1151,7 @@ static inline void hci_cs_inquiry(struct
  		hci_req_complete(hdev, HCI_OP_INQUIRY, status);
  		hci_conn_check_pending(hdev);
  		hci_dev_lock(hdev);
 -		if (test_bit(HCI_MGMT, &hdev->flags))
-+		if (test_bit(HCI_MGMT, &hdev->dev_flags))
- 			mgmt_start_discovery_failed(hdev, status);
+-			mgmt_start_discovery_failed(hdev, status);
++		mgmt_start_discovery_failed(hdev, status);
  		hci_dev_unlock(hdev);
  		return;
-@@ -1119,7 +1160,7 @@
+ 	}
+@@ -1119,7 +1159,7 @@ static inline void hci_cs_inquiry(struct
  	set_bit(HCI_INQUIRY, &hdev->flags);
  
  	hci_dev_lock(hdev);
 -	mgmt_discovering(hdev, 1);
-+	hci_discovery_set_state(hdev, DISCOVERY_INQUIRY);
++	hci_discovery_set_state(hdev, DISCOVERY_FINDING);
  	hci_dev_unlock(hdev);
  }
  
-@@ -1153,7 +1194,7 @@
+@@ -1153,7 +1193,7 @@ static inline void hci_cs_create_conn(st
  		if (!conn) {
  			conn = hci_conn_add(hdev, ACL_LINK, &cp->bdaddr);
  			if (conn) {
@@ -1263,7 +1449,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  				conn->link_mode |= HCI_LM_MASTER;
  			} else
  				BT_ERR("No memory for new connection");
-@@ -1263,7 +1304,7 @@
+@@ -1263,7 +1303,7 @@ static int hci_outgoing_auth_needed(stru
  
  	/* Only request authentication for SSP connections or non-SSP
  	 * devices with sec_level HIGH or if MITM protection is requested */
@@ -1272,7 +1458,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  				conn->pending_sec_level != BT_SECURITY_HIGH &&
  				!(conn->auth_type & 0x01))
  		return 0;
-@@ -1271,6 +1312,72 @@
+@@ -1271,6 +1311,72 @@ static int hci_outgoing_auth_needed(stru
  	return 1;
  }
  
@@ -1345,7 +1531,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  static void hci_cs_remote_name_req(struct hci_dev *hdev, __u8 status)
  {
  	struct hci_cp_remote_name_req *cp;
-@@ -1290,13 +1397,17 @@
+@@ -1290,13 +1396,17 @@ static void hci_cs_remote_name_req(struc
  	hci_dev_lock(hdev);
  
  	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &cp->bdaddr);
@@ -1364,7 +1550,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_auth_requested cp;
  		cp.handle = __cpu_to_le16(conn->handle);
  		hci_send_cmd(hdev, HCI_OP_AUTH_REQUESTED, sizeof(cp), &cp);
-@@ -1413,9 +1524,9 @@
+@@ -1413,9 +1523,9 @@ static void hci_cs_sniff_mode(struct hci
  
  	conn = hci_conn_hash_lookup_handle(hdev, __le16_to_cpu(cp->handle));
  	if (conn) {
@@ -1376,7 +1562,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			hci_sco_setup(conn, status);
  	}
  
-@@ -1440,9 +1551,9 @@
+@@ -1440,15 +1550,37 @@ static void hci_cs_exit_sniff_mode(struc
  
  	conn = hci_conn_hash_lookup_handle(hdev, __le16_to_cpu(cp->handle));
  	if (conn) {
@@ -1388,7 +1574,35 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			hci_sco_setup(conn, status);
  	}
  
-@@ -1478,7 +1589,7 @@
+ 	hci_dev_unlock(hdev);
+ }
+ 
++static void hci_cs_disconnect(struct hci_dev *hdev, u8 status)
++{
++	struct hci_cp_disconnect *cp;
++	struct hci_conn *conn;
++
++	if (!status)
++		return;
++
++	cp = hci_sent_cmd_data(hdev, HCI_OP_DISCONNECT);
++	if (!cp)
++		return;
++
++	hci_dev_lock(hdev);
++
++	conn = hci_conn_hash_lookup_handle(hdev, __le16_to_cpu(cp->handle));
++	if (conn)
++		mgmt_disconnect_failed(hdev, &conn->dst, conn->type,
++						conn->dst_type, status);
++
++	hci_dev_unlock(hdev);
++}
++
+ static void hci_cs_le_create_conn(struct hci_dev *hdev, __u8 status)
+ {
+ 	struct hci_cp_le_create_conn *cp;
+@@ -1478,7 +1610,7 @@ static void hci_cs_le_create_conn(struct
  			conn = hci_conn_add(hdev, LE_LINK, &cp->peer_addr);
  			if (conn) {
  				conn->dst_type = cp->peer_addr_type;
@@ -1397,7 +1611,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			} else {
  				BT_ERR("No memory for new connection");
  			}
-@@ -1496,6 +1607,8 @@
+@@ -1496,6 +1628,8 @@ static void hci_cs_le_start_enc(struct h
  static inline void hci_inquiry_complete_evt(struct hci_dev *hdev, struct sk_buff *skb)
  {
  	__u8 status = *((__u8 *) skb->data);
@@ -1406,7 +1620,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	BT_DBG("%s status %d", hdev->name, status);
  
-@@ -1506,8 +1619,33 @@
+@@ -1506,8 +1640,28 @@ static inline void hci_inquiry_complete_
  	if (!test_and_clear_bit(HCI_INQUIRY, &hdev->flags))
  		return;
  
@@ -1416,13 +1630,8 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	hci_dev_lock(hdev);
 -	mgmt_discovering(hdev, 0);
 +
-+	if (discov->state != DISCOVERY_INQUIRY)
++	if (discov->state != DISCOVERY_FINDING)
 +		goto unlock;
-+
-+	if (test_bit(HCI_INTERLEAVED, &hdev->dev_flags)) {
-+		mgmt_interleaved_discovery(hdev);
-+		goto unlock;
-+	}
 +
 +	if (list_empty(&discov->resolve)) {
 +		hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
@@ -1441,7 +1650,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	hci_dev_unlock(hdev);
  }
  
-@@ -1525,6 +1663,8 @@
+@@ -1525,6 +1679,8 @@ static inline void hci_inquiry_result_ev
  	hci_dev_lock(hdev);
  
  	for (; num_rsp; num_rsp--, info++) {
@@ -1450,7 +1659,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		bacpy(&data.bdaddr, &info->bdaddr);
  		data.pscan_rep_mode	= info->pscan_rep_mode;
  		data.pscan_period_mode	= info->pscan_period_mode;
-@@ -1533,9 +1673,11 @@
+@@ -1533,9 +1689,11 @@ static inline void hci_inquiry_result_ev
  		data.clock_offset	= info->clock_offset;
  		data.rssi		= 0x00;
  		data.ssp_mode		= 0x00;
@@ -1464,7 +1673,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	hci_dev_unlock(hdev);
-@@ -1569,8 +1711,6 @@
+@@ -1569,8 +1727,6 @@ static inline void hci_conn_complete_evt
  			conn->state = BT_CONFIG;
  			hci_conn_hold(conn);
  			conn->disc_timeout = HCI_DISCONN_TIMEOUT;
@@ -1473,7 +1682,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		} else
  			conn->state = BT_CONNECTED;
  
-@@ -1711,11 +1851,12 @@
+@@ -1711,11 +1867,13 @@ static inline void hci_disconn_complete_
  	if (ev->status == 0)
  		conn->state = BT_CLOSED;
  
@@ -1481,14 +1690,16 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	if (test_and_clear_bit(HCI_CONN_MGMT_CONNECTED, &conn->flags) &&
 +			(conn->type == ACL_LINK || conn->type == LE_LINK)) {
  		if (ev->status != 0)
- 			mgmt_disconnect_failed(hdev, &conn->dst, ev->status);
+-			mgmt_disconnect_failed(hdev, &conn->dst, ev->status);
++			mgmt_disconnect_failed(hdev, &conn->dst, conn->type,
++						conn->dst_type, ev->status);
  		else
 -			mgmt_disconnected(hdev, &conn->dst, conn->type,
 +			mgmt_device_disconnected(hdev, &conn->dst, conn->type,
  							conn->dst_type);
  	}
  
-@@ -1742,8 +1883,8 @@
+@@ -1742,22 +1900,23 @@ static inline void hci_auth_complete_evt
  		goto unlock;
  
  	if (!ev->status) {
@@ -1499,8 +1710,12 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			BT_INFO("re-auth of legacy device is not possible.");
  		} else {
  			conn->link_mode |= HCI_LM_AUTH;
-@@ -1753,11 +1894,11 @@
- 		mgmt_auth_failed(hdev, &conn->dst, ev->status);
+ 			conn->sec_level = conn->pending_sec_level;
+ 		}
+ 	} else {
+-		mgmt_auth_failed(hdev, &conn->dst, ev->status);
++		mgmt_auth_failed(hdev, &conn->dst, conn->type, conn->dst_type,
++								ev->status);
  	}
  
 -	clear_bit(HCI_CONN_AUTH_PEND, &conn->pend);
@@ -1514,7 +1729,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			struct hci_cp_set_conn_encrypt cp;
  			cp.handle  = ev->handle;
  			cp.encrypt = 0x01;
-@@ -1776,7 +1917,7 @@
+@@ -1776,7 +1935,7 @@ static inline void hci_auth_complete_evt
  		hci_conn_put(conn);
  	}
  
@@ -1523,7 +1738,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		if (!ev->status) {
  			struct hci_cp_set_conn_encrypt cp;
  			cp.handle  = ev->handle;
-@@ -1784,7 +1925,7 @@
+@@ -1784,7 +1943,7 @@ static inline void hci_auth_complete_evt
  			hci_send_cmd(hdev, HCI_OP_SET_CONN_ENCRYPT, sizeof(cp),
  									&cp);
  		} else {
@@ -1532,7 +1747,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			hci_encrypt_cfm(conn, ev->status, 0x00);
  		}
  	}
-@@ -1804,17 +1945,25 @@
+@@ -1804,17 +1963,25 @@ static inline void hci_remote_name_evt(s
  
  	hci_dev_lock(hdev);
  
@@ -1562,7 +1777,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct hci_cp_auth_requested cp;
  		cp.handle = __cpu_to_le16(conn->handle);
  		hci_send_cmd(hdev, HCI_OP_AUTH_REQUESTED, sizeof(cp), &cp);
-@@ -1845,7 +1994,7 @@
+@@ -1845,7 +2012,7 @@ static inline void hci_encrypt_change_ev
  				conn->link_mode &= ~HCI_LM_ENCRYPT;
  		}
  
@@ -1571,7 +1786,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		if (conn->state == BT_CONFIG) {
  			if (!ev->status)
-@@ -1874,7 +2023,7 @@
+@@ -1874,7 +2041,7 @@ static inline void hci_change_link_key_c
  		if (!ev->status)
  			conn->link_mode |= HCI_LM_SECURE;
  
@@ -1580,7 +1795,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		hci_key_change_cfm(conn, ev->status);
  	}
-@@ -1916,7 +2065,10 @@
+@@ -1916,7 +2083,10 @@ static inline void hci_remote_features_e
  		bacpy(&cp.bdaddr, &conn->dst);
  		cp.pscan_rep_mode = 0x02;
  		hci_send_cmd(hdev, HCI_OP_REMOTE_NAME_REQ, sizeof(cp), &cp);
@@ -1592,7 +1807,17 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	if (!hci_outgoing_auth_needed(hdev, conn)) {
  		conn->state = BT_CONNECTED;
-@@ -2258,7 +2410,7 @@
+@@ -2213,8 +2383,7 @@ static inline void hci_cmd_status_evt(st
+ 		break;
+ 
+ 	case HCI_OP_DISCONNECT:
+-		if (ev->status != 0)
+-			mgmt_disconnect_failed(hdev, NULL, ev->status);
++		hci_cs_disconnect(hdev, ev->status);
+ 		break;
+ 
+ 	case HCI_OP_LE_CREATE_CONN:
+@@ -2258,7 +2427,7 @@ static inline void hci_role_change_evt(s
  				conn->link_mode |= HCI_LM_MASTER;
  		}
  
@@ -1601,7 +1826,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		hci_role_switch_cfm(conn, ev->status, ev->role);
  	}
-@@ -2332,6 +2484,56 @@
+@@ -2332,6 +2501,56 @@ static inline void hci_num_comp_pkts_evt
  	queue_work(hdev->workqueue, &hdev->tx_work);
  }
  
@@ -1658,7 +1883,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  static inline void hci_mode_change_evt(struct hci_dev *hdev, struct sk_buff *skb)
  {
  	struct hci_ev_mode_change *ev = (void *) skb->data;
-@@ -2346,14 +2548,14 @@
+@@ -2346,14 +2565,14 @@ static inline void hci_mode_change_evt(s
  		conn->mode = ev->mode;
  		conn->interval = __le16_to_cpu(ev->interval);
  
@@ -1677,7 +1902,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			hci_sco_setup(conn, ev->status);
  	}
  
-@@ -2379,10 +2581,10 @@
+@@ -2379,10 +2598,10 @@ static inline void hci_pin_code_request_
  		hci_conn_put(conn);
  	}
  
@@ -1690,7 +1915,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		u8 secure;
  
  		if (conn->pending_sec_level == BT_SECURITY_HIGH)
-@@ -2406,7 +2608,7 @@
+@@ -2406,7 +2625,7 @@ static inline void hci_link_key_request_
  
  	BT_DBG("%s", hdev->name);
  
@@ -1699,7 +1924,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return;
  
  	hci_dev_lock(hdev);
-@@ -2421,7 +2623,7 @@
+@@ -2421,7 +2640,7 @@ static inline void hci_link_key_request_
  	BT_DBG("%s found key type %u for %s", hdev->name, key->type,
  							batostr(&ev->bdaddr));
  
@@ -1708,7 +1933,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  				key->type == HCI_LK_DEBUG_COMBINATION) {
  		BT_DBG("%s ignoring debug key", hdev->name);
  		goto not_found;
-@@ -2483,7 +2685,7 @@
+@@ -2483,7 +2702,7 @@ static inline void hci_link_key_notify_e
  		hci_conn_put(conn);
  	}
  
@@ -1717,7 +1942,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		hci_add_link_key(hdev, conn, 1, &ev->bdaddr, ev->link_key,
  							ev->key_type, pin_len);
  
-@@ -2551,6 +2753,7 @@
+@@ -2551,6 +2770,7 @@ static inline void hci_inquiry_result_wi
  {
  	struct inquiry_data data;
  	int num_rsp = *((__u8 *) skb->data);
@@ -1725,7 +1950,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	BT_DBG("%s num_rsp %d", hdev->name, num_rsp);
  
-@@ -2572,10 +2775,12 @@
+@@ -2572,10 +2792,12 @@ static inline void hci_inquiry_result_wi
  			data.clock_offset	= info->clock_offset;
  			data.rssi		= info->rssi;
  			data.ssp_mode		= 0x00;
@@ -1740,7 +1965,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		}
  	} else {
  		struct inquiry_info_with_rssi *info = (void *) (skb->data + 1);
-@@ -2589,10 +2794,11 @@
+@@ -2589,10 +2811,11 @@ static inline void hci_inquiry_result_wi
  			data.clock_offset	= info->clock_offset;
  			data.rssi		= info->rssi;
  			data.ssp_mode		= 0x00;
@@ -1754,7 +1979,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		}
  	}
  
-@@ -2619,7 +2825,8 @@
+@@ -2619,7 +2842,8 @@ static inline void hci_remote_ext_featur
  		if (ie)
  			ie->data.ssp_mode = (ev->features[0] & 0x01);
  
@@ -1764,7 +1989,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	if (conn->state != BT_CONFIG)
-@@ -2631,7 +2838,10 @@
+@@ -2631,7 +2855,10 @@ static inline void hci_remote_ext_featur
  		bacpy(&cp.bdaddr, &conn->dst);
  		cp.pscan_rep_mode = 0x02;
  		hci_send_cmd(hdev, HCI_OP_REMOTE_NAME_REQ, sizeof(cp), &cp);
@@ -1776,7 +2001,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	if (!hci_outgoing_auth_needed(hdev, conn)) {
  		conn->state = BT_CONNECTED;
-@@ -2724,6 +2934,8 @@
+@@ -2724,6 +2951,8 @@ static inline void hci_extended_inquiry_
  	hci_dev_lock(hdev);
  
  	for (; num_rsp; num_rsp--, info++) {
@@ -1785,7 +2010,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		bacpy(&data.bdaddr, &info->bdaddr);
  		data.pscan_rep_mode	= info->pscan_rep_mode;
  		data.pscan_period_mode	= info->pscan_period_mode;
-@@ -2732,9 +2944,19 @@
+@@ -2732,9 +2961,19 @@ static inline void hci_extended_inquiry_
  		data.clock_offset	= info->clock_offset;
  		data.rssi		= info->rssi;
  		data.ssp_mode		= 0x01;
@@ -1807,7 +2032,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	hci_dev_unlock(hdev);
-@@ -2774,10 +2996,10 @@
+@@ -2774,19 +3013,22 @@ static inline void hci_io_capa_request_e
  
  	hci_conn_hold(conn);
  
@@ -1820,7 +2045,12 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			(conn->remote_auth & ~0x01) == HCI_AT_NO_BONDING) {
  		struct hci_cp_io_capability_reply cp;
  
-@@ -2786,7 +3008,7 @@
+ 		bacpy(&cp.bdaddr, &ev->bdaddr);
+-		cp.capability = conn->io_capability;
++		/* Change the IO capability from KeyboardDisplay
++		 * to DisplayYesNo as it is not supported by BT spec. */
++		cp.capability = (conn->io_capability == 0x04) ?
++						0x01 : conn->io_capability;
  		conn->auth_type = hci_get_auth_req(conn);
  		cp.authentication = conn->auth_type;
  
@@ -1829,7 +2059,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  				hci_find_remote_oob_data(hdev, &conn->dst))
  			cp.oob_data = 0x01;
  		else
-@@ -2822,8 +3044,9 @@
+@@ -2822,8 +3064,9 @@ static inline void hci_io_capa_reply_evt
  		goto unlock;
  
  	conn->remote_cap = ev->capability;
@@ -1840,7 +2070,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  unlock:
  	hci_dev_unlock(hdev);
-@@ -2840,7 +3063,7 @@
+@@ -2840,7 +3083,7 @@ static inline void hci_user_confirm_requ
  
  	hci_dev_lock(hdev);
  
@@ -1849,7 +2079,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		goto unlock;
  
  	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &ev->bdaddr);
-@@ -2869,7 +3092,7 @@
+@@ -2869,7 +3112,7 @@ static inline void hci_user_confirm_requ
  		/* If we're not the initiators request authorization to
  		 * proceed from user space (mgmt_user_confirm with
  		 * confirm_hint set to 1). */
@@ -1858,25 +2088,39 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			BT_DBG("Confirming auto-accept as acceptor");
  			confirm_hint = 1;
  			goto confirm;
-@@ -2906,7 +3129,7 @@
+@@ -2890,7 +3133,7 @@ static inline void hci_user_confirm_requ
+ 	}
+ 
+ confirm:
+-	mgmt_user_confirm_request(hdev, &ev->bdaddr, ev->passkey,
++	mgmt_user_confirm_request(hdev, &ev->bdaddr, ACL_LINK, 0, ev->passkey,
+ 								confirm_hint);
+ 
+ unlock:
+@@ -2906,8 +3149,8 @@ static inline void hci_user_passkey_requ
  
  	hci_dev_lock(hdev);
  
 -	if (test_bit(HCI_MGMT, &hdev->flags))
+-		mgmt_user_passkey_request(hdev, &ev->bdaddr);
 +	if (test_bit(HCI_MGMT, &hdev->dev_flags))
- 		mgmt_user_passkey_request(hdev, &ev->bdaddr);
++		mgmt_user_passkey_request(hdev, &ev->bdaddr, ACL_LINK, 0);
  
  	hci_dev_unlock(hdev);
-@@ -2930,7 +3153,7 @@
+ }
+@@ -2930,8 +3173,9 @@ static inline void hci_simple_pair_compl
  	 * initiated the authentication. A traditional auth_complete
  	 * event gets always produced as initiator and is also mapped to
  	 * the mgmt_auth_failed event */
 -	if (!test_bit(HCI_CONN_AUTH_PEND, &conn->pend) && ev->status != 0)
+-		mgmt_auth_failed(hdev, &conn->dst, ev->status);
 +	if (!test_bit(HCI_CONN_AUTH_PEND, &conn->flags) && ev->status != 0)
- 		mgmt_auth_failed(hdev, &conn->dst, ev->status);
++		mgmt_auth_failed(hdev, &conn->dst, conn->type, conn->dst_type,
++								ev->status);
  
  	hci_conn_put(conn);
-@@ -2965,7 +3188,7 @@
+ 
+@@ -2965,7 +3209,7 @@ static inline void hci_remote_oob_data_r
  
  	hci_dev_lock(hdev);
  
@@ -1885,7 +2129,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		goto unlock;
  
  	data = hci_find_remote_oob_data(hdev, &ev->bdaddr);
-@@ -3020,7 +3243,9 @@
+@@ -3020,7 +3264,9 @@ static inline void hci_le_conn_complete_
  		goto unlock;
  	}
  
@@ -1896,7 +2140,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	conn->sec_level = BT_SECURITY_LOW;
  	conn->handle = __le16_to_cpu(ev->handle);
-@@ -3040,6 +3265,7 @@
+@@ -3040,6 +3286,7 @@ static inline void hci_le_adv_report_evt
  {
  	u8 num_reports = skb->data[0];
  	void *ptr = &skb->data[1];
@@ -1904,7 +2148,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	hci_dev_lock(hdev);
  
-@@ -3048,6 +3274,10 @@
+@@ -3048,6 +3295,10 @@ static inline void hci_le_adv_report_evt
  
  		hci_add_adv_entry(hdev, ev);
  
@@ -1915,7 +2159,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		ptr += sizeof(*ev) + ev->length + 1;
  	}
  
-@@ -3061,7 +3291,7 @@
+@@ -3061,7 +3312,7 @@ static inline void hci_le_ltk_request_ev
  	struct hci_cp_le_ltk_reply cp;
  	struct hci_cp_le_ltk_neg_reply neg;
  	struct hci_conn *conn;
@@ -1924,7 +2168,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	BT_DBG("%s handle %d", hdev->name, cpu_to_le16(ev->handle));
  
-@@ -3077,10 +3307,15 @@
+@@ -3077,10 +3328,17 @@ static inline void hci_le_ltk_request_ev
  
  	memcpy(cp.ltk, ltk->val, sizeof(ltk->val));
  	cp.handle = cpu_to_le16(conn->handle);
@@ -1935,13 +2179,15 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	hci_send_cmd(hdev, HCI_OP_LE_LTK_REPLY, sizeof(cp), &cp);
  
-+	if (ltk->type & HCI_SMP_STK)
++	if (ltk->type & HCI_SMP_STK) {
++		list_del(&ltk->list);
 +		kfree(ltk);
++	}
 +
  	hci_dev_unlock(hdev);
  
  	return;
-@@ -3271,6 +3506,10 @@
+@@ -3271,6 +3529,10 @@ void hci_event_packet(struct hci_dev *hd
  		hci_remote_oob_data_request_evt(hdev, skb);
  		break;
  
@@ -1952,18 +2198,202 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	default:
  		BT_DBG("%s event 0x%x", hdev->name, event);
  		break;
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/hci_sysfs.c linux-git/net/bluetooth/hci_sysfs.c
---- compat-wireless-2012-01-25/net/bluetooth/hci_sysfs.c	2012-01-25 17:12:28.000000000 -0400
-+++ linux-git/net/bluetooth/hci_sysfs.c	2012-01-30 14:52:51.669434609 -0400
-@@ -384,6 +384,7 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/hci_sock.c linux-git/net/bluetooth/hci_sock.c
+--- compat-wireless-2012-02-13/net/bluetooth/hci_sock.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/hci_sock.c	2012-02-14 15:26:28.800563848 -0400
+@@ -190,7 +190,7 @@ static int hci_sock_blacklist_add(struct
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_blacklist_add(hdev, &bdaddr);
++	err = hci_blacklist_add(hdev, &bdaddr, 0);
+ 
+ 	hci_dev_unlock(hdev);
+ 
+@@ -207,7 +207,7 @@ static int hci_sock_blacklist_del(struct
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_blacklist_del(hdev, &bdaddr);
++	err = hci_blacklist_del(hdev, &bdaddr, 0);
+ 
+ 	hci_dev_unlock(hdev);
+ 
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/hci_sysfs.c linux-git/net/bluetooth/hci_sysfs.c
+--- compat-wireless-2012-02-13/net/bluetooth/hci_sysfs.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/hci_sysfs.c	2012-02-14 15:26:28.800563848 -0400
+@@ -33,19 +33,19 @@ static inline char *link_typetostr(int t
+ 
+ static ssize_t show_link_type(struct device *dev, struct device_attribute *attr, char *buf)
  {
- 	void *data = dev_get_drvdata(dev);
- 	kfree(data);
+-	struct hci_conn *conn = dev_get_drvdata(dev);
++	struct hci_conn *conn = to_hci_conn(dev);
+ 	return sprintf(buf, "%s\n", link_typetostr(conn->type));
+ }
+ 
+ static ssize_t show_link_address(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_conn *conn = dev_get_drvdata(dev);
++	struct hci_conn *conn = to_hci_conn(dev);
+ 	return sprintf(buf, "%s\n", batostr(&conn->dst));
+ }
+ 
+ static ssize_t show_link_features(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_conn *conn = dev_get_drvdata(dev);
++	struct hci_conn *conn = to_hci_conn(dev);
+ 
+ 	return sprintf(buf, "0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+ 				conn->features[0], conn->features[1],
+@@ -83,8 +83,8 @@ static struct attribute_group *bt_link_g
+ 
+ static void bt_link_release(struct device *dev)
+ {
+-	void *data = dev_get_drvdata(dev);
+-	kfree(data);
++	struct hci_conn *conn = to_hci_conn(dev);
++	kfree(conn);
+ }
+ 
+ static struct device_type bt_link = {
+@@ -124,8 +124,6 @@ void hci_conn_add_sysfs(struct hci_conn
+ 
+ 	dev_set_name(&conn->dev, "%s:%d", hdev->name, conn->handle);
+ 
+-	dev_set_drvdata(&conn->dev, conn);
+-
+ 	if (device_add(&conn->dev) < 0) {
+ 		BT_ERR("Failed to register connection device");
+ 		return;
+@@ -197,19 +195,19 @@ static inline char *host_typetostr(int t
+ 
+ static ssize_t show_bus(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%s\n", host_bustostr(hdev->bus));
+ }
+ 
+ static ssize_t show_type(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%s\n", host_typetostr(hdev->dev_type));
+ }
+ 
+ static ssize_t show_name(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	char name[HCI_MAX_NAME_LENGTH + 1];
+ 	int i;
+ 
+@@ -222,20 +220,20 @@ static ssize_t show_name(struct device *
+ 
+ static ssize_t show_class(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "0x%.2x%.2x%.2x\n",
+ 			hdev->dev_class[2], hdev->dev_class[1], hdev->dev_class[0]);
+ }
+ 
+ static ssize_t show_address(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%s\n", batostr(&hdev->bdaddr));
+ }
+ 
+ static ssize_t show_features(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 
+ 	return sprintf(buf, "0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+ 				hdev->features[0], hdev->features[1],
+@@ -246,31 +244,31 @@ static ssize_t show_features(struct devi
+ 
+ static ssize_t show_manufacturer(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->manufacturer);
+ }
+ 
+ static ssize_t show_hci_version(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->hci_ver);
+ }
+ 
+ static ssize_t show_hci_revision(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->hci_rev);
+ }
+ 
+ static ssize_t show_idle_timeout(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->idle_timeout);
+ }
+ 
+ static ssize_t store_idle_timeout(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	unsigned int val;
+ 	int rv;
+ 
+@@ -288,13 +286,13 @@ static ssize_t store_idle_timeout(struct
+ 
+ static ssize_t show_sniff_max_interval(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->sniff_max_interval);
+ }
+ 
+ static ssize_t store_sniff_max_interval(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	u16 val;
+ 	int rv;
+ 
+@@ -312,13 +310,13 @@ static ssize_t store_sniff_max_interval(
+ 
+ static ssize_t show_sniff_min_interval(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	return sprintf(buf, "%d\n", hdev->sniff_min_interval);
+ }
+ 
+ static ssize_t store_sniff_min_interval(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+ {
+-	struct hci_dev *hdev = dev_get_drvdata(dev);
++	struct hci_dev *hdev = to_hci_dev(dev);
+ 	u16 val;
+ 	int rv;
+ 
+@@ -382,8 +380,9 @@ static struct attribute_group *bt_host_g
+ 
+ static void bt_host_release(struct device *dev)
+ {
+-	void *data = dev_get_drvdata(dev);
+-	kfree(data);
++	struct hci_dev *hdev = to_hci_dev(dev);
++	kfree(hdev);
 +	module_put(THIS_MODULE);
  }
  
  static struct device_type bt_host = {
-@@ -395,12 +396,12 @@
+@@ -395,12 +394,12 @@ static struct device_type bt_host = {
  static int inquiry_cache_show(struct seq_file *f, void *p)
  {
  	struct hci_dev *hdev = f->private;
@@ -1978,18 +2408,19 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		struct inquiry_data *data = &e->data;
  		seq_printf(f, "%s %d %d %d 0x%.2x%.2x%.2x 0x%.4x %d %d %u\n",
  			   batostr(&data->bdaddr),
-@@ -535,6 +536,7 @@
+@@ -535,7 +534,7 @@ void hci_init_sysfs(struct hci_dev *hdev
  	dev->type = &bt_host;
  	dev->class = bt_class;
  
+-	dev_set_drvdata(dev, hdev);
 +	__module_get(THIS_MODULE);
- 	dev_set_drvdata(dev, hdev);
  	device_initialize(dev);
  }
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/l2cap_core.c linux-git/net/bluetooth/l2cap_core.c
---- compat-wireless-2012-01-25/net/bluetooth/l2cap_core.c	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/net/bluetooth/l2cap_core.c	2012-01-30 14:33:51.000000000 -0400
-@@ -73,8 +73,6 @@
+ 
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/l2cap_core.c linux-git/net/bluetooth/l2cap_core.c
+--- compat-wireless-2012-02-13/net/bluetooth/l2cap_core.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/l2cap_core.c	2012-02-14 14:31:42.000000000 -0400
+@@ -73,8 +73,6 @@ static int l2cap_build_conf_req(struct l
  static void l2cap_send_disconn_req(struct l2cap_conn *conn,
  				struct l2cap_chan *chan, int err);
  
@@ -1998,13 +2429,42 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  /* ---- L2CAP channels ---- */
  
  static struct l2cap_chan *__l2cap_get_chan_by_dcid(struct l2cap_conn *conn, u16 cid)
-@@ -661,10 +659,32 @@
+@@ -322,7 +320,8 @@ static void l2cap_chan_add(struct l2cap_
+ 
+ 	chan->conn = conn;
+ 
+-	if (chan->chan_type == L2CAP_CHAN_CONN_ORIENTED) {
++	switch (chan->chan_type) {
++	case L2CAP_CHAN_CONN_ORIENTED:
+ 		if (conn->hcon->type == LE_LINK) {
+ 			/* LE connection */
+ 			chan->omtu = L2CAP_LE_DEFAULT_MTU;
+@@ -333,12 +332,16 @@ static void l2cap_chan_add(struct l2cap_
+ 			chan->scid = l2cap_alloc_cid(conn);
+ 			chan->omtu = L2CAP_DEFAULT_MTU;
+ 		}
+-	} else if (chan->chan_type == L2CAP_CHAN_CONN_LESS) {
++		break;
++
++	case L2CAP_CHAN_CONN_LESS:
+ 		/* Connectionless socket */
+ 		chan->scid = L2CAP_CID_CONN_LESS;
+ 		chan->dcid = L2CAP_CID_CONN_LESS;
+ 		chan->omtu = L2CAP_DEFAULT_MTU;
+-	} else {
++		break;
++
++	default:
+ 		/* Raw socket can send/recv signalling messages only */
+ 		chan->scid = L2CAP_CID_SIGNALING;
+ 		chan->dcid = L2CAP_CID_SIGNALING;
+@@ -661,10 +664,32 @@ static inline int __l2cap_no_conn_pendin
  	return !test_bit(CONF_CONNECT_PEND, &chan->conf_state);
  }
  
-+static void l2cap_chan_ready(struct sock *sk)
++static void l2cap_chan_ready(struct l2cap_chan *chan)
 +{
-+	struct l2cap_chan *chan = l2cap_pi(sk)->chan;
++	struct sock *sk = chan->sk;
 +	struct sock *parent = bt_sk(sk)->parent;
 +
 +	BT_DBG("sk %p, parent %p", sk, parent);
@@ -2024,14 +2484,14 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	struct l2cap_conn *conn = chan->conn;
  
 +	if (conn->hcon->type == LE_LINK) {
-+		l2cap_chan_ready(chan->sk);
++		l2cap_chan_ready(chan);
 +		return;
 +	}
 +
  	if (conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_SENT) {
  		if (!(conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_DONE))
  			return;
-@@ -909,23 +929,6 @@
+@@ -909,23 +934,6 @@ clean:
  	release_sock(parent);
  }
  
@@ -2055,16 +2515,30 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  static void l2cap_conn_ready(struct l2cap_conn *conn)
  {
  	struct l2cap_chan *chan;
-@@ -1020,7 +1023,7 @@
+@@ -947,7 +955,7 @@ static void l2cap_conn_ready(struct l2ca
+ 
+ 		if (conn->hcon->type == LE_LINK) {
+ 			if (smp_conn_security(conn, chan->sec_level))
+-				l2cap_chan_ready(sk);
++				l2cap_chan_ready(chan);
+ 
+ 		} else if (chan->chan_type != L2CAP_CHAN_CONN_ORIENTED) {
+ 			__clear_chan_timer(chan);
+@@ -1018,10 +1026,10 @@ static void l2cap_conn_del(struct hci_co
+ 	hci_chan_del(conn->hchan);
+ 
  	if (conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_SENT)
- 		__cancel_delayed_work(&conn->info_timer);
+-		__cancel_delayed_work(&conn->info_timer);
++		cancel_delayed_work_sync(&conn->info_timer);
  
 -	if (test_and_clear_bit(HCI_CONN_LE_SMP_PEND, &hcon->pend)) {
+-		__cancel_delayed_work(&conn->security_timer);
 +	if (test_and_clear_bit(HCI_CONN_LE_SMP_PEND, &hcon->flags)) {
- 		__cancel_delayed_work(&conn->security_timer);
++		cancel_delayed_work_sync(&conn->security_timer);
  		smp_chan_destroy(conn);
  	}
-@@ -1120,7 +1123,7 @@
+ 
+@@ -1120,7 +1128,7 @@ static struct l2cap_chan *l2cap_global_c
  	return c1;
  }
  
@@ -2073,7 +2547,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  {
  	struct sock *sk = chan->sk;
  	bdaddr_t *src = &bt_sk(sk)->src;
-@@ -1215,6 +1218,18 @@
+@@ -1215,6 +1223,18 @@ inline int l2cap_chan_connect(struct l2c
  		goto done;
  	}
  
@@ -2092,7 +2566,30 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	/* Update source addr of the socket */
  	bacpy(src, conn->src);
  
-@@ -1478,7 +1493,7 @@
+@@ -1450,17 +1470,19 @@ static int l2cap_ertm_send(struct l2cap_
+ 
+ 		chan->next_tx_seq = __next_seq(chan, chan->next_tx_seq);
+ 
+-		if (bt_cb(skb)->retries == 1)
++		if (bt_cb(skb)->retries == 1) {
+ 			chan->unacked_frames++;
+ 
++			if (!nsent++)
++				__clear_ack_timer(chan);
++		}
++
+ 		chan->frames_sent++;
+ 
+ 		if (skb_queue_is_last(&chan->tx_q, skb))
+ 			chan->tx_send_head = NULL;
+ 		else
+ 			chan->tx_send_head = skb_queue_next(&chan->tx_q, skb);
+-
+-		nsent++;
+ 	}
+ 
+ 	return nsent;
+@@ -1478,7 +1500,7 @@ static int l2cap_retransmit_frames(struc
  	return ret;
  }
  
@@ -2101,7 +2598,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  {
  	u32 control = 0;
  
-@@ -1498,6 +1513,12 @@
+@@ -1498,6 +1520,12 @@ static void l2cap_send_ack(struct l2cap_
  	l2cap_send_sframe(chan, control);
  }
  
@@ -2114,7 +2611,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  static void l2cap_send_srejtail(struct l2cap_chan *chan)
  {
  	struct srej_list *tail;
-@@ -1512,9 +1533,9 @@
+@@ -1512,9 +1540,9 @@ static void l2cap_send_srejtail(struct l
  	l2cap_send_sframe(chan, control);
  }
  
@@ -2126,7 +2623,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	struct sk_buff **frag;
  	int err, sent = 0;
  
-@@ -1529,7 +1550,9 @@
+@@ -1529,7 +1557,9 @@ static inline int l2cap_skbuff_fromiovec
  	while (len) {
  		count = min_t(unsigned int, conn->mtu, len);
  
@@ -2137,8 +2634,18 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		if (!*frag)
  			return err;
  		if (memcpy_fromiovec(skb_put(*frag, count), msg->msg_iov, count))
-@@ -1559,8 +1582,10 @@
- 	BT_DBG("sk %p len %d priority %u", sk, (int)len, priority);
+@@ -1550,17 +1580,18 @@ static struct sk_buff *l2cap_create_conn
+ 						struct msghdr *msg, size_t len,
+ 						u32 priority)
+ {
+-	struct sock *sk = chan->sk;
+ 	struct l2cap_conn *conn = chan->conn;
+ 	struct sk_buff *skb;
+ 	int err, count, hlen = L2CAP_HDR_SIZE + L2CAP_PSMLEN_SIZE;
+ 	struct l2cap_hdr *lh;
+ 
+-	BT_DBG("sk %p len %d priority %u", sk, (int)len, priority);
++	BT_DBG("chan %p len %d priority %u", chan, (int)len, priority);
  
  	count = min_t(unsigned int, (conn->mtu - hlen), len);
 -	skb = bt_skb_send_alloc(sk, count + hlen,
@@ -2150,7 +2657,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (!skb)
  		return ERR_PTR(err);
  
-@@ -1572,7 +1597,7 @@
+@@ -1572,7 +1603,7 @@ static struct sk_buff *l2cap_create_conn
  	lh->len = cpu_to_le16(len + (hlen - L2CAP_HDR_SIZE));
  	put_unaligned_le16(chan->psm, skb_put(skb, 2));
  
@@ -2159,8 +2666,18 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (unlikely(err < 0)) {
  		kfree_skb(skb);
  		return ERR_PTR(err);
-@@ -1593,8 +1618,10 @@
- 	BT_DBG("sk %p len %d", sk, (int)len);
+@@ -1584,17 +1615,18 @@ static struct sk_buff *l2cap_create_basi
+ 						struct msghdr *msg, size_t len,
+ 						u32 priority)
+ {
+-	struct sock *sk = chan->sk;
+ 	struct l2cap_conn *conn = chan->conn;
+ 	struct sk_buff *skb;
+ 	int err, count, hlen = L2CAP_HDR_SIZE;
+ 	struct l2cap_hdr *lh;
+ 
+-	BT_DBG("sk %p len %d", sk, (int)len);
++	BT_DBG("chan %p len %d", chan, (int)len);
  
  	count = min_t(unsigned int, (conn->mtu - hlen), len);
 -	skb = bt_skb_send_alloc(sk, count + hlen,
@@ -2172,7 +2689,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (!skb)
  		return ERR_PTR(err);
  
-@@ -1605,7 +1632,7 @@
+@@ -1605,7 +1637,7 @@ static struct sk_buff *l2cap_create_basi
  	lh->cid = cpu_to_le16(chan->dcid);
  	lh->len = cpu_to_le16(len + (hlen - L2CAP_HDR_SIZE));
  
@@ -2181,7 +2698,22 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (unlikely(err < 0)) {
  		kfree_skb(skb);
  		return ERR_PTR(err);
-@@ -1640,8 +1667,10 @@
+@@ -1617,13 +1649,12 @@ static struct sk_buff *l2cap_create_ifra
+ 						struct msghdr *msg, size_t len,
+ 						u32 control, u16 sdulen)
+ {
+-	struct sock *sk = chan->sk;
+ 	struct l2cap_conn *conn = chan->conn;
+ 	struct sk_buff *skb;
+ 	int err, count, hlen;
+ 	struct l2cap_hdr *lh;
+ 
+-	BT_DBG("sk %p len %d", sk, (int)len);
++	BT_DBG("chan %p len %d", chan, (int)len);
+ 
+ 	if (!conn)
+ 		return ERR_PTR(-ENOTCONN);
+@@ -1640,8 +1671,10 @@ static struct sk_buff *l2cap_create_ifra
  		hlen += L2CAP_FCS_SIZE;
  
  	count = min_t(unsigned int, (conn->mtu - hlen), len);
@@ -2194,7 +2726,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (!skb)
  		return ERR_PTR(err);
  
-@@ -1655,7 +1684,7 @@
+@@ -1655,7 +1688,7 @@ static struct sk_buff *l2cap_create_ifra
  	if (sdulen)
  		put_unaligned_le16(sdulen, skb_put(skb, L2CAP_SDULEN_SIZE));
  
@@ -2203,7 +2735,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	if (unlikely(err < 0)) {
  		kfree_skb(skb);
  		return ERR_PTR(err);
-@@ -1988,8 +2017,10 @@
+@@ -1988,8 +2021,10 @@ static void l2cap_ack_timeout(struct wor
  	BT_DBG("chan %p", chan);
  
  	lock_sock(chan->sk);
@@ -2215,7 +2747,25 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  static inline void l2cap_ertm_init(struct l2cap_chan *chan)
-@@ -2970,7 +3001,8 @@
+@@ -2574,7 +2609,7 @@ static inline int l2cap_command_rej(stru
+ 
+ 	if ((conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_SENT) &&
+ 					cmd->ident == conn->info_ident) {
+-		__cancel_delayed_work(&conn->info_timer);
++		cancel_delayed_work(&conn->info_timer);
+ 
+ 		conn->info_state |= L2CAP_INFO_FEAT_MASK_REQ_DONE;
+ 		conn->info_ident = 0;
+@@ -2860,7 +2895,7 @@ static inline int l2cap_config_req(struc
+ 		if (chan->mode == L2CAP_MODE_ERTM)
+ 			l2cap_ertm_init(chan);
+ 
+-		l2cap_chan_ready(sk);
++		l2cap_chan_ready(chan);
+ 		goto unlock;
+ 	}
+ 
+@@ -2970,7 +3005,8 @@ static inline int l2cap_config_rsp(struc
  
  	default:
  		sk->sk_err = ECONNRESET;
@@ -2225,7 +2775,25 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		l2cap_send_disconn_req(conn, chan, ECONNRESET);
  		goto done;
  	}
-@@ -3712,19 +3744,11 @@
+@@ -2990,7 +3026,7 @@ static inline int l2cap_config_rsp(struc
+ 		if (chan->mode ==  L2CAP_MODE_ERTM)
+ 			l2cap_ertm_init(chan);
+ 
+-		l2cap_chan_ready(sk);
++		l2cap_chan_ready(chan);
+ 	}
+ 
+ done:
+@@ -3120,7 +3156,7 @@ static inline int l2cap_information_rsp(
+ 			conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_DONE)
+ 		return 0;
+ 
+-	__cancel_delayed_work(&conn->info_timer);
++	cancel_delayed_work(&conn->info_timer);
+ 
+ 	if (result != L2CAP_IR_SUCCESS) {
+ 		conn->info_state |= L2CAP_INFO_FEAT_MASK_REQ_DONE;
+@@ -3712,19 +3748,11 @@ static int l2cap_reassemble_sdu(struct l
  
  static void l2cap_ertm_enter_local_busy(struct l2cap_chan *chan)
  {
@@ -2246,7 +2814,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  static void l2cap_ertm_exit_local_busy(struct l2cap_chan *chan)
-@@ -3864,8 +3888,11 @@
+@@ -3864,8 +3892,11 @@ static inline int l2cap_data_channel_ifr
  		goto drop;
  	}
  
@@ -2259,7 +2827,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	if (tx_seq == chan->expected_tx_seq)
  		goto expected;
-@@ -3926,15 +3953,15 @@
+@@ -3926,15 +3957,15 @@ static inline int l2cap_data_channel_ifr
  		__skb_queue_head_init(&chan->srej_q);
  		l2cap_add_to_srej_queue(chan, skb, tx_seq, sar);
  
@@ -2278,7 +2846,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  	return 0;
  
-@@ -4134,9 +4161,8 @@
+@@ -4134,9 +4165,8 @@ static inline int l2cap_data_channel_sfr
  	return 0;
  }
  
@@ -2289,7 +2857,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	u32 control;
  	u16 req_seq;
  	int len, next_tx_seq_offset, req_seq_offset;
-@@ -4237,7 +4263,7 @@
+@@ -4237,7 +4267,7 @@ static inline int l2cap_data_channel(str
  		break;
  
  	case L2CAP_MODE_ERTM:
@@ -2298,7 +2866,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		goto done;
  
-@@ -4478,7 +4504,8 @@
+@@ -4478,7 +4508,8 @@ static inline void l2cap_check_encryptio
  	if (encrypt == 0x00) {
  		if (chan->sec_level == BT_SECURITY_MEDIUM) {
  			__clear_chan_timer(chan);
@@ -2308,21 +2876,25 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		} else if (chan->sec_level == BT_SECURITY_HIGH)
  			l2cap_chan_close(chan, ECONNREFUSED);
  	} else {
-@@ -4497,10 +4524,11 @@
+@@ -4499,7 +4530,7 @@ int l2cap_security_cfm(struct hci_conn *
  
- 	BT_DBG("conn %p", conn);
- 
--	if (hcon->type == LE_LINK) {
-+	if (hcon->type == LE_LINK && !status) {
+ 	if (hcon->type == LE_LINK) {
  		smp_distribute_keys(conn, 0);
- 		__cancel_delayed_work(&conn->security_timer);
--	}
-+	} else if (hcon->type == LE_LINK)
-+		l2cap_conn_del(hcon, bt_to_errno(status));
+-		__cancel_delayed_work(&conn->security_timer);
++		cancel_delayed_work(&conn->security_timer);
+ 	}
  
  	rcu_read_lock();
+@@ -4514,7 +4545,7 @@ int l2cap_security_cfm(struct hci_conn *
+ 		if (chan->scid == L2CAP_CID_LE_DATA) {
+ 			if (!status && encrypt) {
+ 				chan->sec_level = hcon->sec_level;
+-				l2cap_chan_ready(sk);
++				l2cap_chan_ready(chan);
+ 			}
  
-@@ -4546,7 +4574,8 @@
+ 			bh_unlock_sock(sk);
+@@ -4546,7 +4577,8 @@ int l2cap_security_cfm(struct hci_conn *
  					L2CAP_CONN_REQ, sizeof(req), &req);
  			} else {
  				__clear_chan_timer(chan);
@@ -2332,7 +2904,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			}
  		} else if (chan->state == BT_CONNECT2) {
  			struct l2cap_conn_rsp rsp;
-@@ -4566,7 +4595,8 @@
+@@ -4566,7 +4598,8 @@ int l2cap_security_cfm(struct hci_conn *
  				}
  			} else {
  				l2cap_state_change(chan, BT_DISCONN);
@@ -2342,7 +2914,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  				res = L2CAP_CR_SEC_BLOCK;
  				stat = L2CAP_CS_NO_INFO;
  			}
-@@ -4713,7 +4743,7 @@
+@@ -4713,7 +4746,7 @@ static int l2cap_debugfs_show(struct seq
  					c->state, __le16_to_cpu(c->psm),
  					c->scid, c->dcid, c->imtu, c->omtu,
  					c->sec_level, c->mode);
@@ -2351,10 +2923,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	read_unlock(&chan_list_lock);
  
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/l2cap_sock.c linux-git/net/bluetooth/l2cap_sock.c
---- compat-wireless-2012-01-25/net/bluetooth/l2cap_sock.c	2012-01-25 17:12:28.000000000 -0400
-+++ linux-git/net/bluetooth/l2cap_sock.c	2012-01-30 14:52:51.669434609 -0400
-@@ -856,6 +856,8 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/l2cap_sock.c linux-git/net/bluetooth/l2cap_sock.c
+--- compat-wireless-2012-02-13/net/bluetooth/l2cap_sock.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/l2cap_sock.c	2012-02-14 15:26:28.800563848 -0400
+@@ -856,6 +856,8 @@ static struct l2cap_chan *l2cap_sock_new
  	if (!sk)
  		return NULL;
  
@@ -2363,7 +2935,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	l2cap_sock_init(sk, parent);
  
  	return l2cap_pi(sk)->chan;
-@@ -904,12 +906,21 @@
+@@ -904,12 +906,21 @@ static void l2cap_sock_state_change_cb(v
  	sk->sk_state = state;
  }
  
@@ -2385,7 +2957,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  };
  
  static void l2cap_sock_destruct(struct sock *sk)
-@@ -1009,7 +1020,7 @@
+@@ -1009,7 +1020,7 @@ static struct sock *l2cap_sock_alloc(str
  	INIT_LIST_HEAD(&bt_sk(sk)->accept_q);
  
  	sk->sk_destruct = l2cap_sock_destruct;
@@ -2394,18 +2966,14 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	sock_reset_flag(sk, SOCK_ZAPPED);
  
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/mgmt.c linux-git/net/bluetooth/mgmt.c
---- compat-wireless-2012-01-25/net/bluetooth/mgmt.c	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/net/bluetooth/mgmt.c	2012-01-30 14:33:51.000000000 -0400
-@@ -35,7 +35,22 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/mgmt.c linux-git/net/bluetooth/mgmt.c
+--- compat-wireless-2012-02-13/net/bluetooth/mgmt.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/mgmt.c	2012-02-14 14:31:42.000000000 -0400
+@@ -35,7 +35,19 @@
  #define MGMT_VERSION	0
  #define MGMT_REVISION	1
  
 -#define INQUIRY_LEN_BREDR 0x08 /* TGAP(100) */
-+#define DISCOV_BREDR		BIT(0)
-+#define DISCOV_LE_PUBLIC	BIT(1)
-+#define DISCOV_LE_RANDOM	BIT(2)
-+
 +/*
 + * These LE scan and inquiry parameters were chosen according to LE General
 + * Discovery Procedure specification.
@@ -2418,10 +2986,11 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
 +#define INQUIRY_LEN_BREDR		0x08	/* TGAP(100) */
 +#define INQUIRY_LEN_BREDR_LE		0x04	/* TGAP(100)/2 */
++
  
  #define SERVICE_CACHE_TIMEOUT (5 * 1000)
  
-@@ -226,10 +241,10 @@
+@@ -226,10 +238,10 @@ static int read_index_list(struct sock *
  
  	i = 0;
  	list_for_each_entry(d, &hci_dev_list, list) {
@@ -2434,7 +3003,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  			continue;
  
  		put_unaligned_le16(d->id, &rp->index[i++]);
-@@ -285,7 +300,7 @@
+@@ -285,7 +297,7 @@ static u32 get_current_settings(struct h
  	if (test_bit(HCI_ISCAN, &hdev->flags))
  		settings |= MGMT_SETTING_DISCOVERABLE;
  
@@ -2443,7 +3012,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		settings |= MGMT_SETTING_PAIRABLE;
  
  	if (!(hdev->features[4] & LMP_NO_BREDR))
-@@ -297,24 +312,12 @@
+@@ -297,24 +309,12 @@ static u32 get_current_settings(struct h
  	if (test_bit(HCI_AUTH, &hdev->flags))
  		settings |= MGMT_SETTING_LINK_SECURITY;
  
@@ -2469,7 +3038,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  #define PNP_INFO_SVCLASS_ID		0x1200
  
  static u8 bluetooth_base_uuid[] = {
-@@ -428,10 +431,10 @@
+@@ -428,10 +428,10 @@ static int update_eir(struct hci_dev *hd
  	if (!(hdev->features[6] & LMP_EXT_INQ))
  		return 0;
  
@@ -2482,7 +3051,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	memset(&cp, 0, sizeof(cp));
-@@ -463,7 +466,7 @@
+@@ -463,7 +463,7 @@ static int update_class(struct hci_dev *
  
  	BT_DBG("%s", hdev->name);
  
@@ -2491,7 +3060,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	cod[0] = hdev->minor_class;
-@@ -481,7 +484,7 @@
+@@ -481,7 +481,7 @@ static void service_cache_off(struct wor
  	struct hci_dev *hdev = container_of(work, struct hci_dev,
  							service_cache.work);
  
@@ -2500,7 +3069,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return;
  
  	hci_dev_lock(hdev);
-@@ -494,10 +497,10 @@
+@@ -494,10 +494,10 @@ static void service_cache_off(struct wor
  
  static void mgmt_init_hdev(struct hci_dev *hdev)
  {
@@ -2513,7 +3082,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		schedule_delayed_work(&hdev->service_cache,
  				msecs_to_jiffies(SERVICE_CACHE_TIMEOUT));
  }
-@@ -514,7 +517,7 @@
+@@ -514,7 +514,7 @@ static int read_controller_info(struct s
  		return cmd_status(sk, index, MGMT_OP_READ_INFO,
  						MGMT_STATUS_INVALID_PARAMS);
  
@@ -2522,7 +3091,84 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		cancel_delayed_work_sync(&hdev->power_off);
  
  	hci_dev_lock(hdev);
-@@ -863,9 +866,9 @@
+@@ -623,15 +623,13 @@ static int send_settings_rsp(struct sock
+ 	return cmd_complete(sk, hdev->id, opcode, &settings, sizeof(settings));
+ }
+ 
+-static int set_powered(struct sock *sk, u16 index, unsigned char *data, u16 len)
++static int set_powered(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_mode *cp;
++	struct mgmt_mode *cp = data;
+ 	struct hci_dev *hdev;
+ 	struct pending_cmd *cmd;
+ 	int err, up;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -676,17 +674,14 @@ failed:
+ 	return err;
+ }
+ 
+-static int set_discoverable(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int set_discoverable(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_cp_set_discoverable *cp;
++	struct mgmt_cp_set_discoverable *cp = data;
+ 	struct hci_dev *hdev;
+ 	struct pending_cmd *cmd;
+ 	u8 scan;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -746,17 +741,14 @@ failed:
+ 	return err;
+ }
+ 
+-static int set_connectable(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int set_connectable(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_mode *cp;
++	struct mgmt_mode *cp = data;
+ 	struct hci_dev *hdev;
+ 	struct pending_cmd *cmd;
+ 	u8 scan;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -839,16 +831,13 @@ static int mgmt_event(u16 event, struct
+ 	return 0;
+ }
+ 
+-static int set_pairable(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int set_pairable(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_mode *cp;
++	struct mgmt_mode *cp = data;
+ 	struct hci_dev *hdev;
+ 	__le32 ev;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -863,9 +852,9 @@ static int set_pairable(struct sock *sk,
  	hci_dev_lock(hdev);
  
  	if (cp->val)
@@ -2534,7 +3180,62 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	err = send_settings_rsp(sk, MGMT_OP_SET_PAIRABLE, hdev);
  	if (err < 0)
-@@ -1020,7 +1023,7 @@
+@@ -882,15 +871,13 @@ failed:
+ 	return err;
+ }
+ 
+-static int add_uuid(struct sock *sk, u16 index, unsigned char *data, u16 len)
++static int add_uuid(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_cp_add_uuid *cp;
++	struct mgmt_cp_add_uuid *cp = data;
+ 	struct hci_dev *hdev;
+ 	struct bt_uuid *uuid;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -932,16 +919,14 @@ failed:
+ 	return err;
+ }
+ 
+-static int remove_uuid(struct sock *sk, u16 index, unsigned char *data, u16 len)
++static int remove_uuid(struct sock *sk, u16 index, void *data, u16 len)
+ {
++	struct mgmt_cp_remove_uuid *cp = data;
+ 	struct list_head *p, *n;
+-	struct mgmt_cp_remove_uuid *cp;
+ 	struct hci_dev *hdev;
+ 	u8 bt_uuid_any[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+ 	int err, found;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -995,15 +980,12 @@ unlock:
+ 	return err;
+ }
+ 
+-static int set_dev_class(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int set_dev_class(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_set_dev_class *cp;
++	struct mgmt_cp_set_dev_class *cp = data;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	BT_DBG("request for hci%u", index);
+ 
+ 	if (len != sizeof(*cp))
+@@ -1020,7 +1002,7 @@ static int set_dev_class(struct sock *sk
  	hdev->major_class = cp->major;
  	hdev->minor_class = cp->minor;
  
@@ -2543,7 +3244,26 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		hci_dev_unlock(hdev);
  		cancel_delayed_work_sync(&hdev->service_cache);
  		hci_dev_lock(hdev);
-@@ -1075,12 +1078,12 @@
+@@ -1038,16 +1020,13 @@ static int set_dev_class(struct sock *sk
+ 	return err;
+ }
+ 
+-static int load_link_keys(struct sock *sk, u16 index, unsigned char *data,
+-								u16 len)
++static int load_link_keys(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_load_link_keys *cp;
++	struct mgmt_cp_load_link_keys *cp = data;
+ 	u16 key_count, expected_len;
+ 	int i;
+ 
+-	cp = (void *) data;
+-
+ 	if (len < sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_LOAD_LINK_KEYS,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1075,12 +1054,12 @@ static int load_link_keys(struct sock *s
  
  	hci_link_keys_clear(hdev);
  
@@ -2559,20 +3279,144 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	for (i = 0; i < key_count; i++) {
  		struct mgmt_link_key_info *key = &cp->keys[i];
-@@ -1125,6 +1128,12 @@
- 	bacpy(&rp.bdaddr, &cp->bdaddr);
- 	rp.status = MGMT_STATUS_FAILED;
+@@ -1097,54 +1076,76 @@ static int load_link_keys(struct sock *s
+ 	return 0;
+ }
  
-+	err = hci_remove_ltk(hdev, &cp->bdaddr);
-+	if (err < 0) {
-+		err = cmd_status(sk, index, MGMT_OP_REMOVE_KEYS, -err);
-+		goto unlock;
-+	}
+-static int remove_keys(struct sock *sk, u16 index, unsigned char *data,
+-								u16 len)
++static int device_unpaired(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 addr_type, struct sock *skip_sk)
++{
++	struct mgmt_ev_device_unpaired ev;
 +
- 	err = hci_remove_link_key(hdev, &cp->bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = addr_type;
++
++	return mgmt_event(MGMT_EV_DEVICE_UNPAIRED, hdev, &ev, sizeof(ev),
++								skip_sk);
++}
++
++static int unpair_device(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_remove_keys *cp;
+-	struct mgmt_rp_remove_keys rp;
++	struct mgmt_cp_unpair_device *cp = data;
++	struct mgmt_rp_unpair_device rp;
+ 	struct hci_cp_disconnect dc;
+ 	struct pending_cmd *cmd;
+ 	struct hci_conn *conn;
+ 	int err;
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+-		return cmd_status(sk, index, MGMT_OP_REMOVE_KEYS,
++		return cmd_status(sk, index, MGMT_OP_UNPAIR_DEVICE,
+ 						MGMT_STATUS_INVALID_PARAMS);
+ 
+ 	hdev = hci_dev_get(index);
+ 	if (!hdev)
+-		return cmd_status(sk, index, MGMT_OP_REMOVE_KEYS,
++		return cmd_status(sk, index, MGMT_OP_UNPAIR_DEVICE,
+ 						MGMT_STATUS_INVALID_PARAMS);
+ 
+ 	hci_dev_lock(hdev);
+ 
+ 	memset(&rp, 0, sizeof(rp));
+-	bacpy(&rp.bdaddr, &cp->bdaddr);
+-	rp.status = MGMT_STATUS_FAILED;
++	bacpy(&rp.addr.bdaddr, &cp->addr.bdaddr);
++	rp.addr.type = cp->addr.type;
++
++	if (cp->addr.type == MGMT_ADDR_BREDR)
++		err = hci_remove_link_key(hdev, &cp->addr.bdaddr);
++	else
++		err = hci_remove_ltk(hdev, &cp->addr.bdaddr);
+ 
+-	err = hci_remove_link_key(hdev, &cp->bdaddr);
  	if (err < 0) {
  		rp.status = MGMT_STATUS_NOT_PAIRED;
-@@ -1256,7 +1265,6 @@
+ 		goto unlock;
+ 	}
+ 
+ 	if (!test_bit(HCI_UP, &hdev->flags) || !cp->disconnect) {
+-		err = cmd_complete(sk, index, MGMT_OP_REMOVE_KEYS, &rp,
++		err = cmd_complete(sk, index, MGMT_OP_UNPAIR_DEVICE, &rp,
+ 								sizeof(rp));
++		device_unpaired(hdev, &cp->addr.bdaddr, cp->addr.type, sk);
+ 		goto unlock;
+ 	}
+ 
+-	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &cp->bdaddr);
++	if (cp->addr.type == MGMT_ADDR_BREDR)
++		conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK,
++							&cp->addr.bdaddr);
++	else
++		conn = hci_conn_hash_lookup_ba(hdev, LE_LINK,
++							&cp->addr.bdaddr);
++
+ 	if (!conn) {
+-		err = cmd_complete(sk, index, MGMT_OP_REMOVE_KEYS, &rp,
++		err = cmd_complete(sk, index, MGMT_OP_UNPAIR_DEVICE, &rp,
+ 								sizeof(rp));
++		device_unpaired(hdev, &cp->addr.bdaddr, cp->addr.type, sk);
+ 		goto unlock;
+ 	}
+ 
+-	cmd = mgmt_pending_add(sk, MGMT_OP_REMOVE_KEYS, hdev, cp, sizeof(*cp));
++	cmd = mgmt_pending_add(sk, MGMT_OP_UNPAIR_DEVICE, hdev, cp,
++								sizeof(*cp));
+ 	if (!cmd) {
+ 		err = -ENOMEM;
+ 		goto unlock;
+@@ -1158,7 +1159,7 @@ static int remove_keys(struct sock *sk,
+ 
+ unlock:
+ 	if (err < 0)
+-		err = cmd_complete(sk, index, MGMT_OP_REMOVE_KEYS, &rp,
++		err = cmd_complete(sk, index, MGMT_OP_UNPAIR_DEVICE, &rp,
+ 								sizeof(rp));
+ 	hci_dev_unlock(hdev);
+ 	hci_dev_put(hdev);
+@@ -1166,10 +1167,10 @@ unlock:
+ 	return err;
+ }
+ 
+-static int disconnect(struct sock *sk, u16 index, unsigned char *data, u16 len)
++static int disconnect(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_disconnect *cp;
++	struct mgmt_cp_disconnect *cp = data;
+ 	struct hci_cp_disconnect dc;
+ 	struct pending_cmd *cmd;
+ 	struct hci_conn *conn;
+@@ -1177,8 +1178,6 @@ static int disconnect(struct sock *sk, u
+ 
+ 	BT_DBG("");
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_DISCONNECT,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1202,9 +1201,10 @@ static int disconnect(struct sock *sk, u
+ 		goto failed;
+ 	}
+ 
+-	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &cp->bdaddr);
+-	if (!conn)
+-		conn = hci_conn_hash_lookup_ba(hdev, LE_LINK, &cp->bdaddr);
++	if (cp->addr.type == MGMT_ADDR_BREDR)
++		conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, &cp->addr.bdaddr);
++	else
++		conn = hci_conn_hash_lookup_ba(hdev, LE_LINK, &cp->addr.bdaddr);
+ 
+ 	if (!conn) {
+ 		err = cmd_status(sk, index, MGMT_OP_DISCONNECT,
+@@ -1256,7 +1256,6 @@ static int get_connections(struct sock *
  	struct mgmt_rp_get_connections *rp;
  	struct hci_dev *hdev;
  	struct hci_conn *c;
@@ -2580,7 +3424,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	size_t rp_len;
  	u16 count;
  	int i, err;
-@@ -1271,8 +1279,9 @@
+@@ -1271,8 +1270,9 @@ static int get_connections(struct sock *
  	hci_dev_lock(hdev);
  
  	count = 0;
@@ -2592,7 +3436,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	rp_len = sizeof(*rp) + (count * sizeof(struct mgmt_addr_info));
-@@ -1286,6 +1295,8 @@
+@@ -1286,6 +1286,8 @@ static int get_connections(struct sock *
  
  	i = 0;
  	list_for_each_entry(c, &hdev->conn_hash.list, list) {
@@ -2601,7 +3445,386 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		bacpy(&rp->addr[i].bdaddr, &c->dst);
  		rp->addr[i].type = link_to_mgmt(c->type, c->dst_type);
  		if (rp->addr[i].type == MGMT_ADDR_INVALID)
-@@ -1930,15 +1941,54 @@
+@@ -1324,12 +1326,11 @@ static int send_pin_code_neg_reply(struc
+ 	return err;
+ }
+ 
+-static int pin_code_reply(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int pin_code_reply(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+ 	struct hci_conn *conn;
+-	struct mgmt_cp_pin_code_reply *cp;
++	struct mgmt_cp_pin_code_reply *cp = data;
+ 	struct mgmt_cp_pin_code_neg_reply ncp;
+ 	struct hci_cp_pin_code_reply reply;
+ 	struct pending_cmd *cmd;
+@@ -1337,8 +1338,6 @@ static int pin_code_reply(struct sock *s
+ 
+ 	BT_DBG("");
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_PIN_CODE_REPLY,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1376,7 +1375,8 @@ static int pin_code_reply(struct sock *s
+ 		goto failed;
+ 	}
+ 
+-	cmd = mgmt_pending_add(sk, MGMT_OP_PIN_CODE_REPLY, hdev, data, len);
++	cmd = mgmt_pending_add(sk, MGMT_OP_PIN_CODE_REPLY, hdev, data,
++									len);
+ 	if (!cmd) {
+ 		err = -ENOMEM;
+ 		goto failed;
+@@ -1397,17 +1397,14 @@ failed:
+ 	return err;
+ }
+ 
+-static int pin_code_neg_reply(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int pin_code_neg_reply(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_pin_code_neg_reply *cp;
++	struct mgmt_cp_pin_code_neg_reply *cp = data;
+ 	int err;
+ 
+ 	BT_DBG("");
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_PIN_CODE_NEG_REPLY,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1434,16 +1431,13 @@ failed:
+ 	return err;
+ }
+ 
+-static int set_io_capability(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int set_io_capability(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_set_io_capability *cp;
++	struct mgmt_cp_set_io_capability *cp = data;
+ 
+ 	BT_DBG("");
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_SET_IO_CAPABILITY,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1518,10 +1512,10 @@ static void pairing_complete_cb(struct h
+ 		pairing_complete(cmd, status);
+ }
+ 
+-static int pair_device(struct sock *sk, u16 index, unsigned char *data, u16 len)
++static int pair_device(struct sock *sk, u16 index, void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_pair_device *cp;
++	struct mgmt_cp_pair_device *cp = data;
+ 	struct mgmt_rp_pair_device rp;
+ 	struct pending_cmd *cmd;
+ 	u8 sec_level, auth_type;
+@@ -1530,8 +1524,6 @@ static int pair_device(struct sock *sk,
+ 
+ 	BT_DBG("");
+ 
+-	cp = (void *) data;
+-
+ 	if (len != sizeof(*cp))
+ 		return cmd_status(sk, index, MGMT_OP_PAIR_DEVICE,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1604,8 +1596,57 @@ unlock:
+ 	return err;
+ }
+ 
++static int cancel_pair_device(struct sock *sk, u16 index,
++						unsigned char *data, u16 len)
++{
++	struct mgmt_addr_info *addr = (void *) data;
++	struct hci_dev *hdev;
++	struct pending_cmd *cmd;
++	struct hci_conn *conn;
++	int err;
++
++	BT_DBG("");
++
++	if (len != sizeof(*addr))
++		return cmd_status(sk, index, MGMT_OP_CANCEL_PAIR_DEVICE,
++						MGMT_STATUS_INVALID_PARAMS);
++
++	hdev = hci_dev_get(index);
++	if (!hdev)
++		return cmd_status(sk, index, MGMT_OP_CANCEL_PAIR_DEVICE,
++						MGMT_STATUS_INVALID_PARAMS);
++
++	hci_dev_lock(hdev);
++
++	cmd = mgmt_pending_find(MGMT_OP_PAIR_DEVICE, hdev);
++	if (!cmd) {
++		err = cmd_status(sk, index, MGMT_OP_CANCEL_PAIR_DEVICE,
++						MGMT_STATUS_INVALID_PARAMS);
++		goto unlock;
++	}
++
++	conn = cmd->user_data;
++
++	if (bacmp(&addr->bdaddr, &conn->dst) != 0) {
++		err = cmd_status(sk, index, MGMT_OP_CANCEL_PAIR_DEVICE,
++						MGMT_STATUS_INVALID_PARAMS);
++		goto unlock;
++	}
++
++	pairing_complete(cmd, MGMT_STATUS_CANCELLED);
++
++	err = cmd_complete(sk, index, MGMT_OP_CANCEL_PAIR_DEVICE, addr,
++								sizeof(*addr));
++unlock:
++	hci_dev_unlock(hdev);
++	hci_dev_put(hdev);
++
++	return err;
++}
++
+ static int user_pairing_resp(struct sock *sk, u16 index, bdaddr_t *bdaddr,
+-					u16 mgmt_op, u16 hci_op, __le32 passkey)
++					u8 type, u16 mgmt_op, u16 hci_op,
++					__le32 passkey)
+ {
+ 	struct pending_cmd *cmd;
+ 	struct hci_dev *hdev;
+@@ -1624,24 +1665,18 @@ static int user_pairing_resp(struct sock
+ 		goto done;
+ 	}
+ 
+-	/*
+-	 * Check for an existing ACL link, if present pair via
+-	 * HCI commands.
+-	 *
+-	 * If no ACL link is present, check for an LE link and if
+-	 * present, pair via the SMP engine.
+-	 *
+-	 * If neither ACL nor LE links are present, fail with error.
+-	 */
+-	conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, bdaddr);
+-	if (!conn) {
++	if (type == MGMT_ADDR_BREDR)
++		conn = hci_conn_hash_lookup_ba(hdev, ACL_LINK, bdaddr);
++	else
+ 		conn = hci_conn_hash_lookup_ba(hdev, LE_LINK, bdaddr);
+-		if (!conn) {
+-			err = cmd_status(sk, index, mgmt_op,
++
++	if (!conn) {
++		err = cmd_status(sk, index, mgmt_op,
+ 						MGMT_STATUS_NOT_CONNECTED);
+-			goto done;
+-		}
++		goto done;
++	}
+ 
++	if (type == MGMT_ADDR_LE_PUBLIC || type == MGMT_ADDR_LE_RANDOM) {
+ 		/* Continue with pairing via SMP */
+ 		err = smp_user_confirm_reply(conn, mgmt_op, passkey);
+ 
+@@ -1683,7 +1718,7 @@ done:
+ 
+ static int user_confirm_reply(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_cp_user_confirm_reply *cp = (void *) data;
++	struct mgmt_cp_user_confirm_reply *cp = data;
+ 
+ 	BT_DBG("");
+ 
+@@ -1691,9 +1726,9 @@ static int user_confirm_reply(struct soc
+ 		return cmd_status(sk, index, MGMT_OP_USER_CONFIRM_REPLY,
+ 						MGMT_STATUS_INVALID_PARAMS);
+ 
+-	return user_pairing_resp(sk, index, &cp->bdaddr,
+-			MGMT_OP_USER_CONFIRM_REPLY,
+-			HCI_OP_USER_CONFIRM_REPLY, 0);
++	return user_pairing_resp(sk, index, &cp->addr.bdaddr, cp->addr.type,
++						MGMT_OP_USER_CONFIRM_REPLY,
++						HCI_OP_USER_CONFIRM_REPLY, 0);
+ }
+ 
+ static int user_confirm_neg_reply(struct sock *sk, u16 index, void *data,
+@@ -1707,14 +1742,14 @@ static int user_confirm_neg_reply(struct
+ 		return cmd_status(sk, index, MGMT_OP_USER_CONFIRM_NEG_REPLY,
+ 						MGMT_STATUS_INVALID_PARAMS);
+ 
+-	return user_pairing_resp(sk, index, &cp->bdaddr,
+-			MGMT_OP_USER_CONFIRM_NEG_REPLY,
+-			HCI_OP_USER_CONFIRM_NEG_REPLY, 0);
++	return user_pairing_resp(sk, index, &cp->addr.bdaddr, cp->addr.type,
++					MGMT_OP_USER_CONFIRM_NEG_REPLY,
++					HCI_OP_USER_CONFIRM_NEG_REPLY, 0);
+ }
+ 
+ static int user_passkey_reply(struct sock *sk, u16 index, void *data, u16 len)
+ {
+-	struct mgmt_cp_user_passkey_reply *cp = (void *) data;
++	struct mgmt_cp_user_passkey_reply *cp = data;
+ 
+ 	BT_DBG("");
+ 
+@@ -1722,15 +1757,16 @@ static int user_passkey_reply(struct soc
+ 		return cmd_status(sk, index, MGMT_OP_USER_PASSKEY_REPLY,
+ 									EINVAL);
+ 
+-	return user_pairing_resp(sk, index, &cp->bdaddr,
+-			MGMT_OP_USER_PASSKEY_REPLY,
+-			HCI_OP_USER_PASSKEY_REPLY, cp->passkey);
++	return user_pairing_resp(sk, index, &cp->addr.bdaddr, cp->addr.type,
++						MGMT_OP_USER_PASSKEY_REPLY,
++						HCI_OP_USER_PASSKEY_REPLY,
++						cp->passkey);
+ }
+ 
+ static int user_passkey_neg_reply(struct sock *sk, u16 index, void *data,
+ 									u16 len)
+ {
+-	struct mgmt_cp_user_passkey_neg_reply *cp = (void *) data;
++	struct mgmt_cp_user_passkey_neg_reply *cp = data;
+ 
+ 	BT_DBG("");
+ 
+@@ -1738,15 +1774,15 @@ static int user_passkey_neg_reply(struct
+ 		return cmd_status(sk, index, MGMT_OP_USER_PASSKEY_NEG_REPLY,
+ 									EINVAL);
+ 
+-	return user_pairing_resp(sk, index, &cp->bdaddr,
+-			MGMT_OP_USER_PASSKEY_NEG_REPLY,
+-			HCI_OP_USER_PASSKEY_NEG_REPLY, 0);
++	return user_pairing_resp(sk, index, &cp->addr.bdaddr, cp->addr.type,
++					MGMT_OP_USER_PASSKEY_NEG_REPLY,
++					HCI_OP_USER_PASSKEY_NEG_REPLY, 0);
+ }
+ 
+-static int set_local_name(struct sock *sk, u16 index, unsigned char *data,
++static int set_local_name(struct sock *sk, u16 index, void *data,
+ 								u16 len)
+ {
+-	struct mgmt_cp_set_local_name *mgmt_cp = (void *) data;
++	struct mgmt_cp_set_local_name *mgmt_cp = data;
+ 	struct hci_cp_write_local_name hci_cp;
+ 	struct hci_dev *hdev;
+ 	struct pending_cmd *cmd;
+@@ -1765,7 +1801,8 @@ static int set_local_name(struct sock *s
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	cmd = mgmt_pending_add(sk, MGMT_OP_SET_LOCAL_NAME, hdev, data, len);
++	cmd = mgmt_pending_add(sk, MGMT_OP_SET_LOCAL_NAME, hdev, data,
++									len);
+ 	if (!cmd) {
+ 		err = -ENOMEM;
+ 		goto failed;
+@@ -1834,11 +1871,11 @@ unlock:
+ 	return err;
+ }
+ 
+-static int add_remote_oob_data(struct sock *sk, u16 index, unsigned char *data,
+-									u16 len)
++static int add_remote_oob_data(struct sock *sk, u16 index, void *data,
++								u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_add_remote_oob_data *cp = (void *) data;
++	struct mgmt_cp_add_remote_oob_data *cp = data;
+ 	int err;
+ 
+ 	BT_DBG("hci%u ", index);
+@@ -1854,7 +1891,7 @@ static int add_remote_oob_data(struct so
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_add_remote_oob_data(hdev, &cp->bdaddr, cp->hash,
++	err = hci_add_remote_oob_data(hdev, &cp->addr.bdaddr, cp->hash,
+ 								cp->randomizer);
+ 	if (err < 0)
+ 		err = cmd_status(sk, index, MGMT_OP_ADD_REMOTE_OOB_DATA,
+@@ -1870,10 +1907,10 @@ static int add_remote_oob_data(struct so
+ }
+ 
+ static int remove_remote_oob_data(struct sock *sk, u16 index,
+-						unsigned char *data, u16 len)
++						void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_remove_remote_oob_data *cp = (void *) data;
++	struct mgmt_cp_remove_remote_oob_data *cp = data;
+ 	int err;
+ 
+ 	BT_DBG("hci%u ", index);
+@@ -1889,7 +1926,7 @@ static int remove_remote_oob_data(struct
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_remove_remote_oob_data(hdev, &cp->bdaddr);
++	err = hci_remove_remote_oob_data(hdev, &cp->addr.bdaddr);
+ 	if (err < 0)
+ 		err = cmd_status(sk, index, MGMT_OP_REMOVE_REMOTE_OOB_DATA,
+ 						MGMT_STATUS_INVALID_PARAMS);
+@@ -1903,10 +1940,49 @@ static int remove_remote_oob_data(struct
+ 	return err;
+ }
+ 
++static int start_interleaved_discovery(struct hci_dev *hdev)
++{
++	int err;
++
++	if (lmp_host_le_capable(hdev)) {
++		if (lmp_bredr_capable(hdev)) {
++			err = hci_le_scan(hdev, LE_SCAN_TYPE,
++						LE_SCAN_INT, LE_SCAN_WIN,
++						LE_SCAN_TIMEOUT_BREDR_LE);
++		} else {
++			hdev->discovery.type = DISCOV_TYPE_LE;
++			err = hci_le_scan(hdev, LE_SCAN_TYPE,
++						LE_SCAN_INT, LE_SCAN_WIN,
++						LE_SCAN_TIMEOUT_LE_ONLY);
++		}
++	} else {
++		hdev->discovery.type = DISCOV_TYPE_BREDR;
++		err = hci_do_inquiry(hdev, INQUIRY_LEN_BREDR);
++	}
++
++	return err;
++}
++
++int mgmt_interleaved_discovery(struct hci_dev *hdev)
++{
++	int err;
++
++	BT_DBG("%s", hdev->name);
++
++	err = hci_do_inquiry(hdev, INQUIRY_LEN_BREDR_LE);
++	if (err < 0) {
++		hci_dev_lock(hdev);
++		hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
++		hci_dev_unlock(hdev);
++	}
++
++	return err;
++}
++
+ static int start_discovery(struct sock *sk, u16 index,
+-						unsigned char *data, u16 len)
++						void *data, u16 len)
+ {
+-	struct mgmt_cp_start_discovery *cp = (void *) data;
++	struct mgmt_cp_start_discovery *cp = data;
+ 	struct pending_cmd *cmd;
+ 	struct hci_dev *hdev;
+ 	int err;
+@@ -1930,15 +2006,42 @@ static int start_discovery(struct sock *
  		goto failed;
  	}
  
@@ -2618,36 +3841,24 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
 -	err = hci_do_inquiry(hdev, INQUIRY_LEN_BREDR);
-+	switch (cp->type) {
-+	case (DISCOV_BREDR):
++	hdev->discovery.type = cp->type;
++
++	switch (hdev->discovery.type) {
++	case DISCOV_TYPE_BREDR:
 +		err = hci_do_inquiry(hdev, INQUIRY_LEN_BREDR);
 +		break;
 +
-+	case (DISCOV_LE_PUBLIC | DISCOV_LE_RANDOM):
-+		err =  hci_le_scan(hdev, LE_SCAN_TYPE, LE_SCAN_INT,
++	case DISCOV_TYPE_LE:
++		err = hci_le_scan(hdev, LE_SCAN_TYPE, LE_SCAN_INT,
 +					LE_SCAN_WIN, LE_SCAN_TIMEOUT_LE_ONLY);
 +		break;
 +
-+	case (DISCOV_BREDR | DISCOV_LE_PUBLIC | DISCOV_LE_RANDOM):
-+		if (lmp_host_le_capable(hdev)) {
-+			if (lmp_bredr_capable(hdev)) {
-+				err = hci_do_inquiry(hdev,
-+							INQUIRY_LEN_BREDR_LE);
-+				set_bit(HCI_INTERLEAVED, &hdev->dev_flags);
-+			} else {
-+				err = hci_le_scan(hdev, LE_SCAN_TYPE,
-+						LE_SCAN_INT, LE_SCAN_WIN,
-+						LE_SCAN_TIMEOUT_LE_ONLY);
-+			}
-+		} else {
-+			err = hci_do_inquiry(hdev, INQUIRY_LEN_BREDR);
-+		}
++	case DISCOV_TYPE_INTERLEAVED:
++		err = start_interleaved_discovery(hdev);
 +		break;
 +
 +	default:
-+		err = cmd_status(sk, index, MGMT_OP_START_DISCOVERY,
-+						MGMT_STATUS_NOT_SUPPORTED);
-+		goto failed;
++		err = -EINVAL;
 +	}
 +
  	if (err < 0)
@@ -2657,7 +3868,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  failed:
  	hci_dev_unlock(hdev);
-@@ -1951,6 +2001,8 @@
+@@ -1951,6 +2054,8 @@ static int stop_discovery(struct sock *s
  {
  	struct hci_dev *hdev;
  	struct pending_cmd *cmd;
@@ -2666,7 +3877,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	int err;
  
  	BT_DBG("hci%u", index);
-@@ -1962,23 +2014,107 @@
+@@ -1962,28 +2067,115 @@ static int stop_discovery(struct sock *s
  
  	hci_dev_lock(hdev);
  
@@ -2684,12 +3895,16 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	}
 +
 +	switch (hdev->discovery.state) {
-+	case DISCOVERY_INQUIRY:
-+		err = hci_cancel_inquiry(hdev);
++	case DISCOVERY_FINDING:
++		if (test_bit(HCI_INQUIRY, &hdev->flags))
++			err = hci_cancel_inquiry(hdev);
++		else if (test_bit(HCI_LE_SCAN, &hdev->dev_flags))
++			err = hci_cancel_le_scan(hdev);
++		else
++			err = -EINVAL;
++
 +		break;
-+	case DISCOVERY_LE_SCAN:
-+		err = hci_cancel_le_scan(hdev);
-+		break;
++
 +	case DISCOVERY_RESOLVING:
 +		e = hci_inquiry_cache_lookup_resolve(hdev, BDADDR_ANY,
 +								NAME_PENDING);
@@ -2705,6 +3920,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +		err = hci_send_cmd(hdev, HCI_OP_REMOTE_NAME_REQ_CANCEL,
 +							sizeof(cp), &cp);
 +		break;
++
 +	default:
 +		BT_DBG("unknown discovery state %u", hdev->discovery.state);
 +		err = -EPERM;
@@ -2724,12 +3940,14 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	return err;
  }
  
-+static int confirm_name(struct sock *sk, u16 index, unsigned char *data,
-+								u16 len)
-+{
-+	struct mgmt_cp_confirm_name *cp = (void *) data;
+-static int block_device(struct sock *sk, u16 index, unsigned char *data,
+-								u16 len)
++static int confirm_name(struct sock *sk, u16 index, void *data, u16 len)
+ {
++	struct mgmt_cp_confirm_name *cp = data;
 +	struct inquiry_entry *e;
-+	struct hci_dev *hdev;
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_block_device *cp = (void *) data;
 +	int err;
 +
 +	BT_DBG("hci%u", index);
@@ -2774,22 +3992,69 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +	return err;
 +}
 +
- static int block_device(struct sock *sk, u16 index, unsigned char *data,
- 								u16 len)
++static int block_device(struct sock *sk, u16 index, void *data, u16 len)
++{
++	struct hci_dev *hdev;
++	struct mgmt_cp_block_device *cp = data;
+ 	int err;
+ 
+ 	BT_DBG("hci%u", index);
+@@ -1999,7 +2191,7 @@ static int block_device(struct sock *sk,
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_blacklist_add(hdev, &cp->bdaddr);
++	err = hci_blacklist_add(hdev, &cp->addr.bdaddr, cp->addr.type);
+ 	if (err < 0)
+ 		err = cmd_status(sk, index, MGMT_OP_BLOCK_DEVICE,
+ 							MGMT_STATUS_FAILED);
+@@ -2013,11 +2205,10 @@ static int block_device(struct sock *sk,
+ 	return err;
+ }
+ 
+-static int unblock_device(struct sock *sk, u16 index, unsigned char *data,
+-								u16 len)
++static int unblock_device(struct sock *sk, u16 index, void *data, u16 len)
  {
-@@ -2104,6 +2240,62 @@
+ 	struct hci_dev *hdev;
+-	struct mgmt_cp_unblock_device *cp = (void *) data;
++	struct mgmt_cp_unblock_device *cp = data;
+ 	int err;
+ 
+ 	BT_DBG("hci%u", index);
+@@ -2033,7 +2224,7 @@ static int unblock_device(struct sock *s
+ 
+ 	hci_dev_lock(hdev);
+ 
+-	err = hci_blacklist_del(hdev, &cp->bdaddr);
++	err = hci_blacklist_del(hdev, &cp->addr.bdaddr, cp->addr.type);
+ 
+ 	if (err < 0)
+ 		err = cmd_status(sk, index, MGMT_OP_UNBLOCK_DEVICE,
+@@ -2049,10 +2240,10 @@ static int unblock_device(struct sock *s
+ }
+ 
+ static int set_fast_connectable(struct sock *sk, u16 index,
+-					unsigned char *data, u16 len)
++					void *data, u16 len)
+ {
+ 	struct hci_dev *hdev;
+-	struct mgmt_mode *cp = (void *) data;
++	struct mgmt_mode *cp = data;
+ 	struct hci_cp_write_page_scan_activity acp;
+ 	u8 type;
+ 	int err;
+@@ -2104,9 +2295,64 @@ done:
  	return err;
  }
  
 +static int load_long_term_keys(struct sock *sk, u16 index,
-+					unsigned char *data, u16 len)
++					void *cp_data, u16 len)
 +{
 +	struct hci_dev *hdev;
-+	struct mgmt_cp_load_long_term_keys *cp;
++	struct mgmt_cp_load_long_term_keys *cp = cp_data;
 +	u16 key_count, expected_len;
 +	int i;
-+
-+	cp = (void *) data;
 +
 +	if (len < sizeof(*cp))
 +		return cmd_status(sk, index, MGMT_OP_LOAD_LONG_TERM_KEYS,
@@ -2839,27 +4104,160 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +
  int mgmt_control(struct sock *sk, struct msghdr *msg, size_t msglen)
  {
- 	unsigned char *buf;
-@@ -2227,12 +2419,18 @@
+-	unsigned char *buf;
++	void *buf;
++	u8 *cp;
+ 	struct mgmt_hdr *hdr;
+ 	u16 opcode, index, len;
+ 	int err;
+@@ -2125,7 +2371,7 @@ int mgmt_control(struct sock *sk, struct
+ 		goto done;
+ 	}
+ 
+-	hdr = (struct mgmt_hdr *) buf;
++	hdr = buf;
+ 	opcode = get_unaligned_le16(&hdr->opcode);
+ 	index = get_unaligned_le16(&hdr->index);
+ 	len = get_unaligned_le16(&hdr->len);
+@@ -2135,6 +2381,8 @@ int mgmt_control(struct sock *sk, struct
+ 		goto done;
+ 	}
+ 
++	cp = buf + sizeof(*hdr);
++
+ 	switch (opcode) {
+ 	case MGMT_OP_READ_VERSION:
+ 		err = read_version(sk);
+@@ -2146,92 +2394,97 @@ int mgmt_control(struct sock *sk, struct
+ 		err = read_controller_info(sk, index);
+ 		break;
+ 	case MGMT_OP_SET_POWERED:
+-		err = set_powered(sk, index, buf + sizeof(*hdr), len);
++		err = set_powered(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_DISCOVERABLE:
+-		err = set_discoverable(sk, index, buf + sizeof(*hdr), len);
++		err = set_discoverable(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_CONNECTABLE:
+-		err = set_connectable(sk, index, buf + sizeof(*hdr), len);
++		err = set_connectable(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_FAST_CONNECTABLE:
+-		err = set_fast_connectable(sk, index, buf + sizeof(*hdr),
+-								len);
++		err = set_fast_connectable(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_PAIRABLE:
+-		err = set_pairable(sk, index, buf + sizeof(*hdr), len);
++		err = set_pairable(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_ADD_UUID:
+-		err = add_uuid(sk, index, buf + sizeof(*hdr), len);
++		err = add_uuid(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_REMOVE_UUID:
+-		err = remove_uuid(sk, index, buf + sizeof(*hdr), len);
++		err = remove_uuid(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_DEV_CLASS:
+-		err = set_dev_class(sk, index, buf + sizeof(*hdr), len);
++		err = set_dev_class(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_LOAD_LINK_KEYS:
+-		err = load_link_keys(sk, index, buf + sizeof(*hdr), len);
+-		break;
+-	case MGMT_OP_REMOVE_KEYS:
+-		err = remove_keys(sk, index, buf + sizeof(*hdr), len);
++		err = load_link_keys(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_DISCONNECT:
+-		err = disconnect(sk, index, buf + sizeof(*hdr), len);
++		err = disconnect(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_GET_CONNECTIONS:
+ 		err = get_connections(sk, index);
+ 		break;
+ 	case MGMT_OP_PIN_CODE_REPLY:
+-		err = pin_code_reply(sk, index, buf + sizeof(*hdr), len);
++		err = pin_code_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_PIN_CODE_NEG_REPLY:
+-		err = pin_code_neg_reply(sk, index, buf + sizeof(*hdr), len);
++		err = pin_code_neg_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_IO_CAPABILITY:
+-		err = set_io_capability(sk, index, buf + sizeof(*hdr), len);
++		err = set_io_capability(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_PAIR_DEVICE:
+-		err = pair_device(sk, index, buf + sizeof(*hdr), len);
++		err = pair_device(sk, index, cp, len);
++		break;
++	case MGMT_OP_CANCEL_PAIR_DEVICE:
++		err = cancel_pair_device(sk, index, buf + sizeof(*hdr), len);
++		break;
++	case MGMT_OP_UNPAIR_DEVICE:
++		err = unpair_device(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_USER_CONFIRM_REPLY:
+-		err = user_confirm_reply(sk, index, buf + sizeof(*hdr), len);
++		err = user_confirm_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_USER_CONFIRM_NEG_REPLY:
+-		err = user_confirm_neg_reply(sk, index, buf + sizeof(*hdr),
+-									len);
++		err = user_confirm_neg_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_USER_PASSKEY_REPLY:
+-		err = user_passkey_reply(sk, index, buf + sizeof(*hdr), len);
++		err = user_passkey_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_USER_PASSKEY_NEG_REPLY:
+-		err = user_passkey_neg_reply(sk, index, buf + sizeof(*hdr),
+-									len);
++		err = user_passkey_neg_reply(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_SET_LOCAL_NAME:
+-		err = set_local_name(sk, index, buf + sizeof(*hdr), len);
++		err = set_local_name(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_READ_LOCAL_OOB_DATA:
+ 		err = read_local_oob_data(sk, index);
+ 		break;
+ 	case MGMT_OP_ADD_REMOTE_OOB_DATA:
+-		err = add_remote_oob_data(sk, index, buf + sizeof(*hdr), len);
++		err = add_remote_oob_data(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_REMOVE_REMOTE_OOB_DATA:
+-		err = remove_remote_oob_data(sk, index, buf + sizeof(*hdr),
+-									len);
++		err = remove_remote_oob_data(sk, index, cp, len);
+ 		break;
+ 	case MGMT_OP_START_DISCOVERY:
+-		err = start_discovery(sk, index, buf + sizeof(*hdr), len);
++		err = start_discovery(sk, index, cp, len);
+ 		break;
  	case MGMT_OP_STOP_DISCOVERY:
  		err = stop_discovery(sk, index);
  		break;
 +	case MGMT_OP_CONFIRM_NAME:
-+		err = confirm_name(sk, index, buf + sizeof(*hdr), len);
++		err = confirm_name(sk, index, cp, len);
 +		break;
  	case MGMT_OP_BLOCK_DEVICE:
- 		err = block_device(sk, index, buf + sizeof(*hdr), len);
+-		err = block_device(sk, index, buf + sizeof(*hdr), len);
++		err = block_device(sk, index, cp, len);
  		break;
  	case MGMT_OP_UNBLOCK_DEVICE:
- 		err = unblock_device(sk, index, buf + sizeof(*hdr), len);
- 		break;
-+	case MGMT_OP_LOAD_LONG_TERM_KEYS:
-+		err = load_long_term_keys(sk, index, buf + sizeof(*hdr), len);
+-		err = unblock_device(sk, index, buf + sizeof(*hdr), len);
++		err = unblock_device(sk, index, cp, len);
 +		break;
++	case MGMT_OP_LOAD_LONG_TERM_KEYS:
++		err = load_long_term_keys(sk, index, cp, len);
+ 		break;
  	default:
  		BT_DBG("Unknown op %u", opcode);
- 		err = cmd_status(sk, index, opcode,
-@@ -2386,15 +2584,52 @@
+@@ -2386,15 +2639,52 @@ int mgmt_new_link_key(struct hci_dev *hd
  	return mgmt_event(MGMT_EV_NEW_LINK_KEY, hdev, &ev, sizeof(ev), NULL);
  }
  
@@ -2918,7 +4316,43 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  }
  
  static void disconnect_rsp(struct pending_cmd *cmd, void *data)
-@@ -2431,8 +2666,8 @@
+@@ -2403,7 +2693,8 @@ static void disconnect_rsp(struct pendin
+ 	struct sock **sk = data;
+ 	struct mgmt_rp_disconnect rp;
+ 
+-	bacpy(&rp.bdaddr, &cp->bdaddr);
++	bacpy(&rp.addr.bdaddr, &cp->addr.bdaddr);
++	rp.addr.type = cp->addr.type;
+ 	rp.status = 0;
+ 
+ 	cmd_complete(cmd->sk, cmd->index, MGMT_OP_DISCONNECT, &rp, sizeof(rp));
+@@ -2414,25 +2705,25 @@ static void disconnect_rsp(struct pendin
+ 	mgmt_pending_remove(cmd);
+ }
+ 
+-static void remove_keys_rsp(struct pending_cmd *cmd, void *data)
++static void unpair_device_rsp(struct pending_cmd *cmd, void *data)
+ {
+-	u8 *status = data;
+-	struct mgmt_cp_remove_keys *cp = cmd->param;
+-	struct mgmt_rp_remove_keys rp;
++	struct hci_dev *hdev = data;
++	struct mgmt_cp_unpair_device *cp = cmd->param;
++	struct mgmt_rp_unpair_device rp;
+ 
+ 	memset(&rp, 0, sizeof(rp));
+-	bacpy(&rp.bdaddr, &cp->bdaddr);
+-	if (status != NULL)
+-		rp.status = *status;
++	bacpy(&rp.addr.bdaddr, &cp->addr.bdaddr);
++	rp.addr.type = cp->addr.type;
+ 
+-	cmd_complete(cmd->sk, cmd->index, MGMT_OP_REMOVE_KEYS, &rp,
+-								sizeof(rp));
++	device_unpaired(hdev, &cp->addr.bdaddr, cp->addr.type, cmd->sk);
++
++	cmd_complete(cmd->sk, cmd->index, cmd->opcode, &rp, sizeof(rp));
+ 
  	mgmt_pending_remove(cmd);
  }
  
@@ -2929,7 +4363,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  {
  	struct mgmt_addr_info ev;
  	struct sock *sk = NULL;
-@@ -2443,7 +2678,8 @@
+@@ -2443,40 +2734,40 @@ int mgmt_disconnected(struct hci_dev *hd
  	bacpy(&ev.bdaddr, bdaddr);
  	ev.type = link_to_mgmt(link_type, addr_type);
  
@@ -2939,7 +4373,163 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	if (sk)
  		sock_put(sk);
-@@ -2701,35 +2937,59 @@
+ 
+-	mgmt_pending_foreach(MGMT_OP_REMOVE_KEYS, hdev, remove_keys_rsp, NULL);
++	mgmt_pending_foreach(MGMT_OP_UNPAIR_DEVICE, hdev, unpair_device_rsp,
++									hdev);
+ 
+ 	return err;
+ }
+ 
+-int mgmt_disconnect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 status)
++int mgmt_disconnect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status)
+ {
++	struct mgmt_rp_disconnect rp;
+ 	struct pending_cmd *cmd;
+-	u8 mgmt_err = mgmt_status(status);
+ 	int err;
+ 
+ 	cmd = mgmt_pending_find(MGMT_OP_DISCONNECT, hdev);
+ 	if (!cmd)
+ 		return -ENOENT;
+ 
+-	if (bdaddr) {
+-		struct mgmt_rp_disconnect rp;
+-
+-		bacpy(&rp.bdaddr, bdaddr);
+-		rp.status = status;
++	bacpy(&rp.addr.bdaddr, bdaddr);
++	rp.addr.type = link_to_mgmt(link_type, addr_type);
++	rp.status = mgmt_status(status);
+ 
+-		err = cmd_complete(cmd->sk, cmd->index, MGMT_OP_DISCONNECT,
++	err = cmd_complete(cmd->sk, cmd->index, MGMT_OP_DISCONNECT,
+ 							&rp, sizeof(rp));
+-	} else
+-		err = cmd_status(cmd->sk, hdev->id, MGMT_OP_DISCONNECT,
+-								mgmt_err);
+ 
+ 	mgmt_pending_remove(cmd);
+ 
++	mgmt_pending_foreach(MGMT_OP_UNPAIR_DEVICE, hdev, unpair_device_rsp,
++									hdev);
+ 	return err;
+ }
+ 
+@@ -2548,13 +2839,15 @@ int mgmt_pin_code_neg_reply_complete(str
+ }
+ 
+ int mgmt_user_confirm_request(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-						__le32 value, u8 confirm_hint)
++				u8 link_type, u8 addr_type, __le32 value,
++				u8 confirm_hint)
+ {
+ 	struct mgmt_ev_user_confirm_request ev;
+ 
+ 	BT_DBG("%s", hdev->name);
+ 
+-	bacpy(&ev.bdaddr, bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = link_to_mgmt(link_type, addr_type);
+ 	ev.confirm_hint = confirm_hint;
+ 	put_unaligned_le32(value, &ev.value);
+ 
+@@ -2562,20 +2855,23 @@ int mgmt_user_confirm_request(struct hci
+ 									NULL);
+ }
+ 
+-int mgmt_user_passkey_request(struct hci_dev *hdev, bdaddr_t *bdaddr)
++int mgmt_user_passkey_request(struct hci_dev *hdev, bdaddr_t *bdaddr,
++						u8 link_type, u8 addr_type)
+ {
+ 	struct mgmt_ev_user_passkey_request ev;
+ 
+ 	BT_DBG("%s", hdev->name);
+ 
+-	bacpy(&ev.bdaddr, bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = link_to_mgmt(link_type, addr_type);
+ 
+ 	return mgmt_event(MGMT_EV_USER_PASSKEY_REQUEST, hdev, &ev, sizeof(ev),
+ 									NULL);
+ }
+ 
+ static int user_pairing_resp_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-							u8 status, u8 opcode)
++					u8 link_type, u8 addr_type, u8 status,
++					u8 opcode)
+ {
+ 	struct pending_cmd *cmd;
+ 	struct mgmt_rp_user_confirm_reply rp;
+@@ -2585,7 +2881,8 @@ static int user_pairing_resp_complete(st
+ 	if (!cmd)
+ 		return -ENOENT;
+ 
+-	bacpy(&rp.bdaddr, bdaddr);
++	bacpy(&rp.addr.bdaddr, bdaddr);
++	rp.addr.type = link_to_mgmt(link_type, addr_type);
+ 	rp.status = mgmt_status(status);
+ 	err = cmd_complete(cmd->sk, hdev->id, opcode, &rp, sizeof(rp));
+ 
+@@ -2595,38 +2892,40 @@ static int user_pairing_resp_complete(st
+ }
+ 
+ int mgmt_user_confirm_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-								u8 status)
++					u8 link_type, u8 addr_type, u8 status)
+ {
+-	return user_pairing_resp_complete(hdev, bdaddr, status,
+-						MGMT_OP_USER_CONFIRM_REPLY);
++	return user_pairing_resp_complete(hdev, bdaddr, link_type, addr_type,
++					status, MGMT_OP_USER_CONFIRM_REPLY);
+ }
+ 
+-int mgmt_user_confirm_neg_reply_complete(struct hci_dev *hdev,
+-						bdaddr_t *bdaddr, u8 status)
++int mgmt_user_confirm_neg_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status)
+ {
+-	return user_pairing_resp_complete(hdev, bdaddr, status,
+-					MGMT_OP_USER_CONFIRM_NEG_REPLY);
++	return user_pairing_resp_complete(hdev, bdaddr, link_type, addr_type,
++					status, MGMT_OP_USER_CONFIRM_NEG_REPLY);
+ }
+ 
+ int mgmt_user_passkey_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-								u8 status)
++					u8 link_type, u8 addr_type, u8 status)
+ {
+-	return user_pairing_resp_complete(hdev, bdaddr, status,
+-						MGMT_OP_USER_PASSKEY_REPLY);
++	return user_pairing_resp_complete(hdev, bdaddr, link_type, addr_type,
++					status, MGMT_OP_USER_PASSKEY_REPLY);
+ }
+ 
+-int mgmt_user_passkey_neg_reply_complete(struct hci_dev *hdev,
+-						bdaddr_t *bdaddr, u8 status)
++int mgmt_user_passkey_neg_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status)
+ {
+-	return user_pairing_resp_complete(hdev, bdaddr, status,
+-					MGMT_OP_USER_PASSKEY_NEG_REPLY);
++	return user_pairing_resp_complete(hdev, bdaddr, link_type, addr_type,
++					status, MGMT_OP_USER_PASSKEY_NEG_REPLY);
+ }
+ 
+-int mgmt_auth_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 status)
++int mgmt_auth_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
++						u8 addr_type, u8 status)
+ {
+ 	struct mgmt_ev_auth_failed ev;
+ 
+-	bacpy(&ev.bdaddr, bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = link_to_mgmt(link_type, addr_type);
+ 	ev.status = mgmt_status(status);
+ 
+ 	return mgmt_event(MGMT_EV_AUTH_FAILED, hdev, &ev, sizeof(ev), NULL);
+@@ -2701,35 +3000,60 @@ int mgmt_read_local_oob_data_reply_compl
  }
  
  int mgmt_device_found(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
@@ -2961,26 +4551,26 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 -	ev.addr.type = link_to_mgmt(link_type, addr_type);
 -	ev.rssi = rssi;
 +	memset(buf, 0, sizeof(buf));
- 
--	if (eir)
--		memcpy(ev.eir, eir, sizeof(ev.eir));
++
 +	bacpy(&ev->addr.bdaddr, bdaddr);
 +	ev->addr.type = link_to_mgmt(link_type, addr_type);
 +	ev->rssi = rssi;
 +	ev->confirm_name = cfm_name;
- 
--	if (dev_class)
--		memcpy(ev.dev_class, dev_class, sizeof(ev.dev_class));
++
 +	if (eir_len > 0)
 +		memcpy(ev->eir, eir, eir_len);
  
--	return mgmt_event(MGMT_EV_DEVICE_FOUND, hdev, &ev, sizeof(ev), NULL);
+-	if (eir)
+-		memcpy(ev.eir, eir, sizeof(ev.eir));
 +	if (dev_class && !eir_has_data_type(ev->eir, eir_len, EIR_CLASS_OF_DEV))
 +		eir_len = eir_append_data(ev->eir, eir_len, EIR_CLASS_OF_DEV,
 +								dev_class, 3);
-+
+ 
+-	if (dev_class)
+-		memcpy(ev.dev_class, dev_class, sizeof(ev.dev_class));
 +	put_unaligned_le16(eir_len, &ev->eir_len);
-+
+ 
+-	return mgmt_event(MGMT_EV_DEVICE_FOUND, hdev, &ev, sizeof(ev), NULL);
 +	ev_size = sizeof(*ev) + eir_len;
 +
 +	return mgmt_event(MGMT_EV_DEVICE_FOUND, hdev, ev, ev_size, NULL);
@@ -3001,7 +4591,8 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 -	bacpy(&ev.bdaddr, bdaddr);
 -	memcpy(ev.name, name, HCI_MAX_NAME_LENGTH);
 +	memset(buf, 0, sizeof(buf));
-+
+ 
+-	return mgmt_event(MGMT_EV_REMOTE_NAME, hdev, &ev, sizeof(ev), NULL);
 +	bacpy(&ev->addr.bdaddr, bdaddr);
 +	ev->addr.type = link_to_mgmt(link_type, addr_type);
 +	ev->rssi = rssi;
@@ -3010,37 +4601,96 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
 +								name_len);
 +
 +	put_unaligned_le16(eir_len, &ev->eir_len);
- 
--	return mgmt_event(MGMT_EV_REMOTE_NAME, hdev, &ev, sizeof(ev), NULL);
-+	return mgmt_event(MGMT_EV_DEVICE_FOUND, hdev, &ev, sizeof(ev), NULL);
++
++	return mgmt_event(MGMT_EV_DEVICE_FOUND, hdev, ev,
++						sizeof(*ev) + eir_len, NULL);
  }
  
  int mgmt_start_discovery_failed(struct hci_dev *hdev, u8 status)
-@@ -2805,3 +3065,20 @@
- 	return mgmt_event(MGMT_EV_DEVICE_UNBLOCKED, hdev, &ev, sizeof(ev),
+@@ -2737,6 +3061,8 @@ int mgmt_start_discovery_failed(struct h
+ 	struct pending_cmd *cmd;
+ 	int err;
+ 
++	hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
++
+ 	cmd = mgmt_pending_find(MGMT_OP_START_DISCOVERY, hdev);
+ 	if (!cmd)
+ 		return -ENOENT;
+@@ -2766,6 +3092,8 @@ int mgmt_discovering(struct hci_dev *hde
+ {
+ 	struct pending_cmd *cmd;
+ 
++	BT_DBG("%s discovering %u", hdev->name, discovering);
++
+ 	if (discovering)
+ 		cmd = mgmt_pending_find(MGMT_OP_START_DISCOVERY, hdev);
+ 	else
+@@ -2780,27 +3108,29 @@ int mgmt_discovering(struct hci_dev *hde
+ 						sizeof(discovering), NULL);
+ }
+ 
+-int mgmt_device_blocked(struct hci_dev *hdev, bdaddr_t *bdaddr)
++int mgmt_device_blocked(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type)
+ {
+ 	struct pending_cmd *cmd;
+ 	struct mgmt_ev_device_blocked ev;
+ 
+ 	cmd = mgmt_pending_find(MGMT_OP_BLOCK_DEVICE, hdev);
+ 
+-	bacpy(&ev.bdaddr, bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = type;
+ 
+ 	return mgmt_event(MGMT_EV_DEVICE_BLOCKED, hdev, &ev, sizeof(ev),
  							cmd ? cmd->sk : NULL);
  }
-+
-+int mgmt_interleaved_discovery(struct hci_dev *hdev)
-+{
-+	int err;
-+
-+	BT_DBG("%s", hdev->name);
-+
-+	err =  hci_le_scan(hdev, LE_SCAN_TYPE, LE_SCAN_INT, LE_SCAN_WIN,
-+						LE_SCAN_TIMEOUT_BREDR_LE);
-+	if (err < 0) {
-+		hci_dev_lock(hdev);
-+		hci_discovery_set_state(hdev, DISCOVERY_STOPPED);
-+		hci_dev_unlock(hdev);
-+	}
-+
-+	return err;
-+}
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/rfcomm/sock.c linux-git/net/bluetooth/rfcomm/sock.c
---- compat-wireless-2012-01-25/net/bluetooth/rfcomm/sock.c	2012-01-25 17:12:28.000000000 -0400
-+++ linux-git/net/bluetooth/rfcomm/sock.c	2012-01-30 14:52:51.669434609 -0400
-@@ -965,6 +965,8 @@
+ 
+-int mgmt_device_unblocked(struct hci_dev *hdev, bdaddr_t *bdaddr)
++int mgmt_device_unblocked(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type)
+ {
+ 	struct pending_cmd *cmd;
+ 	struct mgmt_ev_device_unblocked ev;
+ 
+ 	cmd = mgmt_pending_find(MGMT_OP_UNBLOCK_DEVICE, hdev);
+ 
+-	bacpy(&ev.bdaddr, bdaddr);
++	bacpy(&ev.addr.bdaddr, bdaddr);
++	ev.addr.type = type;
+ 
+ 	return mgmt_event(MGMT_EV_DEVICE_UNBLOCKED, hdev, &ev, sizeof(ev),
+ 							cmd ? cmd->sk : NULL);
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/rfcomm/core.c linux-git/net/bluetooth/rfcomm/core.c
+--- compat-wireless-2012-02-13/net/bluetooth/rfcomm/core.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/rfcomm/core.c	2012-02-14 14:31:42.000000000 -0400
+@@ -1164,12 +1164,18 @@ static int rfcomm_recv_ua(struct rfcomm_
+ 			break;
+ 
+ 		case BT_DISCONN:
+-			/* When socket is closed and we are not RFCOMM
+-			 * initiator rfcomm_process_rx already calls
+-			 * rfcomm_session_put() */
+-			if (s->sock->sk->sk_state != BT_CLOSED)
+-				if (list_empty(&s->dlcs))
+-					rfcomm_session_put(s);
++			/* rfcomm_session_put is called later so don't do
++			 * anything here otherwise we will mess up the session
++			 * reference counter:
++			 *
++			 * (a) when we are the initiator dlc_unlink will drive
++			 * the reference counter to 0 (there is no initial put
++			 * after session_add)
++			 *
++			 * (b) when we are not the initiator rfcomm_rx_process
++			 * will explicitly call put to balance the initial hold
++			 * done after session add.
++			 */
+ 			break;
+ 		}
+ 	}
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/rfcomm/sock.c linux-git/net/bluetooth/rfcomm/sock.c
+--- compat-wireless-2012-02-13/net/bluetooth/rfcomm/sock.c	2012-02-13 17:12:58.000000000 -0400
++++ linux-git/net/bluetooth/rfcomm/sock.c	2012-02-14 15:26:28.800563848 -0400
+@@ -965,6 +965,8 @@ int rfcomm_connect_ind(struct rfcomm_ses
  	if (!sk)
  		goto done;
  
@@ -3049,10 +4699,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	rfcomm_sock_init(sk, parent);
  	bacpy(&bt_sk(sk)->src, &src);
  	bacpy(&bt_sk(sk)->dst, &dst);
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/bluetooth/smp.c linux-git/net/bluetooth/smp.c
---- compat-wireless-2012-01-25/net/bluetooth/smp.c	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/net/bluetooth/smp.c	2012-01-30 14:33:51.000000000 -0400
-@@ -217,7 +217,7 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/net/bluetooth/smp.c linux-git/net/bluetooth/smp.c
+--- compat-wireless-2012-02-13/net/bluetooth/smp.c	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/net/bluetooth/smp.c	2012-02-14 14:31:42.000000000 -0400
+@@ -217,7 +217,7 @@ static void build_pairing_cmd(struct l2c
  {
  	u8 dist_keys = 0;
  
@@ -3061,7 +4711,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		dist_keys = SMP_DIST_ENC_KEY;
  		authreq |= SMP_AUTH_BONDING;
  	} else {
-@@ -250,7 +250,7 @@
+@@ -250,21 +250,27 @@ static u8 check_enc_key_size(struct l2ca
  			(max_key_size < SMP_MIN_ENC_KEY_SIZE))
  		return SMP_ENC_KEY_SIZE;
  
@@ -3070,16 +4720,44 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	return 0;
  }
-@@ -261,7 +261,7 @@
+ 
+ static void smp_failure(struct l2cap_conn *conn, u8 reason, u8 send)
+ {
++	struct hci_conn *hcon = conn->hcon;
++
+ 	if (send)
  		smp_send_cmd(conn, SMP_CMD_PAIRING_FAIL, sizeof(reason),
  								&reason);
  
 -	clear_bit(HCI_CONN_ENCRYPT_PEND, &conn->hcon->pend);
+-	mgmt_auth_failed(conn->hcon->hdev, conn->dst, reason);
+-	cancel_delayed_work_sync(&conn->security_timer);
+-	smp_chan_destroy(conn);
 +	clear_bit(HCI_CONN_ENCRYPT_PEND, &conn->hcon->flags);
- 	mgmt_auth_failed(conn->hcon->hdev, conn->dst, reason);
- 	cancel_delayed_work_sync(&conn->security_timer);
- 	smp_chan_destroy(conn);
-@@ -446,16 +446,16 @@
++	mgmt_auth_failed(conn->hcon->hdev, conn->dst, hcon->type,
++						hcon->dst_type, reason);
++
++	if (test_and_clear_bit(HCI_CONN_LE_SMP_PEND, &conn->hcon->flags)) {
++		cancel_delayed_work_sync(&conn->security_timer);
++		smp_chan_destroy(conn);
++	}
+ }
+ 
+ #define JUST_WORKS	0x00
+@@ -346,9 +352,11 @@ static int tk_request(struct l2cap_conn
+ 	hci_dev_lock(hcon->hdev);
+ 
+ 	if (method == REQ_PASSKEY)
+-		ret = mgmt_user_passkey_request(hcon->hdev, conn->dst);
++		ret = mgmt_user_passkey_request(hcon->hdev, conn->dst,
++						hcon->type, hcon->dst_type);
+ 	else
+ 		ret = mgmt_user_confirm_request(hcon->hdev, conn->dst,
++						hcon->type, hcon->dst_type,
+ 						cpu_to_le32(passkey), 0);
+ 
+ 	hci_dev_unlock(hcon->hdev);
+@@ -446,16 +454,16 @@ static void random_work(struct work_stru
  		smp_s1(tfm, smp->tk, smp->rrnd, smp->prnd, key);
  		swap128(key, stk);
  
@@ -3100,7 +4778,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	} else {
  		u8 stk[16], r[16], rand[8];
  		__le16 ediv;
-@@ -469,11 +469,12 @@
+@@ -469,11 +477,12 @@ static void random_work(struct work_stru
  		smp_s1(tfm, smp->tk, smp->prnd, smp->rrnd, key);
  		swap128(key, stk);
  
@@ -3117,16 +4795,16 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  	}
  
  	return;
-@@ -506,7 +507,7 @@
+@@ -506,7 +515,7 @@ void smp_chan_destroy(struct l2cap_conn
  {
  	struct smp_chan *smp = conn->smp_chan;
  
 -	clear_bit(HCI_CONN_LE_SMP_PEND, &conn->hcon->pend);
-+	clear_bit(HCI_CONN_LE_SMP_PEND, &conn->hcon->flags);
++	BUG_ON(!smp);
  
  	if (smp->tfm)
  		crypto_free_blkcipher(smp->tfm);
-@@ -571,7 +572,7 @@
+@@ -571,7 +580,7 @@ static u8 smp_cmd_pairing_req(struct l2c
  	if (conn->hcon->link_mode & HCI_LM_MASTER)
  		return SMP_CMD_NOTSUPP;
  
@@ -3135,7 +4813,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		smp = smp_chan_create(conn);
  
  	smp = conn->smp_chan;
-@@ -698,23 +699,18 @@
+@@ -698,23 +707,18 @@ static u8 smp_cmd_pairing_random(struct
  
  static u8 smp_ltk_encrypt(struct l2cap_conn *conn)
  {
@@ -3146,7 +4824,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
 -	key = hci_find_link_key_type(hcon->hdev, conn->dst,
 -						HCI_LK_SMP_LTK);
-+	key = hci_find_ltk_addr(hcon->hdev, conn->dst, hcon->dst_type);
++	key = hci_find_ltk_by_addr(hcon->hdev, conn->dst, hcon->dst_type);
  	if (!key)
  		return 0;
  
@@ -3164,7 +4842,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	return 1;
  
-@@ -733,7 +729,7 @@
+@@ -733,7 +737,7 @@ static u8 smp_cmd_security_req(struct l2
  	if (smp_ltk_encrypt(conn))
  		return 0;
  
@@ -3173,7 +4851,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	smp = smp_chan_create(conn);
-@@ -772,7 +768,7 @@
+@@ -772,7 +776,7 @@ int smp_conn_security(struct l2cap_conn
  		if (smp_ltk_encrypt(conn))
  			goto done;
  
@@ -3182,7 +4860,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	smp = smp_chan_create(conn);
-@@ -817,13 +813,19 @@
+@@ -817,13 +821,19 @@ static int smp_cmd_master_ident(struct l
  {
  	struct smp_cmd_master_ident *rp = (void *) skb->data;
  	struct smp_chan *smp = conn->smp_chan;
@@ -3205,7 +4883,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  	return 0;
  }
-@@ -908,7 +910,7 @@
+@@ -908,7 +918,7 @@ int smp_distribute_keys(struct l2cap_con
  
  	BT_DBG("conn %p force %d", conn, force);
  
@@ -3214,7 +4892,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		return 0;
  
  	rsp = (void *) &smp->prsp[1];
-@@ -933,6 +935,8 @@
+@@ -933,6 +943,8 @@ int smp_distribute_keys(struct l2cap_con
  	if (*keydist & SMP_DIST_ENC_KEY) {
  		struct smp_cmd_encrypt_info enc;
  		struct smp_cmd_master_ident ident;
@@ -3223,7 +4901,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		__le16 ediv;
  
  		get_random_bytes(enc.ltk, sizeof(enc.ltk));
-@@ -941,8 +945,11 @@
+@@ -941,8 +953,11 @@ int smp_distribute_keys(struct l2cap_con
  
  		smp_send_cmd(conn, SMP_CMD_ENCRYPT_INFO, sizeof(enc), &enc);
  
@@ -3237,7 +4915,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  
  		ident.ediv = cpu_to_le16(ediv);
  
-@@ -982,7 +989,7 @@
+@@ -982,7 +997,7 @@ int smp_distribute_keys(struct l2cap_con
  	}
  
  	if (conn->hcon->out || force) {
@@ -3246,20 +4924,31 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/net/blu
  		cancel_delayed_work_sync(&conn->security_timer);
  		smp_chan_destroy(conn);
  	}
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/bluetooth.h linux-git/include/net/bluetooth/bluetooth.h
---- compat-wireless-2012-01-25/include/net/bluetooth/bluetooth.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/bluetooth.h	2012-01-30 14:33:51.000000000 -0400
-@@ -256,4 +256,6 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/bluetooth.h linux-git/include/net/bluetooth/bluetooth.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/bluetooth.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/bluetooth.h	2012-02-14 14:31:42.000000000 -0400
+@@ -256,4 +256,6 @@ void l2cap_exit(void);
  int sco_init(void);
  void sco_exit(void);
  
 +void bt_sock_reclassify_lock(struct sock *sk, int proto);
 +
  #endif /* __BLUETOOTH_H */
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/hci_core.h linux-git/include/net/bluetooth/hci_core.h
---- compat-wireless-2012-01-25/include/net/bluetooth/hci_core.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/hci_core.h	2012-01-30 14:33:51.000000000 -0400
-@@ -44,14 +44,31 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/hci_core.h linux-git/include/net/bluetooth/hci_core.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/hci_core.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/hci_core.h	2012-02-14 14:31:42.000000000 -0400
+@@ -28,6 +28,10 @@
+ #include <linux/interrupt.h>
+ #include <net/bluetooth/hci.h>
+ 
++#define DISCOV_TYPE_BREDR		(BIT(0))
++#define DISCOV_TYPE_LE			(BIT(1) | BIT(2))
++#define DISCOV_TYPE_INTERLEAVED		(BIT(0) | BIT(1) | BIT(2))
++
+ /* HCI priority */
+ #define HCI_PRIO_MAX	7
+ 
+@@ -44,14 +48,31 @@ struct inquiry_data {
  };
  
  struct inquiry_entry {
@@ -3280,11 +4969,11 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 -	__u32			timestamp;
 -	struct inquiry_entry	*list;
 +struct discovery_state {
++	int type;
 +	enum {
 +		DISCOVERY_STOPPED,
 +		DISCOVERY_STARTING,
-+		DISCOVERY_INQUIRY,
-+		DISCOVERY_LE_SCAN,
++		DISCOVERY_FINDING,
 +		DISCOVERY_RESOLVING,
 +		DISCOVERY_STOPPING,
 +	} state;
@@ -3295,7 +4984,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  };
  
  struct hci_conn_hash {
-@@ -72,18 +89,16 @@
+@@ -72,18 +93,16 @@ struct bt_uuid {
  	u8 svc_hint;
  };
  
@@ -3321,7 +5010,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  } __packed;
  
  struct link_key {
-@@ -92,8 +107,6 @@
+@@ -92,8 +111,6 @@ struct link_key {
  	u8 type;
  	u8 val[16];
  	u8 pin_len;
@@ -3330,7 +5019,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  };
  
  struct oob_data {
-@@ -109,11 +122,17 @@
+@@ -109,11 +126,17 @@ struct adv_entry {
  	u8 bdaddr_type;
  };
  
@@ -3349,7 +5038,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  	char		name[8];
  	unsigned long	flags;
-@@ -129,7 +148,6 @@
+@@ -129,7 +152,6 @@ struct hci_dev {
  	__u8		features[8];
  	__u8		host_features[8];
  	__u8		commands[64];
@@ -3357,7 +5046,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	__u8		hci_ver;
  	__u16		hci_rev;
  	__u8		lmp_ver;
-@@ -217,7 +235,7 @@
+@@ -217,7 +239,7 @@ struct hci_dev {
  
  	struct list_head	mgmt_pending;
  
@@ -3366,16 +5055,24 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	struct hci_conn_hash	conn_hash;
  	struct list_head	blacklist;
  
-@@ -225,6 +243,8 @@
+@@ -225,6 +247,8 @@ struct hci_dev {
  
  	struct list_head	link_keys;
  
-+	struct list_head	ltks;
++	struct list_head	long_term_keys;
 +
  	struct list_head	remote_oob_data;
  
  	struct list_head	adv_entries;
-@@ -246,15 +266,20 @@
+@@ -234,7 +258,6 @@ struct hci_dev {
+ 
+ 	struct sk_buff_head	driver_init;
+ 
+-	void			*driver_data;
+ 	void			*core_data;
+ 
+ 	atomic_t		promisc;
+@@ -246,15 +269,17 @@ struct hci_dev {
  
  	struct rfkill		*rfkill;
  
@@ -3384,9 +5081,6 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	unsigned long		dev_flags;
  
 +	struct delayed_work	le_scan_disable;
-+
-+	wait_queue_head_t	le_scan_wait_q;
-+	u8			le_scan_result;
 +
 +	struct work_struct	le_scan;
 +	struct le_scan_params	le_scan_params;
@@ -3399,7 +5093,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	void (*notify)(struct hci_dev *hdev, unsigned int evt);
  	int (*ioctl)(struct hci_dev *hdev, unsigned int cmd, unsigned long arg);
  };
-@@ -270,11 +295,10 @@
+@@ -270,11 +295,10 @@ struct hci_conn {
  	__u16		state;
  	__u8		mode;
  	__u8		type;
@@ -3412,7 +5106,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	__u16		interval;
  	__u16		pkt_type;
  	__u16		link_policy;
-@@ -286,12 +310,10 @@
+@@ -286,12 +310,10 @@ struct hci_conn {
  	__u8		pin_length;
  	__u8		enc_key_size;
  	__u8		io_capability;
@@ -3426,7 +5120,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	__u8		remote_auth;
  
  	unsigned int	sent;
-@@ -348,21 +370,26 @@
+@@ -348,21 +370,26 @@ extern int sco_recv_scodata(struct hci_c
  #define INQUIRY_CACHE_AGE_MAX   (HZ*30)   /* 30 seconds */
  #define INQUIRY_ENTRY_AGE_MAX   (HZ*60)   /* 60 seconds */
  
@@ -3459,7 +5153,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	return jiffies - c->timestamp;
  }
  
-@@ -373,7 +400,15 @@
+@@ -373,7 +400,15 @@ static inline long inquiry_entry_age(str
  
  struct inquiry_entry *hci_inquiry_cache_lookup(struct hci_dev *hdev,
  							bdaddr_t *bdaddr);
@@ -3476,7 +5170,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  /* ----- HCI Connections ----- */
  enum {
-@@ -384,8 +419,19 @@
+@@ -384,8 +419,19 @@ enum {
  	HCI_CONN_MODE_CHANGE_PEND,
  	HCI_CONN_SCO_SETUP_PEND,
  	HCI_CONN_LE_SMP_PEND,
@@ -3496,7 +5190,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  static inline void hci_conn_hash_init(struct hci_dev *hdev)
  {
  	struct hci_conn_hash *h = &hdev->conn_hash;
-@@ -519,6 +565,7 @@
+@@ -519,6 +565,7 @@ struct hci_conn *hci_conn_add(struct hci
  int hci_conn_del(struct hci_conn *conn);
  void hci_conn_hash_flush(struct hci_dev *hdev);
  void hci_conn_check_pending(struct hci_dev *hdev);
@@ -3504,7 +5198,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  struct hci_chan *hci_chan_create(struct hci_conn *conn);
  int hci_chan_del(struct hci_chan *chan);
-@@ -540,7 +587,7 @@
+@@ -540,7 +587,7 @@ void hci_conn_put_device(struct hci_conn
  static inline void hci_conn_hold(struct hci_conn *conn)
  {
  	atomic_inc(&conn->refcnt);
@@ -3513,7 +5207,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  }
  
  static inline void hci_conn_put(struct hci_conn *conn)
-@@ -559,40 +606,24 @@
+@@ -559,43 +606,40 @@ static inline void hci_conn_put(struct h
  		} else {
  			timeo = msecs_to_jiffies(10);
  		}
@@ -3560,7 +5254,34 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  #define hci_dev_lock(d)		mutex_lock(&d->lock)
  #define hci_dev_unlock(d)	mutex_unlock(&d->lock)
  
-@@ -628,12 +659,15 @@
++#define to_hci_dev(d) container_of(d, struct hci_dev, dev)
++#define to_hci_conn(c) container_of(c, struct hci_conn, dev)
++
++static inline void *hci_get_drvdata(struct hci_dev *hdev)
++{
++	return dev_get_drvdata(&hdev->dev);
++}
++
++static inline void hci_set_drvdata(struct hci_dev *hdev, void *data)
++{
++	dev_set_drvdata(&hdev->dev, data);
++}
++
+ struct hci_dev *hci_dev_get(int index);
+ struct hci_dev *hci_get_route(bdaddr_t *src, bdaddr_t *dst);
+ 
+@@ -619,8 +663,8 @@ int hci_inquiry(void __user *arg);
+ 
+ struct bdaddr_list *hci_blacklist_lookup(struct hci_dev *hdev, bdaddr_t *bdaddr);
+ int hci_blacklist_clear(struct hci_dev *hdev);
+-int hci_blacklist_add(struct hci_dev *hdev, bdaddr_t *bdaddr);
+-int hci_blacklist_del(struct hci_dev *hdev, bdaddr_t *bdaddr);
++int hci_blacklist_add(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type);
++int hci_blacklist_del(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type);
+ 
+ int hci_uuids_clear(struct hci_dev *hdev);
+ 
+@@ -628,11 +672,14 @@ int hci_link_keys_clear(struct hci_dev *
  struct link_key *hci_find_link_key(struct hci_dev *hdev, bdaddr_t *bdaddr);
  int hci_add_link_key(struct hci_dev *hdev, struct hci_conn *conn, int new_key,
  			bdaddr_t *bdaddr, u8 *val, u8 type, u8 pin_len);
@@ -3573,15 +5294,14 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +int hci_add_ltk(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 addr_type, u8 type,
 +				int new_key, u8 authenticated, u8 tk[16],
 +				u8 enc_size, u16 ediv, u8 rand[8]);
- int hci_remove_link_key(struct hci_dev *hdev, bdaddr_t *bdaddr);
-+struct smp_ltk *hci_find_ltk_addr(struct hci_dev *hdev, bdaddr_t *bdaddr,
++struct smp_ltk *hci_find_ltk_by_addr(struct hci_dev *hdev, bdaddr_t *bdaddr,
 +								u8 addr_type);
 +int hci_remove_ltk(struct hci_dev *hdev, bdaddr_t *bdaddr);
 +int hci_smp_ltks_clear(struct hci_dev *hdev);
+ int hci_remove_link_key(struct hci_dev *hdev, bdaddr_t *bdaddr);
  
  int hci_remote_oob_data_clear(struct hci_dev *hdev);
- struct oob_data *hci_find_remote_oob_data(struct hci_dev *hdev,
-@@ -674,6 +708,7 @@
+@@ -674,6 +721,7 @@ void hci_conn_del_sysfs(struct hci_conn
  #define lmp_ssp_capable(dev)       ((dev)->features[6] & LMP_SIMPLE_PAIR)
  #define lmp_no_flush_capable(dev)  ((dev)->features[6] & LMP_NO_FLUSH)
  #define lmp_le_capable(dev)        ((dev)->features[4] & LMP_LE)
@@ -3589,7 +5309,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  /* ----- Extended LMP capabilities ----- */
  #define lmp_host_le_capable(dev)   ((dev)->host_features[0] & LMP_HOST_LE)
-@@ -755,7 +790,7 @@
+@@ -755,7 +803,7 @@ static inline void hci_proto_auth_cfm(st
  	if (conn->type != ACL_LINK && conn->type != LE_LINK)
  		return;
  
@@ -3598,7 +5318,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  		return;
  
  	encrypt = (conn->link_mode & HCI_LM_ENCRYPT) ? 0x01 : 0x00;
-@@ -796,7 +831,7 @@
+@@ -796,7 +844,7 @@ static inline void hci_auth_cfm(struct h
  
  	hci_proto_auth_cfm(conn, status);
  
@@ -3607,16 +5327,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  		return;
  
  	encrypt = (conn->link_mode & HCI_LM_ENCRYPT) ? 0x01 : 0x00;
-@@ -818,7 +853,7 @@
- 	if (conn->sec_level == BT_SECURITY_SDP)
- 		conn->sec_level = BT_SECURITY_LOW;
- 
--	if (conn->pending_sec_level > conn->sec_level)
-+	if (!status && conn->pending_sec_level > conn->sec_level)
- 		conn->sec_level = conn->pending_sec_level;
- 
- 	hci_proto_encrypt_cfm(conn, status, encrypt);
-@@ -859,6 +894,42 @@
+@@ -859,6 +907,42 @@ static inline void hci_role_switch_cfm(s
  	read_unlock(&hci_cb_list_lock);
  }
  
@@ -3659,7 +5370,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  int hci_register_cb(struct hci_cb *hcb);
  int hci_unregister_cb(struct hci_cb *hcb);
  
-@@ -887,10 +958,11 @@
+@@ -887,11 +971,13 @@ int mgmt_connectable(struct hci_dev *hde
  int mgmt_write_scan_failed(struct hci_dev *hdev, u8 scan, u8 status);
  int mgmt_new_link_key(struct hci_dev *hdev, struct link_key *key,
  								u8 persistent);
@@ -3667,15 +5378,45 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 -								u8 addr_type);
 -int mgmt_disconnected(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
 -								u8 addr_type);
+-int mgmt_disconnect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 status);
 +int mgmt_device_connected(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
 +					u8 addr_type, u8 *name, u8 name_len,
 +					u8 *dev_class);
 +int mgmt_device_disconnected(struct hci_dev *hdev, bdaddr_t *bdaddr,
 +						u8 link_type, u8 addr_type);
- int mgmt_disconnect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 status);
++int mgmt_disconnect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status);
  int mgmt_connect_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
  						u8 addr_type, u8 status);
-@@ -915,14 +987,19 @@
+ int mgmt_pin_code_request(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 secure);
+@@ -900,28 +986,36 @@ int mgmt_pin_code_reply_complete(struct
+ int mgmt_pin_code_neg_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+ 								u8 status);
+ int mgmt_user_confirm_request(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-						__le32 value, u8 confirm_hint);
++				u8 link_type, u8 addr_type, __le32 value,
++				u8 confirm_hint);
+ int mgmt_user_confirm_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-								u8 status);
+-int mgmt_user_confirm_neg_reply_complete(struct hci_dev *hdev,
+-						bdaddr_t *bdaddr, u8 status);
+-int mgmt_user_passkey_request(struct hci_dev *hdev, bdaddr_t *bdaddr);
++					u8 link_type, u8 addr_type, u8 status);
++int mgmt_user_confirm_neg_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status);
++int mgmt_user_passkey_request(struct hci_dev *hdev, bdaddr_t *bdaddr,
++						u8 link_type, u8 addr_type);
+ int mgmt_user_passkey_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
+-								u8 status);
+-int mgmt_user_passkey_neg_reply_complete(struct hci_dev *hdev,
+-						bdaddr_t *bdaddr, u8 status);
+-int mgmt_auth_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 status);
++					u8 link_type, u8 addr_type, u8 status);
++int mgmt_user_passkey_neg_reply_complete(struct hci_dev *hdev, bdaddr_t *bdaddr,
++					u8 link_type, u8 addr_type, u8 status);
++int mgmt_auth_failed(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
++						u8 addr_type, u8 status);
+ int mgmt_set_local_name_complete(struct hci_dev *hdev, u8 *name, u8 status);
  int mgmt_read_local_oob_data_reply_complete(struct hci_dev *hdev, u8 *hash,
  						u8 *randomizer, u8 status);
  int mgmt_device_found(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 link_type,
@@ -3688,16 +5429,17 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  int mgmt_start_discovery_failed(struct hci_dev *hdev, u8 status);
  int mgmt_stop_discovery_failed(struct hci_dev *hdev, u8 status);
  int mgmt_discovering(struct hci_dev *hdev, u8 discovering);
+-int mgmt_device_blocked(struct hci_dev *hdev, bdaddr_t *bdaddr);
+-int mgmt_device_unblocked(struct hci_dev *hdev, bdaddr_t *bdaddr);
 +int mgmt_interleaved_discovery(struct hci_dev *hdev);
- int mgmt_device_blocked(struct hci_dev *hdev, bdaddr_t *bdaddr);
- int mgmt_device_unblocked(struct hci_dev *hdev, bdaddr_t *bdaddr);
- 
-+int mgmt_new_ltk(struct hci_dev *hdev, struct smp_ltk *key, u8 persistent);
++int mgmt_device_blocked(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type);
++int mgmt_device_unblocked(struct hci_dev *hdev, bdaddr_t *bdaddr, u8 type);
 +
++int mgmt_new_ltk(struct hci_dev *hdev, struct smp_ltk *key, u8 persistent);
+ 
  /* HCI info for socket */
  #define hci_pi(sk) ((struct hci_pinfo *) sk)
- 
-@@ -966,5 +1043,8 @@
+@@ -966,5 +1060,8 @@ void hci_le_ltk_neg_reply(struct hci_con
  
  int hci_do_inquiry(struct hci_dev *hdev, u8 length);
  int hci_cancel_inquiry(struct hci_dev *hdev);
@@ -3706,10 +5448,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +int hci_cancel_le_scan(struct hci_dev *hdev);
  
  #endif /* __HCI_CORE_H */
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/hci.h linux-git/include/net/bluetooth/hci.h
---- compat-wireless-2012-01-25/include/net/bluetooth/hci.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/hci.h	2012-01-30 14:33:51.000000000 -0400
-@@ -77,14 +77,6 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/hci.h linux-git/include/net/bluetooth/hci.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/hci.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/hci.h	2012-02-14 14:31:42.000000000 -0400
+@@ -77,14 +77,6 @@ enum {
  
  	HCI_RAW,
  
@@ -3724,7 +5466,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  	HCI_RESET,
  };
  
-@@ -93,7 +85,17 @@
+@@ -93,7 +85,16 @@ enum {
   * states from the controller.
   */
  enum {
@@ -3738,11 +5480,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +
  	HCI_LE_SCAN,
 +	HCI_SSP_ENABLED,
-+	HCI_INTERLEAVED,
  };
  
  /* HCI ioctl defines */
-@@ -130,6 +132,7 @@
+@@ -130,6 +131,7 @@ enum {
  #define HCI_IDLE_TIMEOUT	(6000)	/* 6 seconds */
  #define HCI_INIT_TIMEOUT	(10000)	/* 10 seconds */
  #define HCI_CMD_TIMEOUT		(1000)	/* 1 seconds */
@@ -3750,7 +5491,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  /* HCI data types */
  #define HCI_COMMAND_PKT		0x01
-@@ -268,10 +271,11 @@
+@@ -268,10 +270,11 @@ enum {
  #define HCI_LK_UNAUTH_COMBINATION	0x04
  #define HCI_LK_AUTH_COMBINATION		0x05
  #define HCI_LK_CHANGED_COMBINATION	0x06
@@ -3766,7 +5507,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  
  /* ---- HCI Error Codes ---- */
  #define HCI_ERROR_AUTH_FAILURE		0x05
-@@ -284,6 +288,22 @@
+@@ -284,6 +287,22 @@ enum {
  #define HCI_FLOW_CTL_MODE_PACKET_BASED	0x00
  #define HCI_FLOW_CTL_MODE_BLOCK_BASED	0x01
  
@@ -3789,7 +5530,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  /* -----  HCI Commands ---- */
  #define HCI_OP_NOP			0x0000
  
-@@ -1155,6 +1175,19 @@
+@@ -1155,6 +1174,19 @@ struct hci_ev_le_meta {
  	__u8     subevent;
  } __packed;
  
@@ -3809,10 +5550,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  /* Low energy meta events */
  #define HCI_EV_LE_CONN_COMPLETE		0x01
  struct hci_ev_le_conn_complete {
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/l2cap.h linux-git/include/net/bluetooth/l2cap.h
---- compat-wireless-2012-01-25/include/net/bluetooth/l2cap.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/l2cap.h	2012-01-30 14:33:51.000000000 -0400
-@@ -506,6 +506,9 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/l2cap.h linux-git/include/net/bluetooth/l2cap.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/l2cap.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/l2cap.h	2012-02-14 14:31:42.000000000 -0400
+@@ -506,6 +506,9 @@ struct l2cap_ops {
  	int			(*recv) (void *data, struct sk_buff *skb);
  	void			(*close) (void *data);
  	void			(*state_change) (void *data, int state);
@@ -3822,7 +5563,13 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  };
  
  struct l2cap_conn {
-@@ -616,23 +619,28 @@
+@@ -611,28 +614,33 @@ static inline void l2cap_set_timer(struc
+ {
+ 	BT_DBG("chan %p state %d timeout %ld", chan, chan->state, timeout);
+ 
+-	if (!__cancel_delayed_work(work))
++	if (!cancel_delayed_work(work))
+ 		l2cap_chan_hold(chan);
  	schedule_delayed_work(work, timeout);
  }
  
@@ -3833,7 +5580,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 -	if (__cancel_delayed_work(work))
 +	bool ret;
 +
-+	ret = __cancel_delayed_work(work);
++	ret = cancel_delayed_work(work);
 +	if (ret)
  		l2cap_chan_put(chan);
 +
@@ -3856,7 +5603,7 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  #define __clear_ack_timer(c) l2cap_clear_timer(c, &c->ack_timer)
  
  static inline int __seq_offset(struct l2cap_chan *chan, __u16 seq1, __u16 seq2)
-@@ -834,7 +842,7 @@
+@@ -834,7 +842,7 @@ int l2cap_add_scid(struct l2cap_chan *ch
  struct l2cap_chan *l2cap_chan_create(struct sock *sk);
  void l2cap_chan_close(struct l2cap_chan *chan, int reason);
  void l2cap_chan_destroy(struct l2cap_chan *chan);
@@ -3865,13 +5612,42 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
  								bdaddr_t *dst);
  int l2cap_chan_send(struct l2cap_chan *chan, struct msghdr *msg, size_t len,
  								u32 priority);
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/mgmt.h linux-git/include/net/bluetooth/mgmt.h
---- compat-wireless-2012-01-25/include/net/bluetooth/mgmt.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/mgmt.h	2012-01-30 14:33:51.000000000 -0400
-@@ -288,6 +288,22 @@
- 	bdaddr_t bdaddr;
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/mgmt.h linux-git/include/net/bluetooth/mgmt.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/mgmt.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/mgmt.h	2012-02-14 14:31:42.000000000 -0400
+@@ -39,6 +39,7 @@
+ #define MGMT_STATUS_INVALID_PARAMS	0x0d
+ #define MGMT_STATUS_DISCONNECTED	0x0e
+ #define MGMT_STATUS_NOT_POWERED		0x0f
++#define MGMT_STATUS_CANCELLED		0x10
+ 
+ struct mgmt_hdr {
+ 	__le16 opcode;
+@@ -46,6 +47,16 @@ struct mgmt_hdr {
+ 	__le16 len;
  } __packed;
  
++#define MGMT_ADDR_BREDR			0x00
++#define MGMT_ADDR_LE_PUBLIC		0x01
++#define MGMT_ADDR_LE_RANDOM		0x02
++#define MGMT_ADDR_INVALID		0xff
++
++struct mgmt_addr_info {
++	bdaddr_t bdaddr;
++	__u8 type;
++} __packed;
++
+ #define MGMT_OP_READ_VERSION		0x0001
+ struct mgmt_rp_read_version {
+ 	__u8 version;
+@@ -148,35 +159,31 @@ struct mgmt_cp_load_link_keys {
+ 	struct mgmt_link_key_info keys[0];
+ } __packed;
+ 
+-#define MGMT_OP_REMOVE_KEYS		0x0013
+-struct mgmt_cp_remove_keys {
+-	bdaddr_t bdaddr;
+-	__u8 disconnect;
 +struct mgmt_ltk_info {
 +	struct mgmt_addr_info addr;
 +	__u8 authenticated;
@@ -3882,21 +5658,163 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +	__u8 val[16];
 +} __packed;
 +
-+#define MGMT_OP_LOAD_LONG_TERM_KEYS	0x0026
++#define MGMT_OP_LOAD_LONG_TERM_KEYS	0x0013
 +struct mgmt_cp_load_long_term_keys {
 +	__le16 key_count;
 +	struct mgmt_ltk_info keys[0];
-+} __packed;
+ } __packed;
+-struct mgmt_rp_remove_keys {
+-	bdaddr_t bdaddr;
+-	__u8 status;
+-};
+ 
+ #define MGMT_OP_DISCONNECT		0x0014
+ struct mgmt_cp_disconnect {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ struct mgmt_rp_disconnect {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_ADDR_BREDR			0x00
+-#define MGMT_ADDR_LE_PUBLIC		0x01
+-#define MGMT_ADDR_LE_RANDOM		0x02
+-#define MGMT_ADDR_INVALID		0xff
+-
+-struct mgmt_addr_info {
+-	bdaddr_t bdaddr;
+-	__u8 type;
+-} __packed;
+-
+ #define MGMT_OP_GET_CONNECTIONS		0x0015
+ struct mgmt_rp_get_connections {
+ 	__le16 conn_count;
+@@ -214,61 +221,73 @@ struct mgmt_rp_pair_device {
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_OP_USER_CONFIRM_REPLY	0x001A
++#define MGMT_OP_CANCEL_PAIR_DEVICE	0x001A
 +
++#define MGMT_OP_UNPAIR_DEVICE		0x001B
++struct mgmt_cp_unpair_device {
++	struct mgmt_addr_info addr;
++	__u8 disconnect;
++} __packed;
++struct mgmt_rp_unpair_device {
++	struct mgmt_addr_info addr;
++	__u8 status;
++};
++
++#define MGMT_OP_USER_CONFIRM_REPLY	0x001C
+ struct mgmt_cp_user_confirm_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ struct mgmt_rp_user_confirm_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_OP_USER_CONFIRM_NEG_REPLY	0x001B
++#define MGMT_OP_USER_CONFIRM_NEG_REPLY	0x001D
+ struct mgmt_cp_user_confirm_neg_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
+-#define MGMT_OP_USER_PASSKEY_REPLY	0x001C
++#define MGMT_OP_USER_PASSKEY_REPLY	0x001E
+ struct mgmt_cp_user_passkey_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__le32 passkey;
+ } __packed;
+ struct mgmt_rp_user_passkey_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_OP_USER_PASSKEY_NEG_REPLY	0x001D
++#define MGMT_OP_USER_PASSKEY_NEG_REPLY	0x001F
+ struct mgmt_cp_user_passkey_neg_reply {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
+-#define MGMT_OP_READ_LOCAL_OOB_DATA	0x001E
++#define MGMT_OP_READ_LOCAL_OOB_DATA	0x0020
+ struct mgmt_rp_read_local_oob_data {
+ 	__u8 hash[16];
+ 	__u8 randomizer[16];
+ } __packed;
+ 
+-#define MGMT_OP_ADD_REMOTE_OOB_DATA	0x001F
++#define MGMT_OP_ADD_REMOTE_OOB_DATA	0x0021
+ struct mgmt_cp_add_remote_oob_data {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 hash[16];
+ 	__u8 randomizer[16];
+ } __packed;
+ 
+-#define MGMT_OP_REMOVE_REMOTE_OOB_DATA	0x0020
++#define MGMT_OP_REMOVE_REMOTE_OOB_DATA	0x0022
+ struct mgmt_cp_remove_remote_oob_data {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
+-#define MGMT_OP_START_DISCOVERY		0x0021
++#define MGMT_OP_START_DISCOVERY		0x0023
+ struct mgmt_cp_start_discovery {
+ 	__u8 type;
+ } __packed;
+ 
+-#define MGMT_OP_STOP_DISCOVERY		0x0022
++#define MGMT_OP_STOP_DISCOVERY		0x0024
+ 
+-#define MGMT_OP_CONFIRM_NAME		0x0023
++#define MGMT_OP_CONFIRM_NAME		0x0025
+ struct mgmt_cp_confirm_name {
+ 	bdaddr_t bdaddr;
+ 	__u8 name_known;
+@@ -278,14 +297,14 @@ struct mgmt_rp_confirm_name {
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_OP_BLOCK_DEVICE		0x0024
++#define MGMT_OP_BLOCK_DEVICE		0x0026
+ struct mgmt_cp_block_device {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
+-#define MGMT_OP_UNBLOCK_DEVICE		0x0025
++#define MGMT_OP_UNBLOCK_DEVICE		0x0027
+ struct mgmt_cp_unblock_device {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
  #define MGMT_EV_CMD_COMPLETE		0x0001
- struct mgmt_ev_cmd_complete {
- 	__le16 opcode;
-@@ -328,9 +344,14 @@
+@@ -328,63 +347,73 @@ struct mgmt_ev_new_link_key {
  	struct mgmt_link_key_info key;
  } __packed;
  
 -#define MGMT_EV_CONNECTED		0x000A
-+#define MGMT_EV_DEVICE_CONNECTED	0x000A
++#define MGMT_EV_NEW_LONG_TERM_KEY	0x000A
++struct mgmt_ev_new_long_term_key {
++	__u8 store_hint;
++	struct mgmt_ltk_info key;
++} __packed;
++
++#define MGMT_EV_DEVICE_CONNECTED	0x000B
 +struct mgmt_ev_device_connected {
 +	struct mgmt_addr_info addr;
 +	__le16 eir_len;
@@ -3904,51 +5822,85 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +} __packed;
  
 -#define MGMT_EV_DISCONNECTED		0x000B
-+#define MGMT_EV_DEVICE_DISCONNECTED	0x000B
++#define MGMT_EV_DEVICE_DISCONNECTED	0x000C
  
- #define MGMT_EV_CONNECT_FAILED		0x000C
+-#define MGMT_EV_CONNECT_FAILED		0x000C
++#define MGMT_EV_CONNECT_FAILED		0x000D
  struct mgmt_ev_connect_failed {
-@@ -365,26 +386,26 @@
- #define MGMT_EV_DEVICE_FOUND		0x0011
+ 	struct mgmt_addr_info addr;
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_EV_PIN_CODE_REQUEST	0x000D
++#define MGMT_EV_PIN_CODE_REQUEST	0x000E
+ struct mgmt_ev_pin_code_request {
+ 	bdaddr_t bdaddr;
+ 	__u8 secure;
+ } __packed;
+ 
+-#define MGMT_EV_USER_CONFIRM_REQUEST	0x000E
++#define MGMT_EV_USER_CONFIRM_REQUEST	0x000F
+ struct mgmt_ev_user_confirm_request {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 confirm_hint;
+ 	__le32 value;
+ } __packed;
+ 
+-#define MGMT_EV_USER_PASSKEY_REQUEST	0x000F
++#define MGMT_EV_USER_PASSKEY_REQUEST	0x0010
+ struct mgmt_ev_user_passkey_request {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ } __packed;
+ 
+-#define MGMT_EV_AUTH_FAILED		0x0010
++#define MGMT_EV_AUTH_FAILED		0x0011
+ struct mgmt_ev_auth_failed {
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
+ 	__u8 status;
+ } __packed;
+ 
+-#define MGMT_EV_DEVICE_FOUND		0x0011
++#define MGMT_EV_DEVICE_FOUND		0x0012
  struct mgmt_ev_device_found {
  	struct mgmt_addr_info addr;
 -	__u8 dev_class[3];
  	__s8 rssi;
  	__u8 confirm_name;
 -	__u8 eir[HCI_MAX_EIR_LENGTH];
-+	__le16 eir_len;
-+	__u8 eir[0];
- } __packed;
- 
+-} __packed;
+-
 -#define MGMT_EV_REMOTE_NAME		0x0012
 -struct mgmt_ev_remote_name {
 -	bdaddr_t bdaddr;
 -	__u8 name[MGMT_MAX_NAME_LENGTH];
--} __packed;
--
--#define MGMT_EV_DISCOVERING		0x0013
-+#define MGMT_EV_DISCOVERING		0x0012
++	__le16 eir_len;
++	__u8 eir[0];
+ } __packed;
  
--#define MGMT_EV_DEVICE_BLOCKED		0x0014
-+#define MGMT_EV_DEVICE_BLOCKED		0x0013
+ #define MGMT_EV_DISCOVERING		0x0013
+ 
+ #define MGMT_EV_DEVICE_BLOCKED		0x0014
  struct mgmt_ev_device_blocked {
- 	bdaddr_t bdaddr;
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
  } __packed;
  
--#define MGMT_EV_DEVICE_UNBLOCKED	0x0015
-+#define MGMT_EV_DEVICE_UNBLOCKED	0x0014
+ #define MGMT_EV_DEVICE_UNBLOCKED	0x0015
  struct mgmt_ev_device_unblocked {
- 	bdaddr_t bdaddr;
- } __packed;
-+
-+#define MGMT_EV_NEW_LONG_TERM_KEY	0x0015
-+struct mgmt_ev_new_long_term_key {
-+	__u8 store_hint;
-+	struct mgmt_ltk_info key;
+-	bdaddr_t bdaddr;
++	struct mgmt_addr_info addr;
 +} __packed;
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/sco.h linux-git/include/net/bluetooth/sco.h
---- compat-wireless-2012-01-25/include/net/bluetooth/sco.h	1969-12-31 20:00:00.000000000 -0400
-+++ linux-git/include/net/bluetooth/sco.h	2012-01-30 14:33:51.000000000 -0400
++
++#define MGMT_EV_DEVICE_UNPAIRED		0x0016
++struct mgmt_ev_device_unpaired {
++	struct mgmt_addr_info addr;
+ } __packed;
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/sco.h linux-git/include/net/bluetooth/sco.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/sco.h	1969-12-31 20:00:00.000000000 -0400
++++ linux-git/include/net/bluetooth/sco.h	2012-02-14 14:31:42.000000000 -0400
 @@ -0,0 +1,79 @@
 +/*
 +   BlueZ - Bluetooth protocol stack for Linux
@@ -4029,10 +5981,10 @@ diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include
 +};
 +
 +#endif /* __SCO_H */
-diff -x Kconfig -x '*.orig' -x Makefile -Naur compat-wireless-2012-01-25/include/net/bluetooth/smp.h linux-git/include/net/bluetooth/smp.h
---- compat-wireless-2012-01-25/include/net/bluetooth/smp.h	2012-01-25 17:12:27.000000000 -0400
-+++ linux-git/include/net/bluetooth/smp.h	2012-01-30 14:33:51.000000000 -0400
-@@ -127,7 +127,7 @@
+diff -x Kconfig -x '*.orig' -x Makefile -x .pc -Naurp compat-wireless-2012-02-13/include/net/bluetooth/smp.h linux-git/include/net/bluetooth/smp.h
+--- compat-wireless-2012-02-13/include/net/bluetooth/smp.h	2012-02-13 17:12:57.000000000 -0400
++++ linux-git/include/net/bluetooth/smp.h	2012-02-14 14:31:42.000000000 -0400
+@@ -127,7 +127,7 @@ struct smp_chan {
  	u8              rrnd[16]; /* SMP Pairing Random (remote) */
  	u8		pcnf[16]; /* SMP Pairing Confirm */
  	u8		tk[16]; /* SMP Temporary Key */

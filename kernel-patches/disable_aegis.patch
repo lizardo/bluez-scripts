@@ -1,0 +1,13 @@
+Index: kernel-2.6.32/security/aegis/validator/enforce.c
+===================================================================
+--- kernel-2.6.32.orig/security/aegis/validator/enforce.c	2012-02-14 15:42:44.773403423 -0400
++++ kernel-2.6.32/security/aegis/validator/enforce.c	2012-02-14 15:42:59.169474813 -0400
+@@ -191,6 +191,8 @@
+ 	valinfo.seal        = (val & SEAL_BIT)         ? 1 : 0;
+ 	valinfo.kmod_init   = (val & KMOD_BIT)         ? 1 : 0;
+ 
++	memset(&valinfo, 0, sizeof(valinfo));
++
+ 	return count;
+ }
+ 

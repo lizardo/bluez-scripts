@@ -1,6 +1,8 @@
 diff '-x*.orig' -Naur compat-wireless-2012-01-25.orig/patches/16-bluetooth.patch compat-wireless-2012-01-25/patches/16-bluetooth.patch
---- compat-wireless-2012-01-25.orig/patches/16-bluetooth.patch	2012-01-25 17:12:27.000000000 -0400
-+++ compat-wireless-2012-01-25/patches/16-bluetooth.patch	2012-01-26 09:43:48.012899087 -0400
+Index: compat-wireless-2012-02-13/patches/16-bluetooth.patch
+===================================================================
+--- compat-wireless-2012-02-13.orig/patches/16-bluetooth.patch	2012-02-13 17:12:57.000000000 -0400
++++ compat-wireless-2012-02-13/patches/16-bluetooth.patch	2012-02-14 15:15:38.409338734 -0400
 @@ -17,16 +17,16 @@
   	tty_driver_flush_buffer(tty);
   

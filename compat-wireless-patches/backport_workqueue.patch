@@ -1,0 +1,22 @@
+Index: compat-wireless-2012-02-13/net/bluetooth/hci_core.c
+===================================================================
+--- compat-wireless-2012-02-13.orig/net/bluetooth/hci_core.c	2012-02-14 15:01:13.853051622 -0400
++++ compat-wireless-2012-02-13/net/bluetooth/hci_core.c	2012-02-14 15:01:57.377267456 -0400
+@@ -1689,7 +1689,7 @@
+ 
+ 	BT_DBG("%s", hdev->name);
+ 
+-	if (work_busy(&hdev->le_scan))
++	if (work_pending(&hdev->le_scan))
+ 		return -EINPROGRESS;
+ 
+ 	param->type = type;
+@@ -1697,7 +1697,7 @@
+ 	param->window = window;
+ 	param->timeout = timeout;
+ 
+-	queue_work(system_long_wq, &hdev->le_scan);
++	schedule_work(&hdev->le_scan);
+ 
+ 	return 0;
+ }

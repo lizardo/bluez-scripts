@@ -1,5 +1,7 @@
---- arch/arm/configs/rm581_defconfig	2012-01-20 16:44:16.979654572 -0400
-+++ arch/arm/configs/rm581_defconfig	2012-01-20 16:53:03.307669604 -0400
+Index: kernel-2.6.32/arch/arm/configs/rm581_defconfig
+===================================================================
+--- kernel-2.6.32.orig/arch/arm/configs/rm581_defconfig	2012-02-14 15:42:59.189474916 -0400
++++ kernel-2.6.32/arch/arm/configs/rm581_defconfig	2012-02-14 15:42:59.197474956 -0400
 @@ -96,7 +96,7 @@
  CONFIG_UID16=y
  # CONFIG_SYSCTL_SYSCALL is not set

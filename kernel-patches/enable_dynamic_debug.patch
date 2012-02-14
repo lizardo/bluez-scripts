@@ -1,0 +1,13 @@
+Index: kernel-2.6.32/arch/arm/configs/rm581_defconfig
+===================================================================
+--- kernel-2.6.32.orig/arch/arm/configs/rm581_defconfig	2012-02-14 15:42:59.177474864 -0400
++++ kernel-2.6.32/arch/arm/configs/rm581_defconfig	2012-02-14 15:44:05.621804342 -0400
+@@ -1994,7 +1994,7 @@
+ CONFIG_RING_BUFFER_ALLOW_SWAP=y
+ CONFIG_TRACING_SUPPORT=y
+ # CONFIG_FTRACE is not set
+-# CONFIG_DYNAMIC_DEBUG is not set
++CONFIG_DYNAMIC_DEBUG=y
+ # CONFIG_SAMPLES is not set
+ CONFIG_HAVE_ARCH_KGDB=y
+ # CONFIG_KGDB is not set

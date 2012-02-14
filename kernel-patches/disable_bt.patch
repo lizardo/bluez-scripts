@@ -1,5 +1,7 @@
---- arch/arm/configs/rm581_defconfig	2011-10-25 07:22:43.000000000 -0400
-+++ arch/arm/configs/rm581_defconfig	2011-12-19 19:27:11.892994708 -0400
+Index: kernel-2.6.32/arch/arm/configs/rm581_defconfig
+===================================================================
+--- kernel-2.6.32.orig/arch/arm/configs/rm581_defconfig	2012-02-14 15:42:43.181395537 -0400
++++ kernel-2.6.32/arch/arm/configs/rm581_defconfig	2012-02-14 15:44:08.613819179 -0400
 @@ -646,24 +646,7 @@
  # CONFIG_HAMRADIO is not set
  # CONFIG_CAN is not set
