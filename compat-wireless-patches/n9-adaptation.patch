@@ -80,7 +80,7 @@ Index: compat-wireless-2012-02-13/config.mk
  endif #CONFIG_COMPAT_KERNEL_2_6_31
  
 +# already on N9 kernel?
-+CONFIG_COMPAT_KFIFO=n
++#CONFIG_COMPAT_KFIFO=n
 +
 +# N9 BT controller driver
 +CONFIG_COMPAT_FIRMWARE_CLASS=n
@@ -2598,3 +2598,18 @@ Index: compat-wireless-2012-02-13/include/linux/compat-2.6.36.h
  
  /* mask va_format as RHEL6 backports this */
  #define va_format compat_va_format
+diff -Naur compat-wireless-2012-03-18.orig/compat/scripts/gen-compat-config.sh compat-wireless-2012-03-18/compat/scripts/gen-compat-config.sh
+--- compat-wireless-2012-03-18.orig/compat/scripts/gen-compat-config.sh	2012-02-25 17:10:02.000000000 -0400
++++ compat-wireless-2012-03-18/compat/scripts/gen-compat-config.sh	2012-03-20 12:16:46.986792453 -0400
+@@ -53,11 +53,3 @@
+ 		echo "CONFIG_COMPAT_${RHEL_MAJOR}_${i}=y"
+ 	done
+ fi
+-
+-if [[ ${CONFIG_COMPAT_KERNEL_2_6_33} = "y" ]]; then
+-	echo "CONFIG_COMPAT_FIRMWARE_CLASS=m"
+-fi
+-
+-if [[ ${CONFIG_COMPAT_KERNEL_2_6_36} = "y" ]]; then
+-	echo "CONFIG_COMPAT_KFIFO=m"
+-fi

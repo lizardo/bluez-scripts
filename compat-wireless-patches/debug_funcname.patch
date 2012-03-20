@@ -6,10 +6,10 @@ Index: compat-wireless-2012-02-13/include/net/bluetooth/bluetooth.h
 +++ compat-wireless-2012-02-13/include/net/bluetooth/bluetooth.h	2012-02-14 15:01:27.209117855 -0400
 @@ -114,7 +114,7 @@
  
- #define BT_INFO(fmt, arg...)   bt_printk(KERN_INFO, pr_fmt(fmt), ##arg)
- #define BT_ERR(fmt, arg...)    bt_printk(KERN_ERR, pr_fmt(fmt), ##arg)
--#define BT_DBG(fmt, arg...)    pr_debug(fmt "\n", ##arg)
-+#define BT_DBG(fmt, arg...)    pr_debug("%s: " fmt "\n" , __func__ , ##arg)
+ #define BT_INFO(fmt, ...)	bt_info(fmt "\n", ##__VA_ARGS__)
+ #define BT_ERR(fmt, ...)	bt_err(fmt "\n", ##__VA_ARGS__)
+-#define BT_DBG(fmt, ...)	pr_debug(fmt "\n", ##__VA_ARGS__)
++#define BT_DBG(fmt, ...)	pr_debug("%s: " fmt "\n" , __func__ , ##__VA_ARGS__)
  
  /* Connection and socket states */
  enum {

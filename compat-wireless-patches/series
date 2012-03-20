@@ -2,6 +2,6 @@ pending-updates.patch
 n9-adaptation.patch
 updates.patch
 debug_funcname.patch
-enable_mgmt_le.patch
+enable_le.patch
 backport_workqueue.patch
 h4p_fixes.patch

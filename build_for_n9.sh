@@ -11,7 +11,7 @@ tmp_dir=$(mktemp -d)
 trap "rm -rf $tmp_dir" EXIT
 
 ksrc=$PWD/kernel-2.6.32
-test -d $ksrc || tar -xvzf kernel_2.6.32-20113701.10+0m6.tar.gz
+test -d $ksrc || tar -xvzf $(egrep -o 'kernel_2.6.32-.*\.tar\.gz' README.rst)
 export QUILT_PATCHES=$PWD/kernel-patches
 cd $ksrc
 if quilt unapplied; then
@@ -19,7 +19,7 @@ if quilt unapplied; then
 fi
 cd -
 mkdir -p $ksrc/build
-sed -i '/^CONFIG_LOCALVERSION=/s/=.*/="-dfl61-20113701-le"/' \
+sed -i '/^CONFIG_LOCALVERSION=/s/=.*/="-ble"/' \
     $ksrc/arch/arm/configs/rm581_defconfig
 #test -f $ksrc/build/.config || make -C $ksrc O=$ksrc/build rm581_defconfig
 make -C $ksrc O=$ksrc/build rm581_defconfig

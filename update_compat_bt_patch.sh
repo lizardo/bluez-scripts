@@ -2,7 +2,7 @@
 set -e -u
 
 tmp_dir=$(mktemp -d)
-trap "rm -rf $tmp_dir" EXIT
+trap "echo cleaning... >&2; rm -rf $tmp_dir" EXIT
 
 echo "Extracting upstream kernel..." >&2
 (cd linux && git archive --format=tar --prefix=linux-git/ integration) \

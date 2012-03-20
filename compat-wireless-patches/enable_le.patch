@@ -1,0 +1,12 @@
+diff -Naur compat-wireless-2012-03-18.orig/net/bluetooth/mgmt.c compat-wireless-2012-03-18/net/bluetooth/mgmt.c
+--- compat-wireless-2012-03-18.orig/net/bluetooth/mgmt.c	2012-03-18 16:10:30.000000000 -0400
++++ compat-wireless-2012-03-18/net/bluetooth/mgmt.c	2012-03-20 11:00:27.096082003 -0400
+@@ -35,7 +35,7 @@
+ #include <net/bluetooth/smp.h>
+ 
+ bool enable_hs;
+-bool enable_le;
++bool enable_le = true;
+ 
+ #define MGMT_VERSION	1
+ #define MGMT_REVISION	0
