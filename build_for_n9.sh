@@ -63,8 +63,27 @@ cd $tmp_dir/bluez
 make -j$NJOBS
 make DESTDIR=$tmp_dir/bluez-bin install
 mkdir -p $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth
-sed 's/^AttributeServer = false/AttributeServer = true/' src/main.conf > \
-    $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/main.conf
+
+cat > $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/main.conf << "_EOF_"
+[General]
+DisablePlugins = network,hal
+Name = Nokia N9
+Class = 0x00020c
+DiscoverableTimeout = 0
+PairableTimeout = 0
+PageTimeout = 10240
+DiscoverSchedulerInterval = 0
+InitiallyPowered = true
+RememberPowered = false
+ReverseServiceDiscovery = true
+NameResolving = true
+DebugKeys = false
+
+# GATT specific
+AutoConnectTimeout = 60
+AttributeServer = true
+_EOF_
+
 cp proximity/proximity.conf $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/
 EOF
 
