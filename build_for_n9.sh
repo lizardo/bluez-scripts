@@ -85,6 +85,7 @@ AttributeServer = true
 _EOF_
 
 cp proximity/proximity.conf $tmp_dir/bluez-bin/opt/bluez/etc/bluetooth/
+cp mgmt/btmgmt $tmp_dir/bluez-bin/opt/bluez/bin
 EOF
 
 fakeroot tar -C $tmp_dir/bluez-bin/opt -cvf bluez-bin.tar bluez
