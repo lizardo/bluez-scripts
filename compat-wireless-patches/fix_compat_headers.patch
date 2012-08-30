@@ -1,0 +1,27 @@
+These symbols are already defined in N9 kernel source.
+
+Index: compat-wireless-2012-08-27/include/linux/compat-2.6.34.h
+===================================================================
+--- compat-wireless-2012-08-27.orig/include/linux/compat-2.6.34.h	2012-08-22 16:10:09.000000000 -0400
++++ compat-wireless-2012-08-27/include/linux/compat-2.6.34.h	2012-08-28 12:12:12.136825215 -0400
+@@ -17,7 +17,6 @@
+  * We wimply carry around the data structures and flags, and
+  * make the host return no flags set by the driver.
+  */
+-typedef unsigned int mmc_pm_flag_t;
+ 
+ #define MMC_PM_KEEP_POWER      (1 << 0)        /* preserve card power during suspend */
+ #define MMC_PM_WAKE_SDIO_IRQ   (1 << 1)        /* wake up host system on SDIO IRQ assertion */
+Index: compat-wireless-2012-08-27/include/linux/compat-2.6.36.h
+===================================================================
+--- compat-wireless-2012-08-27.orig/include/linux/compat-2.6.36.h	2012-08-22 16:10:09.000000000 -0400
++++ compat-wireless-2012-08-27/include/linux/compat-2.6.36.h	2012-08-28 12:12:12.136825215 -0400
+@@ -11,8 +11,6 @@
+ #include <linux/pm_qos_params.h>
+ #include <linux/smp_lock.h>
+ 
+-#define kparam_block_sysfs_write(a)
+-#define kparam_unblock_sysfs_write(a)
+ 
+ /* mask va_format as RHEL6 backports this */
+ #define va_format compat_va_format

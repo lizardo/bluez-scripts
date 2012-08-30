@@ -1,7 +1,4 @@
-pending-updates.patch
-n9-adaptation.patch
-updates.patch
 debug_funcname.patch
-enable_le.patch
-backport_workqueue.patch
 h4p_fixes.patch
+config_n9.patch
+fix_compat_headers.patch

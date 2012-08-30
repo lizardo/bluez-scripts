@@ -1,0 +1,79 @@
+Index: compat-wireless-2012-08-27/config.mk
+===================================================================
+--- compat-wireless-2012-08-27.orig/config.mk	2012-08-27 16:10:25.000000000 -0400
++++ compat-wireless-2012-08-27/config.mk	2012-08-28 12:12:12.124825214 -0400
+@@ -6,6 +6,10 @@
+  export CONFIG_SSB=m
+ else
+ include $(KLIB_BUILD)/.config
++# just to avoid errors/warnings; we only compile BT
++CONFIG_CFG80211=n
++CONFIG_MAC80211=n
++CONFIG_WIRELESS_EXT=y
+ endif
+ 
+ ifneq ($(wildcard $(KLIB_BUILD)/Makefile),)
+@@ -210,14 +214,7 @@
+ export CONFIG_COMPAT_BT_HIDP=m
+ endif #CONFIG_COMPAT_KERNEL_2_6_28
+ 
+-export CONFIG_BT_HCIUART=M
+-export CONFIG_BT_HCIUART_H4=y
+-export CONFIG_BT_HCIUART_BCSP=y
+-export CONFIG_BT_HCIUART_ATH3K=y
+-export CONFIG_BT_HCIUART_LL=y
+ 
+-export CONFIG_BT_HCIVHCI=m
+-export CONFIG_BT_MRVL=m
+ 
+ ifdef CONFIG_PCMCIA
+ export CONFIG_BT_HCIDTL1=m
+@@ -605,8 +602,6 @@
+ # export CONFIG_IWM_DEBUG=y
+ # export CONFIG_IWM_TRACING=y
+ 
+-export CONFIG_BT_HCIBTSDIO=m
+-export CONFIG_BT_MRVL_SDIO=m
+ 
+ export CONFIG_ATH6KL_SDIO=m
+ 
+@@ -697,3 +692,8 @@
+ export CONFIG_RFKILL_BACKPORT_INPUT=y
+ endif #CONFIG_COMPAT_KERNEL_2_6_31
+ 
++# Already in N9 kernel or not needed
++CONFIG_COMPAT_KFIFO=n
++CONFIG_COMPAT_FIRMWARE_CLASS=m
++# Enable H4P BT host module
++CONFIG_BT_HCIH4P=m
+Index: compat-wireless-2012-08-27/drivers/bluetooth/Makefile
+===================================================================
+--- compat-wireless-2012-08-27.orig/drivers/bluetooth/Makefile	2012-08-27 16:10:25.000000000 -0400
++++ compat-wireless-2012-08-27/drivers/bluetooth/Makefile	2012-08-28 12:12:12.124825214 -0400
+@@ -30,3 +30,5 @@
+ hci_uart-$(CONFIG_BT_HCIUART_ATH3K)	+= hci_ath.o
+ hci_uart-$(CONFIG_BT_HCIUART_3WIRE)	+= hci_h5.o
+ hci_uart-objs				:= $(hci_uart-y)
++
++obj-$(CONFIG_BT_HCIH4P)		+= hci_h4p/
+Index: compat-wireless-2012-08-27/drivers/bluetooth/Kconfig
+===================================================================
+--- compat-wireless-2012-08-27.orig/drivers/bluetooth/Kconfig	2012-08-27 16:10:25.000000000 -0400
++++ compat-wireless-2012-08-27/drivers/bluetooth/Kconfig	2012-08-28 12:54:39.324929742 -0400
+@@ -241,4 +241,16 @@
+ 
+ 	  Say Y here to compile support for Texas Instrument's WiLink7 driver
+ 	  into the kernel or say M to compile it as module.
++
++config BT_HCIH4P
++	tristate "HCI driver with H4 Nokia extensions"
++	depends on BT && ARCH_OMAP
++	select FW_LOADER
++	help
++	  Bluetooth HCI driver with H4 extensions.  This driver provides
++	  support for H4+ Bluetooth chip with vendor-specific H4 extensions.
++
++	  Say Y here to compile support for h4 extended devices into the kernel
++	  or say M to compile it as module (hci_h4p).
++
+ endmenu

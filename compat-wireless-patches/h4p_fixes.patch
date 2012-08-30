@@ -1,7 +1,9 @@
-Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c
+Fixes for struct hci_dev API changes.
+
+Index: compat-wireless-2012-08-27/drivers/bluetooth/hci_h4p/core.c
 ===================================================================
---- compat-wireless-2012-02-13.orig/drivers/bluetooth/hci_h4p/core.c	2012-02-14 15:00:50.360935131 -0400
-+++ compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c	2012-02-14 15:04:13.377941836 -0400
+--- compat-wireless-2012-08-27.orig/drivers/bluetooth/hci_h4p/core.c	2012-04-02 06:56:16.000000000 -0400
++++ compat-wireless-2012-08-27/drivers/bluetooth/hci_h4p/core.c	2012-08-30 14:32:29.945168421 -0400
 @@ -851,7 +851,7 @@
  static int hci_h4p_hci_flush(struct hci_dev *hdev)
  {
@@ -49,11 +51,13 @@ Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c
  
  	if (!test_bit(HCI_RUNNING, &hdev->flags)) {
  		dev_warn(info->dev, "Frame for non-running device\n");
-@@ -1100,18 +1096,15 @@
+@@ -1099,18 +1095,15 @@
+ 	}
  	info->hdev = hdev;
  
- 	hdev->bus = HCI_UART;
+-	hdev->type = HCI_UART;
 -	hdev->driver_data = info;
++	hdev->bus = HCI_UART;
 +	hci_set_drvdata(hdev, info);
  
  	hdev->open = hci_h4p_hci_open;
@@ -62,10 +66,10 @@ Index: compat-wireless-2012-02-13/drivers/bluetooth/hci_h4p/core.c
  	hdev->send = hci_h4p_hci_send_frame;
 -	hdev->destruct = hci_h4p_hci_destruct;
  	hdev->ioctl = hci_h4p_hci_ioctl;
- 	set_bit(HCI_QUIRK_NO_RESET, &hdev->quirks);
- 
--	hdev->owner = THIS_MODULE;
+-	set_bit(HCI_QUIRK_NO_RESET, &hdev->quirks);
 -
+-	hdev->owner = THIS_MODULE;
++	set_bit(HCI_QUIRK_RESET_ON_CLOSE, &hdev->quirks);
+ 
  	if (hci_register_dev(hdev) < 0) {
  		dev_err(info->dev, "hci_register failed %s.\n", hdev->name);
- 		return -ENODEV;
